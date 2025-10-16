@@ -30,3 +30,7 @@ replay_pid*
 **/bin/
 /target/
 
+# Archivos generados y configuraciones locales de NetBeans
+/nbproject/private/
+nbproject/build-impl.xml
+nbproject/genfiles.properties
