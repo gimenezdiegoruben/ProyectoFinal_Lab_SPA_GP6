@@ -11,6 +11,7 @@ package Modelos;
 public class Tratamiento {
     private int codTratam;
     private String nombre;
+    private String tipo;
     private String detalle;
     private int productos;
     private int duracion;
@@ -20,9 +21,10 @@ public class Tratamiento {
     public Tratamiento() {
     }
 
-    public Tratamiento(int codTratam, String nombre, String detalle, int productos, int duracion, int costo, boolean estado) {
+    public Tratamiento(int codTratam, String nombre,String tipo, String detalle, int productos, int duracion, int costo, boolean estado) {
         this.codTratam = codTratam;
         this.nombre = nombre;
+        this.tipo=tipo;
         this.detalle = detalle;
         this.productos = productos;
         this.duracion = duracion;
@@ -46,6 +48,15 @@ public class Tratamiento {
         this.nombre = nombre;
     }
 
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+    
+    
     public String getDetalle() {
         return detalle;
     }
