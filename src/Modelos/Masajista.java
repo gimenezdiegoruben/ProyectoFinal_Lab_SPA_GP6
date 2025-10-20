@@ -9,11 +9,11 @@ package Modelos;
  * @author Ger
  */
 public class Masajista {
-    int matricula;
-    String nombre;
-    int telefono;
-    String especialidad;
-    boolean estado;
+    private int matricula;
+    private String nombre;
+    private int telefono;
+    private String especialidad;
+    private boolean estado;
 
     public Masajista() {
     }

@@ -9,11 +9,11 @@ package Modelos;
  * @author Ger
  */
 public class Instalacion {
-    int codInstal;
-    String nombre;
-    String detalleUso;
-    double precio;
-    boolean estado;
+    private int codInstal;
+    private String nombre;
+    private String detalleUso;
+    private double precio;
+    private boolean estado;
 
     public Instalacion() {
     }
