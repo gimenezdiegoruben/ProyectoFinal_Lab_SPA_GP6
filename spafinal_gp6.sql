@@ -11,7 +11,6 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
-
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -20,7 +19,8 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `spafinal_gp6`
 --
-
+CREATE DATABASE IF NOT EXISTS `spafinal_gp6` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `spafinal_gp6`;
 -- --------------------------------------------------------
 
 --
@@ -29,12 +29,12 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `cliente` (
   `codCli` int(11) NOT NULL,
-  `dni` int(11) NOT NULL,
+  `dni` int(11) NOT NULL UNIQUE,
   `nombre` varchar(60) NOT NULL,
   `telefono` int(11) NOT NULL,
   `edad` int(11) NOT NULL,
   `afecciones` varchar(60) NOT NULL,
-  `estado` tinyint(4) NOT NULL
+  `estado` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -58,7 +58,7 @@ CREATE TABLE `consultorio` (
 
 CREATE TABLE `dia_de_spa` (
   `codPack` int(11) NOT NULL,
-  `fechayhora` datetime NOT NULL,
+  `fechayhoraCompra` datetime NOT NULL,
   `preferencias` varchar(60) NOT NULL,
   `codCli` int(11) NOT NULL,
   `sesiones` int(11) DEFAULT NULL,
@@ -76,8 +76,8 @@ CREATE TABLE `instalacion` (
   `codInstal` int(11) NOT NULL,
   `nombre` varchar(60) NOT NULL,
   `detalleUso` varchar(60) NOT NULL,
-  `precio` double NOT NULL,
-  `estado` tinyint(4) NOT NULL
+  `precio30min` double NOT NULL,
+ `estado` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -109,7 +109,7 @@ CREATE TABLE `sesion` (
   `matricula` int(11) NOT NULL,
   `codInstal` int(11) NOT NULL,
   `codPack` int(11) NOT NULL,
-  `estado` datetime NOT NULL
+  `estado` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -121,12 +121,12 @@ CREATE TABLE `sesion` (
 CREATE TABLE `tratamiento` (
   `codTratam` int(11) NOT NULL,
   `nombre` varchar(60) NOT NULL,
-  `tipo` varchar(60) NOT NULL,
+  `tipo` varchar(200) NOT NULL, -- Ej: 'Facial', 'Corporal', 'Relajación', 'Estético'
   `detalle` varchar(60) NOT NULL,
   `productos` int(11) NOT NULL,
   `duracion` int(11) NOT NULL,
   `costo` double NOT NULL,
-  `estado` tinyint(4) NOT NULL
+  `estado` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
