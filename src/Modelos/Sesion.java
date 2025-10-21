@@ -1,15 +1,14 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Modelos;
 
 import java.time.*;
 
-/**
- *
- * @author Ger
- */
+/*  @author Grupo 6 
+    Gimenez Diego Ruben
+    Carlos German Mecias Giacomelli
+    Tomas Migliozzi Badani
+    Urbani Jose
+ */
+
 public class Sesion {
     private int codSesion = -1;
     private LocalDateTime fechaHoraInicio;

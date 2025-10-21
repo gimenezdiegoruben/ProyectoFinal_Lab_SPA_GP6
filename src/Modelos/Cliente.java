@@ -20,7 +20,8 @@ public class Cliente {
     public Cliente() {
     }
 
-    public Cliente(String nombre, int telefono, int edad, String afecciones, boolean estado) {
+    public Cliente(int dni, String nombre, int telefono, int edad, String afecciones, boolean estado) {
+        this.dni = dni;
         this.nombre = nombre;
         this.telefono = telefono;
         this.edad = edad;
