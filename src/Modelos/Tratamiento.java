@@ -9,7 +9,7 @@ package Modelos;
  * @author Ger
  */
 public class Tratamiento {
-    private int codTratam;
+    private int codTratam = -1;
     private String nombre;
     private String tipo;
     private String detalle;
@@ -21,8 +21,7 @@ public class Tratamiento {
     public Tratamiento() {
     }
 
-    public Tratamiento(int codTratam, String nombre,String tipo, String detalle, int productos, int duracion, int costo, boolean estado) {
-        this.codTratam = codTratam;
+    public Tratamiento(String nombre,String tipo, String detalle, int productos, int duracion, int costo, boolean estado) {
         this.nombre = nombre;
         this.tipo=tipo;
         this.detalle = detalle;

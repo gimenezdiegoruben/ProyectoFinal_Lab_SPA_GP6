@@ -9,7 +9,7 @@ package Modelos;
  * @author Ger
  */
 public class Instalacion {
-    private int codInstal;
+    private int codInstal = -1;
     private String nombre;
     private String detalleUso;
     private double precio;
@@ -18,8 +18,7 @@ public class Instalacion {
     public Instalacion() {
     }
 
-    public Instalacion(int codInstal, String nombre, String detalleUso, double precio, boolean estado) {
-        this.codInstal = codInstal;
+    public Instalacion(String nombre, String detalleUso, double precio, boolean estado) {
         this.nombre = nombre;
         this.detalleUso = detalleUso;
         this.precio = precio;

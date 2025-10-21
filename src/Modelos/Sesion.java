@@ -11,7 +11,7 @@ import java.time.*;
  * @author Ger
  */
 public class Sesion {
-    private int codSesion;
+    private int codSesion = -1;
     private LocalDateTime fechaHoraInicio;
     private LocalDateTime fechaHoraFinal;
     private int codTtatam;
@@ -24,8 +24,7 @@ public class Sesion {
     public Sesion() {
     }
 
-    public Sesion(int codSesion, LocalDateTime fechaHoraInicio, LocalDateTime fechaHoraFinal, int codTtatam, int nroConsultorio, int matricula, int codInstal, int codPack, LocalDateTime estado) {
-        this.codSesion = codSesion;
+    public Sesion(LocalDateTime fechaHoraInicio, LocalDateTime fechaHoraFinal, int codTtatam, int nroConsultorio, int matricula, int codInstal, int codPack, LocalDateTime estado) {
         this.fechaHoraInicio = fechaHoraInicio;
         this.fechaHoraFinal = fechaHoraFinal;
         this.codTtatam = codTtatam;
