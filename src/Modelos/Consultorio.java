@@ -54,6 +54,12 @@ public class Consultorio {
     public void setApto(boolean apto) {
         this.apto = apto;
     }
+
+    @Override
+    public String toString() {
+        return "Consultorio{" + "nroConsultorio=" + nroConsultorio + ", usos=" + usos + ", equipamiento=" + equipamiento + ", apto=" + apto + '}';
+    }
+    
     
     
 }

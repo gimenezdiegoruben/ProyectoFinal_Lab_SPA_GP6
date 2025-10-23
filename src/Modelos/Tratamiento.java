@@ -1,5 +1,7 @@
 package Modelos;
 
+import java.util.List;
+
 /*  @author Grupo 6 
     Gimenez Diego Ruben
     Carlos German Mecias Giacomelli
@@ -12,15 +14,15 @@ public class Tratamiento {
     private String nombre;
     private String tipo;
     private String detalle;
-    private int productos;
-    private int duracion;
-    private int costo;
+    private List<String> productos;
+    private double duracion;
+    private double costo;
     private boolean estado;
 
     public Tratamiento() {
     }
 
-    public Tratamiento(String nombre,String tipo, String detalle, int productos, int duracion, int costo, boolean estado) {
+    public Tratamiento(String nombre,String tipo, String detalle, List<String> productos, double duracion, double costo, boolean estado) {
         this.nombre = nombre;
         this.tipo=tipo;
         this.detalle = detalle;
@@ -63,15 +65,15 @@ public class Tratamiento {
         this.detalle = detalle;
     }
 
-    public int getProductos() {
+    public List<String> getProductos() {
         return productos;
     }
 
-    public void setProductos(int productos) {
+    public void setProductos(List<String> productos) {
         this.productos = productos;
     }
 
-    public int getDuracion() {
+    public double getDuracion() {
         return duracion;
     }
 
@@ -79,7 +81,7 @@ public class Tratamiento {
         this.duracion = duracion;
     }
 
-    public int getCosto() {
+    public double getCosto() {
         return costo;
     }
 

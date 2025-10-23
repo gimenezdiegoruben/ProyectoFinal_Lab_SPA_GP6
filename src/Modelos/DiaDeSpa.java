@@ -1,6 +1,7 @@
 package Modelos;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 
 /*  @author Grupo 6 
     Gimenez Diego Ruben
@@ -12,20 +13,20 @@ import java.time.LocalDate;
 public class DiaDeSpa {
     
     private int codPack = -1;
-    private LocalDate fechayhora;
+    private LocalDateTime fechayhora;
     private String preferencias;
-    private int codCli;
-    private int sesiones;
+    private Cliente cliente;
+    private List<Sesion> sesiones;
     private double monto;
     private boolean estado;
 
     public DiaDeSpa() {
     }
 
-    public DiaDeSpa(LocalDate fechayhora, String preferencias, int codCli, int sesiones, double monto, boolean estado) {
+    public DiaDeSpa(LocalDateTime fechayhora, String preferencias, Cliente cliente, List<Sesion> sesiones, double monto, boolean estado) {
         this.fechayhora = fechayhora;
         this.preferencias = preferencias;
-        this.codCli = codCli;
+        this.cliente = cliente;
         this.sesiones = sesiones;
         this.monto = monto;
         this.estado = estado;
@@ -39,11 +40,11 @@ public class DiaDeSpa {
         this.codPack = codPack;
     }
 
-    public LocalDate getFechayhora() {
+    public LocalDateTime getFechayhora() {
         return fechayhora;
     }
 
-    public void setFechayhora(LocalDate fechayhora) {
+    public void setFechayhora(LocalDateTime fechayhora) {
         this.fechayhora = fechayhora;
     }
 
@@ -55,19 +56,19 @@ public class DiaDeSpa {
         this.preferencias = preferencias;
     }
 
-    public int getCodCli() {
-        return codCli;
+    public Cliente getCliente() {
+        return cliente;
     }
 
-    public void setCodCli(int codCli) {
-        this.codCli = codCli;
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
-    public int getSesiones() {
+    public List<Sesion> getSesiones() {
         return sesiones;
     }
 
-    public void setSesiones(int sesiones) {
+    public void setSesiones(List<Sesion> sesiones) {
         this.sesiones = sesiones;
     }
 

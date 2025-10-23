@@ -1,6 +1,7 @@
 package Modelos;
 
 import java.time.*;
+import java.util.List;
 
 /*  @author Grupo 6 
     Gimenez Diego Ruben
@@ -13,24 +14,24 @@ public class Sesion {
     private int codSesion = -1;
     private LocalDateTime fechaHoraInicio;
     private LocalDateTime fechaHoraFinal;
-    private int codTtatam;
-    private int nroConsultorio;
-    private int matricula;
-    private int codInstal;
-    private int codPack;
-    private LocalDateTime estado;
+    private Tratamiento tratamiento;
+    private Consultorio consultorio;
+    private Masajista masajista;
+    private List<Instalacion> instalaciones;
+    private DiaDeSpa diaDeSpa;
+    private boolean estado;
 
     public Sesion() {
     }
 
-    public Sesion(LocalDateTime fechaHoraInicio, LocalDateTime fechaHoraFinal, int codTtatam, int nroConsultorio, int matricula, int codInstal, int codPack, LocalDateTime estado) {
+    public Sesion(LocalDateTime fechaHoraInicio, LocalDateTime fechaHoraFinal, Tratamiento tratamiento, Consultorio consultorio, Masajista masajista, List<Instalacion> instalaciones, DiaDeSpa diaDeSpa, boolean estado) {
         this.fechaHoraInicio = fechaHoraInicio;
         this.fechaHoraFinal = fechaHoraFinal;
-        this.codTtatam = codTtatam;
-        this.nroConsultorio = nroConsultorio;
-        this.matricula = matricula;
-        this.codInstal = codInstal;
-        this.codPack = codPack;
+        this.tratamiento = tratamiento;
+        this.consultorio = consultorio;
+        this.masajista = masajista;
+        this.instalaciones = instalaciones;
+        this.diaDeSpa = diaDeSpa;
         this.estado = estado;
     }
 
@@ -58,58 +59,59 @@ public class Sesion {
         this.fechaHoraFinal = fechaHoraFinal;
     }
 
-    public int getCodTtatam() {
-        return codTtatam;
+    public Tratamiento getTratamiento() {
+        return tratamiento;
     }
 
-    public void setCodTtatam(int codTtatam) {
-        this.codTtatam = codTtatam;
+    public void setTratamiento(Tratamiento tratamiento) {
+        this.tratamiento = tratamiento;
     }
 
-    public int getNroConsultorio() {
-        return nroConsultorio;
+    public Consultorio getConsultorio() {
+        return consultorio;
     }
 
-    public void setNroConsultorio(int nroConsultorio) {
-        this.nroConsultorio = nroConsultorio;
+    public void setConsultorio(Consultorio consultorio) {
+        this.consultorio = consultorio;
     }
 
-    public int getMatricula() {
-        return matricula;
+    public Masajista getMasajista() {
+        return masajista;
     }
 
-    public void setMatricula(int matricula) {
-        this.matricula = matricula;
+    public void setMasajista(Masajista masajista) {
+        this.masajista = masajista;
     }
 
-    public int getCodInstal() {
-        return codInstal;
+    public List<Instalacion> getInstalaciones() {
+        return instalaciones;
     }
 
-    public void setCodInstal(int codInstal) {
-        this.codInstal = codInstal;
+    public void setInstalaciones(List<Instalacion> instalaciones) {
+        this.instalaciones = instalaciones;
+    }
+    
+    public DiaDeSpa getCodPack() {
+        return diaDeSpa;
     }
 
-    public int getCodPack() {
-        return codPack;
+    public void setCodPack(DiaDeSpa diaDeSpa) {
+        this.diaDeSpa = diaDeSpa;
     }
 
-    public void setCodPack(int codPack) {
-        this.codPack = codPack;
-    }
-
-    public LocalDateTime getEstado() {
+    public boolean getEstado() {
         return estado;
     }
 
-    public void setEstado(LocalDateTime estado) {
+    public void setEstado(boolean estado) {
         this.estado = estado;
     }
 
     @Override
     public String toString() {
-        return "Sesion{" + "codSesion=" + codSesion + ", fechaHoraInicio=" + fechaHoraInicio + ", fechaHoraFinal=" + fechaHoraFinal + ", codTtatam=" + codTtatam + ", nroConsultorio=" + nroConsultorio + ", matricula=" + matricula + ", codInstal=" + codInstal + ", codPack=" + codPack + ", estado=" + estado + '}';
+        return "Sesion{" + "codSesion=" + codSesion + ", fechaHoraInicio=" + fechaHoraInicio + ", fechaHoraFinal=" + fechaHoraFinal + ", tratamiento=" + tratamiento + ", consultorio=" + consultorio + ", masajista=" + masajista + ", instalaciones=" + instalaciones + ", diaDeSpa=" + diaDeSpa + ", estado=" + estado + '}';
     }
-    
+
+
     
 }
