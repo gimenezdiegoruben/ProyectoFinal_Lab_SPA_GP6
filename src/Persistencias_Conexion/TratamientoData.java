@@ -38,9 +38,9 @@ public class TratamientoData {
             ps.setString(1, tratamiento.getNombre());
             ps.setString(2, tratamiento.getTipo());
             ps.setString(3, tratamiento.getDetalle());
-            ps.setInt(4, tratamiento.getProductos());
-            ps.setInt(5, tratamiento.getDuracion());
-            ps.setInt(6, tratamiento.getCosto());
+            ps.setInt(4, tratamiento.getProductos().size());
+            ps.setDouble(5, tratamiento.getDuracion());
+            ps.setDouble(6, tratamiento.getCosto());
             ps.setBoolean(7, tratamiento.isEstado());
 
             int filasAfectadas = ps.executeUpdate();
