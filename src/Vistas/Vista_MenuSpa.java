@@ -63,7 +63,7 @@ public class Vista_MenuSpa extends javax.swing.JFrame {
         JDesktopPFondo.setLayout(JDesktopPFondoLayout);
         JDesktopPFondoLayout.setHorizontalGroup(
             JDesktopPFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1006, Short.MAX_VALUE)
+            .addGap(0, 1089, Short.MAX_VALUE)
         );
         JDesktopPFondoLayout.setVerticalGroup(
             JDesktopPFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -243,12 +243,7 @@ public class Vista_MenuSpa extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
+
 
           /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {

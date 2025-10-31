@@ -1,16 +1,9 @@
-
 package Modelos;
 
 import java.time.LocalDate;
 
-/**
- * @author G
- * 
-
- */
-
 public class Empleado {
-    // Atributos
+
     private int idEmpleado = -1;
     private int dni;
     private String puesto;
@@ -19,18 +12,42 @@ public class Empleado {
     private LocalDate fechaNacimiento;
     private boolean estado;
 
-    public Empleado(){
+    //nuevos atrib de modif de bd
+    private String telefono;
+    private int matricula;       //Usaremos 0 o -1 para representar NULL en la BD
+    private String especialidad;
+
+    public Empleado() {
     }
-    
-    public Empleado(int dni, String puesto, String apellido, String nombre, LocalDate fechaNacimiento, boolean estado) {
+
+    //Constructor para ALTAS (sin idEmpleado)
+    public Empleado(int dni, String puesto, String apellido, String nombre, String telefono, LocalDate fechaNacimiento, int matricula, String especialidad, boolean estado) {
         this.dni = dni;
         this.puesto = puesto;
         this.apellido = apellido;
         this.nombre = nombre;
+        this.telefono = telefono;
         this.fechaNacimiento = fechaNacimiento;
+        this.matricula = matricula;
+        this.especialidad = especialidad;
         this.estado = estado;
     }
 
+    // Constructor COMPLETO (con idEmpleado, para búsquedas/modificaciones)
+    public Empleado(int idEmpleado, int dni, String puesto, String apellido, String nombre, String telefono, LocalDate fechaNacimiento, int matricula, String especialidad, boolean estado) {
+        this.idEmpleado = idEmpleado;
+        this.dni = dni;
+        this.puesto = puesto;
+        this.apellido = apellido;
+        this.nombre = nombre;
+        this.telefono = telefono;
+        this.fechaNacimiento = fechaNacimiento;
+        this.matricula = matricula;
+        this.especialidad = especialidad;
+        this.estado = estado;
+    }
+
+    // Getters y Setters
     public int getIdEmpleado() {
         return idEmpleado;
     }
@@ -86,7 +103,33 @@ public class Empleado {
     public void setEstado(boolean estado) {
         this.estado = estado;
     }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public int getMatricula() {
+        return matricula;
+    }
+
+    public void setMatricula(int matricula) {
+        this.matricula = matricula;
+    }
+
+    public String getEspecialidad() {
+        return especialidad;
+    }
+
+    public void setEspecialidad(String especialidad) {
+        this.especialidad = especialidad;
+    }
+
+    @Override
+    public String toString() {
+        return dni + " - " + apellido + ", " + nombre;
+    }
 }
-
-
-

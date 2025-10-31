@@ -1,4 +1,3 @@
-
 package ControladoresDeVistas;
 
 import Modelos.Empleado;
@@ -22,14 +21,13 @@ import Vistas.Vista_MenuSpa;
     Tomas Migliozzi Badani
     Urbani Jose
  */
-
 public class ControladorApp_MenuSpa implements ActionListener, MenuListener, ComponentListener {
 
     private final Vista_MenuSpa menu;
 
     public ControladorApp_MenuSpa(Vista_MenuSpa menu) {
         this.menu = menu;
-        
+
         // AddMenuListener escucha a jMenuBar en los metodos menuSelected, MenuDeselected y menuCanceled
         this.menu.jMenuVerEmpleados.addActionListener(this);
         this.menu.jMenuHistorialSes_Turnos.addActionListener(this);
@@ -38,8 +36,8 @@ public class ControladorApp_MenuSpa implements ActionListener, MenuListener, Com
         this.menu.jMenuHistorialProductos.addActionListener(this);
 
         this.menu.jmSalir.addMenuListener(this);
-       
-        //escucha de botones
+
+        //escucha de botones del panel Lateral
         menu.jButtonTurnos.addActionListener(this);
         menu.jButtonBusquedas.addActionListener(this);
         menu.jButtonClientes.addActionListener(this);
@@ -50,10 +48,14 @@ public class ControladorApp_MenuSpa implements ActionListener, MenuListener, Com
         menu.jButtonConsultorios.addActionListener(this);
         menu.jButtonTienda.addActionListener(this);
         menu.jButtonSalir.addActionListener(this);
+
+        //Listener para redimensionar el fondo cuando el escritorio cambie de tamaño
+        menu.JDesktopPFondo.addComponentListener(this);
     }
 
     public void iniciar() {
         menu.setTitle("SPA ENTRE DEDOS VIP");
+        menu.setVisible(true);
         menu.setLocationRelativeTo(null);
         menu.setResizable(false);
         ponerFondo();
@@ -64,16 +66,24 @@ public class ControladorApp_MenuSpa implements ActionListener, MenuListener, Com
 
         //[aquí los action performeds de los menús]
         if (e.getSource() == menu.jMenuVerEmpleados) {
-            Modelos.Empleado data = new Empleado();
             VistaEmpleados vista = new VistaEmpleados();
-            ControladorEmpleados ctrl = new ControladorEmpleados(vista, data, menu);
-            ctrl.iniciar();
-        }
-        
-       //[y los otros menúes...]
-        
-// //////////////////////////////////////////////////////////////////       
+            EmpleadoData data = new EmpleadoData();
+            ControladorEmpleados ctrl = new ControladorEmpleados(menu, vista, data);
 
+            //vista interna al JDesktopPane
+            menu.JDesktopPFondo.add(vista);
+            ctrl.iniciar();
+
+            try {
+                vista.setSelected(true);
+                vista.toFront();
+            } catch (Exception ex) {
+                System.err.println("Error al cargar Vista empleados");
+            }
+        }
+
+        //[y los otros menúes...]
+        // ----------------------------------------------------------
         //[aquí los actionperformed de los botones]
         if (e.getSource() == menu.jButtonSalir) {
             menu.dispose();
@@ -84,9 +94,13 @@ public class ControladorApp_MenuSpa implements ActionListener, MenuListener, Com
             EmpleadoData data = new EmpleadoData();
             ControladorEmpleados ctrl = new ControladorEmpleados(menu, vista, data);
 
+            menu.JDesktopPFondo.add(vista);
             ctrl.iniciar();
+            vista.setVisible(true);
+            vista.toFront();
         }
-
+        //[aquí los demás botones]
+        
     }
 
     public void ponerFondo() {
@@ -114,10 +128,9 @@ public class ControladorApp_MenuSpa implements ActionListener, MenuListener, Com
         //Agrega la imagen de fondo al JPanel
         menu.JDesktopPFondo.add(imagenFondoLabel);
 
-        menu.JDesktopPFondo.setComponentZOrder(imagenFondoLabel, 0);
 
-        //Actualiza el JPanel para mostrar la imagen
-        menu.JDesktopPFondo.revalidate();
+        menu.JDesktopPFondo.setComponentZOrder(imagenFondoLabel, 0); //Fondo detras siempre
+        menu.JDesktopPFondo.revalidate(); //Actualiza el JPanel para mostrar la imagen
         menu.JDesktopPFondo.repaint();
     }
 
