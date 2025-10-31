@@ -2,6 +2,7 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
+
 -- Servidor: 127.0.0.1
 -- Tiempo de generación: 17-10-2025 a las 01:11:58
 -- Versión del servidor: 10.4.32-MariaDB
@@ -26,7 +27,6 @@ USE `spafinal_gp6`;
 --
 -- Estructura de tabla para la tabla `cliente`
 --
-
 CREATE TABLE `cliente` (
   `codCli` int(11) NOT NULL,
   `dni` int(11) NOT NULL UNIQUE,
@@ -42,7 +42,6 @@ CREATE TABLE `cliente` (
 --
 -- Estructura de tabla para la tabla `consultorio`
 --
-
 CREATE TABLE `consultorio` (
   `nroConsultorio` int(11) NOT NULL,
   `usos` int(11) NOT NULL,
@@ -55,7 +54,6 @@ CREATE TABLE `consultorio` (
 --
 -- Estructura de tabla para la tabla `dia_de_spa`
 --
-
 CREATE TABLE `dia_de_spa` (
   `codPack` int(11) NOT NULL,
   `fechayhoraCompra` datetime NOT NULL,
@@ -69,44 +67,46 @@ CREATE TABLE `dia_de_spa` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `empleado`
+--
+CREATE TABLE `empleado` (
+  `idEmpleado` INT(11) NOT NULL,
+  `dni` INT(11) NOT NULL,
+  `nombre` VARCHAR(60) NOT NULL,
+  `apellido` VARCHAR(60) NOT NULL,
+  `telefono` VARCHAR(20) NULL,
+  `fechaNacimiento` DATE NOT NULL,
+  `puesto` VARCHAR(40) NOT NULL,
+  `matricula` INT(11) NULL,
+  `especialidad` VARCHAR(60) NULL,
+  `estado` BOOLEAN NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `instalacion`
 --
-
 CREATE TABLE `instalacion` (
   `codInstal` int(11) NOT NULL,
   `nombre` varchar(60) NOT NULL,
   `detalleUso` varchar(60) NOT NULL,
   `precio30min` double NOT NULL,
- `estado` tinyint(1) NOT NULL DEFAULT 1
+  `estado` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `masajista`
---
-
-CREATE TABLE `masajista` (
-  `matricula` int(11) NOT NULL,
-  `nombre` varchar(60) NOT NULL,
-  `telefono` int(11) NOT NULL,
-  `especialidad` varchar(60) NOT NULL,
-  `estado` tinyint(4) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
 --
 -- Estructura de tabla para la tabla `sesion`
 --
-
 CREATE TABLE `sesion` (
   `codSesion` int(11) NOT NULL,
   `fechaHoraInicio` datetime NOT NULL,
   `fechaHoraFinal` datetime NOT NULL,
   `codTratam` int(11) NOT NULL,
   `nroConsultorio` int(11) NOT NULL,
-  `matricula` int(11) NOT NULL,
+  `idMasajista` int(11) NOT NULL,
+  `idRegistrador` int(11) NOT NULL,
   `codInstal` int(11) NOT NULL,
   `codPack` int(11) NOT NULL,
   `estado` tinyint(1) NOT NULL DEFAULT 1
@@ -117,7 +117,6 @@ CREATE TABLE `sesion` (
 --
 -- Estructura de tabla para la tabla `tratamiento`
 --
-
 CREATE TABLE `tratamiento` (
   `codTratam` int(11) NOT NULL,
   `nombre` varchar(60) NOT NULL,
@@ -159,10 +158,12 @@ ALTER TABLE `instalacion`
   ADD PRIMARY KEY (`codInstal`);
 
 --
--- Indices de la tabla `masajista`
+-- Indices de la tabla `empleado`
 --
-ALTER TABLE `masajista`
-  ADD PRIMARY KEY (`matricula`);
+ALTER TABLE `empleado`
+  ADD PRIMARY KEY (`idEmpleado`),
+  ADD UNIQUE KEY `dni` (`dni`),
+  ADD UNIQUE KEY `matricula` (`matricula`);
 
 --
 -- Indices de la tabla `sesion`
@@ -171,7 +172,8 @@ ALTER TABLE `sesion`
   ADD PRIMARY KEY (`codSesion`),
   ADD KEY `fk_codTratam` (`codTratam`),
   ADD KEY `fk_nroConsultorio` (`nroConsultorio`),
-  ADD KEY `fk_matricula` (`matricula`),
+  ADD KEY `fk_idMasajista` (`idMasajista`),
+  ADD KEY `fk_idRegistrador` (`idRegistrador`),
   ADD KEY `fk_codInstal` (`codInstal`),
   ADD KEY `fk_codPack` (`codPack`);
 
@@ -202,6 +204,12 @@ ALTER TABLE `consultorio`
 --
 ALTER TABLE `dia_de_spa`
   MODIFY `codPack` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `empleado`
+--
+ALTER TABLE `empleado`
+  MODIFY `idEmpleado` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `instalacion`
@@ -238,7 +246,8 @@ ALTER TABLE `sesion`
   ADD CONSTRAINT `fk_codInstal` FOREIGN KEY (`codInstal`) REFERENCES `instalacion` (`codInstal`),
   ADD CONSTRAINT `fk_codPack` FOREIGN KEY (`codPack`) REFERENCES `dia_de_spa` (`codPack`),
   ADD CONSTRAINT `fk_codTratam` FOREIGN KEY (`codTratam`) REFERENCES `tratamiento` (`codTratam`),
-  ADD CONSTRAINT `fk_matricula` FOREIGN KEY (`matricula`) REFERENCES `masajista` (`matricula`),
+  ADD CONSTRAINT `fk_idMasajista` FOREIGN KEY (`idMasajista`) REFERENCES `empleado` (`idEmpleado`),
+  ADD CONSTRAINT `fk_idRegistrador` FOREIGN KEY (`idRegistrador`) REFERENCES `empleado` (`idEmpleado`),
   ADD CONSTRAINT `fk_nroConsultorio` FOREIGN KEY (`nroConsultorio`) REFERENCES `consultorio` (`nroConsultorio`);
 COMMIT;
 
