@@ -2,15 +2,15 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
-
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 17-10-2025 a las 01:11:58
+-- Tiempo de generación: 01-11-2025 a las 23:31:15
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
+
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -20,21 +20,22 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `spafinal_gp6`
 --
-CREATE DATABASE IF NOT EXISTS `spafinal_gp6` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `spafinal_gp6`;
+
 -- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `cliente`
 --
+
 CREATE TABLE `cliente` (
   `codCli` int(11) NOT NULL,
-  `dni` int(11) NOT NULL UNIQUE,
+  `dni` bigint(11) NOT NULL,
   `nombre` varchar(60) NOT NULL,
-  `telefono` int(11) NOT NULL,
+  `telefono` bigint(11) NOT NULL,
   `edad` int(11) NOT NULL,
   `afecciones` varchar(60) NOT NULL,
-  `estado` tinyint(1) NOT NULL DEFAULT 1
+  `estado` tinyint(1) NOT NULL DEFAULT 1,
+  `fechaNac` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -42,6 +43,7 @@ CREATE TABLE `cliente` (
 --
 -- Estructura de tabla para la tabla `consultorio`
 --
+
 CREATE TABLE `consultorio` (
   `nroConsultorio` int(11) NOT NULL,
   `usos` int(11) NOT NULL,
@@ -54,6 +56,7 @@ CREATE TABLE `consultorio` (
 --
 -- Estructura de tabla para la tabla `dia_de_spa`
 --
+
 CREATE TABLE `dia_de_spa` (
   `codPack` int(11) NOT NULL,
   `fechayhoraCompra` datetime NOT NULL,
@@ -69,17 +72,18 @@ CREATE TABLE `dia_de_spa` (
 --
 -- Estructura de tabla para la tabla `empleado`
 --
+
 CREATE TABLE `empleado` (
-  `idEmpleado` INT(11) NOT NULL,
-  `dni` INT(11) NOT NULL,
-  `nombre` VARCHAR(60) NOT NULL,
-  `apellido` VARCHAR(60) NOT NULL,
-  `telefono` VARCHAR(20) NULL,
-  `fechaNacimiento` DATE NOT NULL,
-  `puesto` VARCHAR(40) NOT NULL,
-  `matricula` INT(11) NULL,
-  `especialidad` VARCHAR(60) NULL,
-  `estado` BOOLEAN NOT NULL DEFAULT 1
+  `idEmpleado` int(11) NOT NULL,
+  `dni` int(11) NOT NULL,
+  `nombre` varchar(60) NOT NULL,
+  `apellido` varchar(60) NOT NULL,
+  `telefono` varchar(20) DEFAULT NULL,
+  `fechaNacimiento` date NOT NULL,
+  `puesto` varchar(40) NOT NULL,
+  `matricula` int(11) DEFAULT NULL,
+  `especialidad` varchar(60) DEFAULT NULL,
+  `estado` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -87,6 +91,7 @@ CREATE TABLE `empleado` (
 --
 -- Estructura de tabla para la tabla `instalacion`
 --
+
 CREATE TABLE `instalacion` (
   `codInstal` int(11) NOT NULL,
   `nombre` varchar(60) NOT NULL,
@@ -96,9 +101,11 @@ CREATE TABLE `instalacion` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
+
 --
 -- Estructura de tabla para la tabla `sesion`
 --
+
 CREATE TABLE `sesion` (
   `codSesion` int(11) NOT NULL,
   `fechaHoraInicio` datetime NOT NULL,
@@ -117,10 +124,11 @@ CREATE TABLE `sesion` (
 --
 -- Estructura de tabla para la tabla `tratamiento`
 --
+
 CREATE TABLE `tratamiento` (
   `codTratam` int(11) NOT NULL,
   `nombre` varchar(60) NOT NULL,
-  `tipo` varchar(200) NOT NULL, -- Ej: 'Facial', 'Corporal', 'Relajación', 'Estético'
+  `tipo` varchar(200) NOT NULL,
   `detalle` varchar(60) NOT NULL,
   `productos` int(11) NOT NULL,
   `duracion` int(11) NOT NULL,
@@ -136,7 +144,8 @@ CREATE TABLE `tratamiento` (
 -- Indices de la tabla `cliente`
 --
 ALTER TABLE `cliente`
-  ADD PRIMARY KEY (`codCli`);
+  ADD PRIMARY KEY (`codCli`),
+  ADD UNIQUE KEY `dni` (`dni`);
 
 --
 -- Indices de la tabla `consultorio`
@@ -152,18 +161,18 @@ ALTER TABLE `dia_de_spa`
   ADD KEY `fk_codCli` (`codCli`);
 
 --
--- Indices de la tabla `instalacion`
---
-ALTER TABLE `instalacion`
-  ADD PRIMARY KEY (`codInstal`);
-
---
 -- Indices de la tabla `empleado`
 --
 ALTER TABLE `empleado`
   ADD PRIMARY KEY (`idEmpleado`),
   ADD UNIQUE KEY `dni` (`dni`),
   ADD UNIQUE KEY `matricula` (`matricula`);
+
+--
+-- Indices de la tabla `instalacion`
+--
+ALTER TABLE `instalacion`
+  ADD PRIMARY KEY (`codInstal`);
 
 --
 -- Indices de la tabla `sesion`
@@ -191,7 +200,7 @@ ALTER TABLE `tratamiento`
 -- AUTO_INCREMENT de la tabla `cliente`
 --
 ALTER TABLE `cliente`
-  MODIFY `codCli` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `codCli` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `consultorio`
