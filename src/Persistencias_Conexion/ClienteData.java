@@ -2,11 +2,13 @@ package Persistencias_Conexion;
 
 import Modelos.Cliente;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -28,16 +30,17 @@ public class ClienteData {
     }
     public void guardarCliente(Cliente cliente){
         
-        String sql = "INSERT INTO cliente(dni,nombre ,telefono ,edad ,afecciones ,estado) VALUES(? , ? , ? , ? , ? , ?)";
+        String sql = "INSERT INTO cliente(dni,nombre ,telefono ,edad ,afecciones ,estado, fechaNac) VALUES(? , ? , ? , ? , ? , ?, ?)";
         try {
         
         PreparedStatement ps= con.prepareStatement(sql ,Statement.RETURN_GENERATED_KEYS);
-        ps.setInt(1, cliente.getDni());
+        ps.setLong(1, cliente.getDni());
         ps.setString(2, cliente.getNombre());
-        ps.setInt(3, cliente.getTelefono());
+        ps.setLong(3, cliente.getTelefono());
         ps.setInt(4,cliente.getEdad());
         ps.setString(5, cliente.getAfecciones());
         ps.setBoolean(6, cliente.isEstado());
+        ps.setDate(7, Date.valueOf(cliente.getFechaNac()));
         ps.executeUpdate();
         
         ResultSet rs= ps.getGeneratedKeys();
@@ -60,17 +63,19 @@ public class ClienteData {
     }
 
     public void modificarCliente(Cliente cliente){
-        String sql = "UPDATE cliente SET nombre = ?,telefono = ? , edad = ?, afecciones = ?,estado = ? "
-                    + "WHERE dni = ?";
+        String sql = "UPDATE cliente SET dni = ?, nombre = ?,telefono = ? , edad = ?, afecciones = ?,estado = ?, fechaNac = ?"
+                    + "WHERE codCli = ?";
             
         try {
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setString(1, cliente.getNombre());
-            ps.setInt(2, cliente.getTelefono());
-            ps.setInt(3, cliente.getEdad());
-            ps.setString(4, cliente.getAfecciones());
-            ps.setBoolean(5, cliente.isEstado());
-            ps.setInt(6,cliente.getDni());
+            ps.setLong(1, cliente.getDni());
+            ps.setString(2, cliente.getNombre());
+            ps.setLong(3, cliente.getTelefono());
+            ps.setInt(4, cliente.getEdad());
+            ps.setString(5, cliente.getAfecciones());
+            ps.setBoolean(6, cliente.isEstado());
+            ps.setDate(7, Date.valueOf(cliente.getFechaNac()));
+            ps.setInt(8 ,cliente.getCodCli());
             int exito=ps.executeUpdate();
             
             if(exito == 1){
@@ -83,12 +88,12 @@ public class ClienteData {
         }
         
     }
-    public void eliminarCliente(int dni){
-        String sql = "UPDATE cliente SET estado = 0 WHERE dni = ? ";
+    public void eliminarCliente(long dni){
+        String sql = "DELETE FROM cliente WHERE dni = ? ";
         
         try {
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, dni);
+            ps.setLong(1, dni);
             int exito = ps.executeUpdate();//devuelve int
             if(exito == 1){
                  JOptionPane.showMessageDialog(null,"Cliente eliminado");
@@ -101,7 +106,7 @@ public class ClienteData {
        }
     }
     public Cliente buscarPorId(int id){
-        String sql = "SELECT dni, nombre, telefono , edad, afecciones, estado FROM cliente WHERE codCli = ? AND estado = 1";
+        String sql = "SELECT dni, nombre, telefono , edad, afecciones, estado, fechaNac FROM cliente WHERE codCli = ? AND estado = 1";
         Cliente cliente = null;    
         try {
             PreparedStatement ps = con.prepareStatement(sql);
@@ -110,14 +115,15 @@ public class ClienteData {
             if(rs.next()){
                  cliente = new Cliente();
                  cliente.setCodCli(id);
-                 cliente.setDni(rs.getInt("dni"));
+                 cliente.setDni(rs.getLong("dni"));
                  cliente.setNombre(rs.getString("nombre"));
-                 cliente.setTelefono(rs.getInt("telefono"));
+                 cliente.setTelefono(rs.getLong("telefono"));
                  cliente.setEdad(rs.getInt("edad"));
                  cliente.setAfecciones(rs.getString("afecciones"));
                  cliente.setEstado(true);
+                 cliente.setFechaNac(rs.getDate("fechaNac").toLocalDate());
             }else {
-                JOptionPane.showMessageDialog(null, "No existe un cliente cone ese id");
+                JOptionPane.showMessageDialog(null, "No existe un cliente con ese id");
             }
             ps.close();
         } catch (SQLException ex) {
@@ -125,22 +131,23 @@ public class ClienteData {
         }
         return cliente;    
     }
-    public Cliente buscarPorDni(int dni){
-        String sql = "SELECT codCli, nombre, telefono , edad, afecciones, estado FROM cliente WHERE dni = ? AND estado = 1";
+    public Cliente buscarPorDni(long dni){
+        String sql = "SELECT codCli, nombre, telefono , edad, afecciones, estado, fechaNac FROM cliente WHERE dni = ? AND estado = 1";
         Cliente cliente = null;    
         try {
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, dni);
+            ps.setLong(1, dni);
             ResultSet rs= ps.executeQuery();
             if(rs.next()){
                  cliente = new Cliente();
                  cliente.setCodCli(rs.getInt("codCli"));
                  cliente.setDni(dni);
                  cliente.setNombre(rs.getString("nombre"));
-                 cliente.setTelefono(rs.getInt("telefono"));
+                 cliente.setTelefono(rs.getLong("telefono"));
                  cliente.setEdad(rs.getInt("edad"));
                  cliente.setAfecciones(rs.getString("afecciones"));
                  cliente.setEstado(true);
+                 cliente.setFechaNac(rs.getDate("fechaNac").toLocalDate());
             }else {
                 JOptionPane.showMessageDialog(null, "No existe un cliente cone ese dni");
             }
@@ -151,7 +158,7 @@ public class ClienteData {
         return cliente;
     }
     public List<Cliente> listarClientes(){
-        String sql = "SELECT codCli, dni ,nombre, telefono , edad, afecciones, estado FROM cliente WHERE estado = 1";
+        String sql = "SELECT codCli, dni ,nombre, telefono , edad, afecciones, estado, fechaNac FROM cliente WHERE estado = 1";
         ArrayList<Cliente> clientes = new ArrayList<>();    
         try {
             PreparedStatement ps = con.prepareStatement(sql);
@@ -160,12 +167,13 @@ public class ClienteData {
             while(rs.next()){
                  Cliente cliente = new Cliente();
                  cliente.setCodCli(rs.getInt("codCli"));
-                 cliente.setDni(rs.getInt("dni"));
+                 cliente.setDni(rs.getLong("dni"));
                  cliente.setNombre(rs.getString("nombre"));
-                 cliente.setTelefono(rs.getInt("telefono"));
+                 cliente.setTelefono(rs.getLong("telefono"));
                  cliente.setEdad(rs.getInt("edad"));
                  cliente.setAfecciones(rs.getString("afecciones"));
                  cliente.setEstado(true);
+                 cliente.setFechaNac(rs.getDate("fechaNac").toLocalDate());
                  
                  clientes.add(cliente);
             }

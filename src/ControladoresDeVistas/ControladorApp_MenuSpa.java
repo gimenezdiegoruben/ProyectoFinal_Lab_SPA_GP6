@@ -1,8 +1,10 @@
 package ControladoresDeVistas;
 
 import Modelos.Empleado;
+import Persistencias_Conexion.ClienteData;
 import Vistas.VistaEmpleados;
 import Persistencias_Conexion.EmpleadoData;
+import Vistas.VistaCliente;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -100,7 +102,13 @@ public class ControladorApp_MenuSpa implements ActionListener, MenuListener, Com
             vista.toFront();
         }
         //[aquí los demás botones]
-        
+        if (e.getSource() == menu.jButtonClientes) {
+            VistaCliente vista = new VistaCliente();
+            ClienteData data = new ClienteData();
+            ControladorCliente ctrl = new ControladorCliente(vista, data, menu);
+            
+            ctrl.iniciar();
+        }
     }
 
     public void ponerFondo() {

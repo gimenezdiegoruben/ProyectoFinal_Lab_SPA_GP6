@@ -1,5 +1,7 @@
 package Modelos;
 
+import java.time.LocalDate;
+
 /*  @author Grupo 6 
     Gimenez Diego Ruben
     Carlos German Mecias Giacomelli
@@ -10,17 +12,28 @@ package Modelos;
 public class Cliente {
     
     private int codCli = -1;
-    private int dni;
+    private long dni;
     private String nombre;
-    private int telefono;
+    private long telefono;
     private int edad;
     private String afecciones;
     private boolean estado;
+    private LocalDate fechaNac;
 
     public Cliente() {
     }
 
-    public Cliente(int dni, String nombre, int telefono, int edad, String afecciones, boolean estado) {
+    public Cliente(long dni, String nombre, long telefono, int edad, String afecciones, boolean estado, LocalDate fechaNac) {
+        this.dni = dni;
+        this.nombre = nombre;
+        this.telefono = telefono;
+        this.edad = edad;
+        this.afecciones = afecciones;
+        this.estado = estado;
+        this.fechaNac = fechaNac;
+    }
+
+    public Cliente(long dni, String nombre, long telefono, int edad, String afecciones, boolean estado) {
         this.dni = dni;
         this.nombre = nombre;
         this.telefono = telefono;
@@ -28,6 +41,8 @@ public class Cliente {
         this.afecciones = afecciones;
         this.estado = estado;
     }
+    
+    
 
     public int getCodCli() {
         return codCli;
@@ -37,11 +52,11 @@ public class Cliente {
         this.codCli = codCli;
     }
 
-    public int getDni() {
+    public long getDni() {
         return dni;
     }
 
-    public void setDni(int dni) {
+    public void setDni(long dni) {
         this.dni = dni;
     }
 
@@ -53,11 +68,11 @@ public class Cliente {
         this.nombre = nombre;
     }
 
-    public int getTelefono() {
+    public long getTelefono() {
         return telefono;
     }
 
-    public void setTelefono(int telefono) {
+    public void setTelefono(long telefono) {
         this.telefono = telefono;
     }
 
@@ -83,6 +98,14 @@ public class Cliente {
 
     public void setEstado(boolean estado) {
         this.estado = estado;
+    }
+
+    public LocalDate getFechaNac() {
+        return fechaNac;
+    }
+
+    public void setFechaNac(LocalDate fechaNac) {
+        this.fechaNac = fechaNac;
     }
 
     @Override
