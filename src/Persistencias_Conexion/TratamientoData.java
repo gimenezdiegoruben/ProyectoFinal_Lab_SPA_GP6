@@ -108,5 +108,120 @@ public class TratamientoData {
         return tratamiento;
     }
       
+     
+       public void modificarTratamiento(Tratamiento tratamiento) {
+    String sql = "UPDATE tratamiento SET nombre = ?, tipo = ?, detalle = ?, productos = ?, duracion = ?, costo = ?, estado = ? "
+               + "WHERE codTratam = ?";
+    
+    PreparedStatement ps = null;
+    con = Conexion.getConexion();
+    
+    try {
+        ps = con.prepareStatement(sql);
+        ps.setString(1, tratamiento.getNombre());
+        ps.setString(2, tratamiento.getTipo());
+        ps.setString(3, tratamiento.getDetalle());
+        ps.setInt(4, tratamiento.getProductos().size());
+        ps.setDouble(5, tratamiento.getDuracion());
+        ps.setDouble(6, tratamiento.getCosto());
+        ps.setBoolean(7, tratamiento.isEstado());
+        
+
+        ps.setInt(8, tratamiento.getCodTratam()); 
+        
+        int filasAfectadas = ps.executeUpdate();
+        
+        if (filasAfectadas > 0) {
+            JOptionPane.showMessageDialog(null, "Tratamiento modificado con éxito.");
+        } else {
+            JOptionPane.showMessageDialog(null, "No se encontró el tratamiento para modificar.");
+        }
+
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(null, "Error al modificar el Tratamiento: " + ex.getMessage());
+    } finally {
+                    try {
+                if (ps != null) {
+                    ps.close();
+                }
+            } catch (SQLException ex) {
+                System.err.println("Error al cerrar el PreparedStatement o la Conexión: " + ex.getMessage());
+            }
+       
+    }
+}
+      
+       
+       public void eliminarTratamiento(int codTratam) {
+ 
+    String sql = "UPDATE tratamiento SET estado = 0 WHERE codTratam = ?";
+    
+    PreparedStatement ps = null;
+    con = Conexion.getConexion();
+    
+    try {
+        ps = con.prepareStatement(sql);
+        ps.setInt(1, codTratam);
+        
+        int filasAfectadas = ps.executeUpdate();
+        
+        if (filasAfectadas > 0) {
+            JOptionPane.showMessageDialog(null, "Tratamiento dado de baja (inactivo) con éxito.");
+        } else {
+            JOptionPane.showMessageDialog(null, "No se encontró el tratamiento con ese código.");
+        }
+
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(null, "Error al dar de baja el Tratamiento: " + ex.getMessage());
+    } finally {
+                    try {
+                if (ps != null) {
+                    ps.close();
+                }
+            } catch (SQLException ex) {
+                System.err.println("Error al cerrar el PreparedStatement o la Conexión: " + ex.getMessage());
+            }
+    }
+}
+       
+       public List<Tratamiento> listarTratamientos() {
+    List<Tratamiento> tratamientos = new ArrayList<>();
+    // Solo lista los tratamientos activos (estado = 1)
+    String sql = "SELECT codTratam, nombre, tipo, detalle, productos, duracion, costo, estado FROM tratamiento WHERE estado = 1";
+    
+    PreparedStatement ps = null;
+    ResultSet rs = null;
+    con = Conexion.getConexion();
+
+    try {
+        ps = con.prepareStatement(sql);
+        rs = ps.executeQuery();
+
+        while (rs.next()) {
+            Tratamiento tratamiento = new Tratamiento();
+            
+            tratamiento.setCodTratam(rs.getInt("codTratam"));
+            tratamiento.setNombre(rs.getString("nombre"));
+            tratamiento.setTipo(rs.getString("tipo"));
+            tratamiento.setDetalle(rs.getString("detalle"));
+            tratamiento.setDuracion(rs.getInt("duracion"));
+            tratamiento.setCosto(rs.getInt("costo"));
+            tratamiento.setEstado(rs.getBoolean("estado"));
+            
+            tratamientos.add(tratamiento);
+        }
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(null, "Error al listar tratamientos: " + ex.getMessage());
+    } finally {
+                   try {
+                if (ps != null) {
+                    ps.close();
+                }
+            } catch (SQLException ex) {
+                System.err.println("Error al cerrar el PreparedStatement o la Conexión: " + ex.getMessage());
+            }
+    }
+    return tratamientos;
+}
       
 }
