@@ -12,12 +12,12 @@ public class Consultorio {
     private int nroConsultorio = -1;
     private int usos;
     private String equipamiento;
-    private boolean apto;
+    private String apto;
 
     public Consultorio() {
     }
 
-    public Consultorio(int usos, String equipamiento, boolean apto) {
+    public Consultorio(int usos, String equipamiento, String apto) {
         this.usos = usos;
         this.equipamiento = equipamiento;
         this.apto = apto;
@@ -47,11 +47,11 @@ public class Consultorio {
         this.equipamiento = equipamiento;
     }
 
-    public boolean isApto() {
+    public String getApto() {
         return apto;
     }
 
-    public void setApto(boolean apto) {
+    public void setApto(String apto) {
         this.apto = apto;
     }
 

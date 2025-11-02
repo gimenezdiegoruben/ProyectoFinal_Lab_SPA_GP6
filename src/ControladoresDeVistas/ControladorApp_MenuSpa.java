@@ -2,9 +2,11 @@ package ControladoresDeVistas;
 
 import Modelos.Empleado;
 import Persistencias_Conexion.ClienteData;
+import Persistencias_Conexion.ConsultorioData;
 import Vistas.VistaEmpleados;
 import Persistencias_Conexion.EmpleadoData;
 import Vistas.VistaCliente;
+import Vistas.VistaConsultorio;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -106,6 +108,14 @@ public class ControladorApp_MenuSpa implements ActionListener, MenuListener, Com
             VistaCliente vista = new VistaCliente();
             ClienteData data = new ClienteData();
             ControladorCliente ctrl = new ControladorCliente(vista, data, menu);
+            
+            ctrl.iniciar();
+        }
+        
+        if (e.getSource() == menu.jButtonConsultorios) {
+            VistaConsultorio vista = new VistaConsultorio();
+            ConsultorioData data = new ConsultorioData();
+            ControladorConsultorio ctrl = new ControladorConsultorio(vista, data, menu);
             
             ctrl.iniciar();
         }
