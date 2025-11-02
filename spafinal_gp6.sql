@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 01-11-2025 a las 23:31:15
+-- Tiempo de generación: 02-11-2025 a las 22:25:26
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -48,7 +48,7 @@ CREATE TABLE `consultorio` (
   `nroConsultorio` int(11) NOT NULL,
   `usos` int(11) NOT NULL,
   `equipamiento` varchar(60) NOT NULL,
-  `apto` tinyint(4) NOT NULL
+  `apto` varchar(60) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -206,7 +206,7 @@ ALTER TABLE `cliente`
 -- AUTO_INCREMENT de la tabla `consultorio`
 --
 ALTER TABLE `consultorio`
-  MODIFY `nroConsultorio` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `nroConsultorio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `dia_de_spa`
