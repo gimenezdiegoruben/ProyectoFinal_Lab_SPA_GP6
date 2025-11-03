@@ -45,7 +45,6 @@ public class ControladorApp_MenuSpa implements ActionListener, MenuListener, Com
         menu.jButtonTurnos.addActionListener(this);
         menu.jButtonBusquedas.addActionListener(this);
         menu.jButtonClientes.addActionListener(this);
-        menu.jButtonProfesionales.addActionListener(this);
         menu.jButtonEmpleados.addActionListener(this);
         menu.jButtonTratamientos.addActionListener(this);
         menu.jButtonInstalaciones.addActionListener(this);

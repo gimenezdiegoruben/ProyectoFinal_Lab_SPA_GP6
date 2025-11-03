@@ -280,7 +280,6 @@ public class Vista_MenuSpa extends javax.swing.JFrame {
         jButtonTurnos.setIcon(prepararIcono("iconTurnos.png",alto,ancho)); // asignamos al boton el icono
         jButtonBusquedas.setIcon(prepararIcono("icon_buscar.png",alto,ancho)); // asignamos al boton el icono
         jButtonClientes.setIcon(prepararIcono("iconClientes.png",alto,ancho)); // asignamos al boton el icono
-        jButtonProfesionales.setIcon(prepararIcono("iconProfesionales.png", alto, ancho)); // asignamos al boton el icono
         jButtonEmpleados.setIcon(prepararIcono("iconEmpleados.png",alto,ancho));
         jButtonInstalaciones.setIcon(prepararIcono("iconInstalaciones.png",alto,ancho));
         jButtonConsultorios.setIcon(prepararIcono("iconConsultorios.png",alto,ancho));

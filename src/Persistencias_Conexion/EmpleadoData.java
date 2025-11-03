@@ -237,6 +237,36 @@ public class EmpleadoData {
     }
     return empleado;
 }
+    
+    public Empleado buscarEmpleadoPorMatricula(String matricula) {
+        Empleado emp = null; 
+        try {
+            String sql = "SELECT * FROM empleado WHERE matricula=?"; 
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, matricula);
+            ResultSet rs = ps.executeQuery();
+            
+            if (rs.next()) {
+                emp = new Empleado();
+
+                emp.setIdEmpleado(rs.getInt("idEmpleado")); 
+                emp.setMatricula(matricula);
+                emp.setApellido(rs.getString("apellido"));
+                emp.setNombre(rs.getString("nombre"));
+                emp.setTelefono(rs.getString("telefono"));
+                emp.setEspecialidad(rs.getString("especialidad"));
+                
+                emp.setEstado(rs.getBoolean("estado"));
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Empleado no encontrado");
+            }
+            ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al acceder a la Base de Datos al buscar Empleado: " + ex.getMessage());
+        }
+        return emp;
+    }
 
     // Realiza una baja lógica (estado = 0) por ID.
     public void eliminarEmpleadoPorId(int id) {
