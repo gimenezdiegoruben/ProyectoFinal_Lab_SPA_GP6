@@ -1,13 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Persistencias_Conexion;
 
-/**
- *
- * @author Ger
- */
 public class MasajistaData {
-    
+    /*
+    [NO HACE FALTA ESTA CLASE YA QUE UN MASAJISTA TAMBIEN ES UN EMPLEADO, ASÍ QUE LO TRATAMOS COMO TAL, Y ELEGIMOS 
+// HACERLO ASÍ PARA TAMBIÉN TENER EN CUENTA OTROS EMPLEADOS QUE PUEDEN AGREGARSE AL SPA (Como por ejemplo recepcionistas,
+    administrativos, jefe, y demás]
+    */
 }

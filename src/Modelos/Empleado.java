@@ -14,14 +14,15 @@ public class Empleado {
 
     //nuevos atrib de modif de bd
     private String telefono;
-    private int matricula;       //Usaremos 0 o -1 para representar NULL en la BD
+    private String matricula;       //Usaremos 0 o -1 para representar NULL en la BD
     private String especialidad;
 
     public Empleado() {
     }
 
     //Constructor para ALTAS (sin idEmpleado)
-    public Empleado(int dni, String puesto, String apellido, String nombre, String telefono, LocalDate fechaNacimiento, int matricula, String especialidad, boolean estado) {
+    public Empleado(int dni, String puesto, String apellido, String nombre, String telefono,
+            LocalDate fechaNacimiento, String matricula, String especialidad, boolean estado) {
         this.dni = dni;
         this.puesto = puesto;
         this.apellido = apellido;
@@ -34,7 +35,7 @@ public class Empleado {
     }
 
     // Constructor COMPLETO (con idEmpleado, para búsquedas/modificaciones)
-    public Empleado(int idEmpleado, int dni, String puesto, String apellido, String nombre, String telefono, LocalDate fechaNacimiento, int matricula, String especialidad, boolean estado) {
+    public Empleado(int idEmpleado, int dni, String puesto, String apellido, String nombre, String telefono, LocalDate fechaNacimiento, String matricula, String especialidad, boolean estado) {
         this.idEmpleado = idEmpleado;
         this.dni = dni;
         this.puesto = puesto;
@@ -112,11 +113,11 @@ public class Empleado {
         this.telefono = telefono;
     }
 
-    public int getMatricula() {
+    public String getMatricula() {
         return matricula;
     }
 
-    public void setMatricula(int matricula) {
+    public void setMatricula(String matricula) {
         this.matricula = matricula;
     }
 

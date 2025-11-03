@@ -9,9 +9,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.time.Instant;
 import java.time.LocalDate;
-import java.time.ZoneId; // Necesario para mapear Date a LocalDate
 import javax.swing.JOptionPane;
 
 public class EmpleadoData {
@@ -19,40 +17,39 @@ public class EmpleadoData {
     private Connection con = null;
 
     public EmpleadoData() {
-
         this.con = Conexion.getConexion();
     }
 
     /**
-     * Da de alta un nuevo empleado en la base de datos.
+     * Da de alta un nuevo empleado en la base de datos. 
      * Mapea 0 o valores negativos de matricula a NULL en la BD.
      */
     public void altaEmpleado(Empleado empleado) {
         String sql = "INSERT INTO empleado (dni, nombre, apellido, telefono, fechaNacimiento, puesto, matricula, especialidad, estado) "
-                   + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try {
             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            
+
             ps.setInt(1, empleado.getDni());
             ps.setString(2, empleado.getNombre());
             ps.setString(3, empleado.getApellido());
             ps.setString(4, empleado.getTelefono());
-            
+
             //Mapeo de LocalDate a Date
             LocalDate fechaNac = empleado.getFechaNacimiento();
             ps.setDate(5, Date.valueOf(fechaNac));
-            
+
             ps.setString(6, empleado.getPuesto());
-            
+
             //Si la matrícula es 0 o negativa, se inserta NULL (o se ajusta si la BD no acepta NULL, pero 0 suele ser aceptable si el campo es INT)
-            int matricula = empleado.getMatricula();
-            if (matricula > 0) {
-                ps.setInt(7, matricula); //matricula
+            String matricula = empleado.getMatricula();
+            if (matricula != null && !matricula.isEmpty()) {
+                ps.setString(7, matricula); //matricula
             } else {
-                ps.setNull(7, java.sql.Types.INTEGER); //Para permitir NULL en la BD si la matrícula es 0 o no se aplica
+                ps.setNull(7, java.sql.Types.VARCHAR); //Para permitir NULL en la BD 
             }
-            
+
             ps.setString(8, empleado.getEspecialidad());
             ps.setBoolean(9, empleado.isEstado());
 
@@ -63,41 +60,103 @@ public class EmpleadoData {
                 empleado.setIdEmpleado(rs.getInt(1));
             }
             ps.close();
-            
+
             JOptionPane.showMessageDialog(null, "Empleado dado de alta con éxito.");
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al guardar Empleado: " + ex.getMessage());
         }
     }
 
-    /**
-     * Modifica los datos de un empleado existente.
-     */
+    public List<String> obtenerEspecialidades() {
+        List<String> especialidades = new ArrayList<>();
+        String sql = "SELECT DISTINCT especialidad FROM empleado WHERE especialidad IS NOT NULL AND especialidad <> ''";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                //Asegúrate de que no haya duplicados si el DISTINCT no funcionó por algún motivo de la BD
+                if (!especialidades.contains(rs.getString("especialidad"))) {
+                    especialidades.add(rs.getString("especialidad"));
+                }
+            }
+            ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al obtener especialidades: " + ex.getMessage());
+        }
+        return especialidades;
+    }
+
+    //metod listar empleados con filtro de estado y especialidad
+    public List<Empleado> listarEmpleados(boolean estado, String especialidad) {
+        List<Empleado> empleados = new ArrayList<>();
+        String sql = "SELECT idEmpleado, dni, puesto, apellido, nombre, telefono, fechaNacimiento, matricula, especialidad, estado "
+                + "FROM empleado WHERE estado = ?";
+
+        //Si la especialidad no es "Todas" añade la condición de filtro
+        if (especialidad != null && !especialidad.equalsIgnoreCase("Todas") && !especialidad.isEmpty()) {
+            sql += " AND especialidad = ?";
+        }
+
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            int index = 1;
+            ps.setBoolean(index++, estado);
+
+            if (especialidad != null && !especialidad.equalsIgnoreCase("Todas") && !especialidad.isEmpty()) {
+                ps.setString(index, especialidad);
+            }
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Empleado empleado = new Empleado();
+                empleado.setIdEmpleado(rs.getInt("idEmpleado"));
+                empleado.setDni(rs.getInt("dni"));
+                empleado.setPuesto(rs.getString("puesto"));
+                empleado.setApellido(rs.getString("apellido"));
+                empleado.setNombre(rs.getString("nombre"));
+                empleado.setTelefono(rs.getString("telefono"));
+
+                Date date = rs.getDate("fechaNacimiento");
+                LocalDate fechaNacimiento = date == null ? null : date.toLocalDate();
+                empleado.setFechaNacimiento(fechaNacimiento);
+
+                empleado.setMatricula(rs.getString("matricula"));
+                empleado.setEspecialidad(rs.getString("especialidad"));
+                empleado.setEstado(rs.getBoolean("estado"));
+
+                empleados.add(empleado);
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al listar empleados: " + ex.getMessage());
+        }
+        return empleados;
+    }
+
     public void modificarEmpleado(Empleado empleado) {
         String sql = "UPDATE empleado SET dni=?, nombre=?, apellido=?, telefono=?, fechaNacimiento=?, puesto=?, matricula=?, especialidad=?, estado=? "
-                   + "WHERE idEmpleado = ?";
+                + "WHERE idEmpleado = ?";
 
         try {
             PreparedStatement ps = con.prepareStatement(sql);
-            
+
             ps.setInt(1, empleado.getDni());
             ps.setString(2, empleado.getNombre());
             ps.setString(3, empleado.getApellido());
             ps.setString(4, empleado.getTelefono());
-            
+
             //Mapeo de LocalDate a Date
             LocalDate fechaNac = empleado.getFechaNacimiento();
             ps.setDate(5, Date.valueOf(fechaNac));
-            
+
             ps.setString(6, empleado.getPuesto());
-            
-            int matricula = empleado.getMatricula();
-            if (matricula > 0) {
-                ps.setInt(7, matricula);
+
+            String matricula = empleado.getMatricula();
+            if (matricula != null && !matricula.isEmpty()) {
+                ps.setString(7, matricula);
             } else {
-                ps.setNull(7, java.sql.Types.INTEGER);
+                ps.setNull(7, java.sql.Types.VARCHAR);
             }
-            
+
             ps.setString(8, empleado.getEspecialidad());
             ps.setBoolean(9, empleado.isEstado());
             ps.setInt(10, empleado.getIdEmpleado()); //ID para la condición WHERE
@@ -116,13 +175,10 @@ public class EmpleadoData {
         }
     }
 
-    /**
-     * Busca un empleado activo por DNI.
-     */
     public Empleado buscarEmpleadoPorDni(int dni) {
         Empleado empleado = null;
         String sql = "SELECT idEmpleado, dni, nombre, apellido, telefono, fechaNacimiento, puesto, matricula, especialidad, estado FROM empleado WHERE dni = ?";
-        
+
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, dni);
@@ -136,12 +192,7 @@ public class EmpleadoData {
                 Date fechaNacimientoSql = rs.getDate("fechaNacimiento");
                 LocalDate fechaNacimiento = fechaNacimientoSql.toLocalDate();
                 String puesto = rs.getString("puesto");
-                
-                //La matricula puede ser null en la bd, asi que ecesitamos manejarlo
-                int matricula = rs.getInt("matricula"); 
-                if (rs.wasNull()) {
-                    matricula = 0; //usamos 0 o -1 en el modelo si es null en bd
-                }
+                String matricula = rs.getString("matricula");
                 String especialidad = rs.getString("especialidad");
                 boolean estado = rs.getBoolean("estado");
 
@@ -155,6 +206,38 @@ public class EmpleadoData {
         return empleado;
     }
     
+    public Empleado buscarEmpleadoPorId(int idEmpleado) {
+    Empleado empleado = null;
+    String sql = "SELECT idEmpleado, dni, nombre, apellido, telefono, fechaNacimiento, puesto, matricula, especialidad, estado FROM empleado WHERE idEmpleado = ?";
+
+    try {
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setInt(1, idEmpleado);
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            int id = rs.getInt("idEmpleado");
+            int dni = rs.getInt("dni");
+            String nombre = rs.getString("nombre");
+            String apellido = rs.getString("apellido");
+            String telefono = rs.getString("telefono");
+            Date fechaNacimientoSql = rs.getDate("fechaNacimiento");
+            LocalDate fechaNacimiento = fechaNacimientoSql.toLocalDate();
+            String puesto = rs.getString("puesto");
+            String matricula = rs.getString("matricula");
+            String especialidad = rs.getString("especialidad");
+            boolean estado = rs.getBoolean("estado");
+
+            empleado = new Empleado(id, dni, puesto, apellido, nombre, telefono, fechaNacimiento, matricula, especialidad, estado);
+        }
+        ps.close();
+
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(null, "Error al buscar empleado por ID: " + ex.getMessage());
+    }
+    return empleado;
+}
+
     // Realiza una baja lógica (estado = 0) por ID.
     public void eliminarEmpleadoPorId(int id) {
         String sql = "UPDATE empleado SET estado = 0 WHERE idEmpleado = ?";
@@ -190,6 +273,23 @@ public class EmpleadoData {
             JOptionPane.showMessageDialog(null, "Error al borrar empleado: " + ex.getMessage());
         }
     }
+public void cambiarEstadoEmpleado(int id, boolean nuevoEstado) {
+        String sql = "UPDATE empleado SET estado = ? WHERE idEmpleado = ?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setBoolean(1, nuevoEstado);
+            ps.setInt(2, id);
+            int filasAfectadas = ps.executeUpdate();
 
-    // Se recomienda agregar métodos para listar todos, listar activos, etc., para completar el DAO.
+            if (filasAfectadas > 0) {
+                String mensaje = nuevoEstado ? "alta" : "baja";
+                JOptionPane.showMessageDialog(null, "Se dio de " + mensaje + " al empleado correctamente.");
+            } else {
+                JOptionPane.showMessageDialog(null, "No se encontró el empleado.");
+            }
+            ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al cambiar estado: " + ex.getMessage());
+        }
+    }
 }

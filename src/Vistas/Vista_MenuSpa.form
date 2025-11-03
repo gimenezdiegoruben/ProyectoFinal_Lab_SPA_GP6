@@ -129,7 +129,7 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <Component id="JPanelFondo" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="0" pref="16" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -158,9 +158,8 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <Component id="JPanelBotones" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   <Component id="JDesktopPFondo" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -185,7 +184,7 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="1148" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="1189" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
@@ -215,7 +214,6 @@
                           <Component id="jButtonInstalaciones" alignment="0" max="32767" attributes="0"/>
                           <Component id="jButtonTratamientos" alignment="0" max="32767" attributes="0"/>
                           <Component id="jButtonEmpleados" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jButtonProfesionales" alignment="0" max="32767" attributes="0"/>
                           <Component id="jButtonClientes" alignment="0" max="32767" attributes="0"/>
                           <Component id="jButtonBusquedas" alignment="0" pref="151" max="32767" attributes="0"/>
                           <Component id="jButtonTurnos" alignment="0" max="32767" attributes="0"/>
@@ -235,8 +233,6 @@
                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                       <Component id="jButtonClientes" min="-2" pref="65" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                      <Component id="jButtonProfesionales" min="-2" pref="65" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                       <Component id="jButtonEmpleados" min="-2" pref="65" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                       <Component id="jButtonTratamientos" min="-2" pref="65" max="-2" attributes="0"/>
@@ -246,9 +242,9 @@
                       <Component id="jButtonConsultorios" min="-2" pref="65" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                       <Component id="jButtonTienda" min="-2" pref="65" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                      <Component id="jButtonSalir" pref="63" max="32767" attributes="0"/>
-                      <EmptySpace min="0" pref="3" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="67" max="-2" attributes="0"/>
+                      <Component id="jButtonSalir" pref="61" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -283,15 +279,6 @@
             <Component class="javax.swing.JButton" name="jButtonEmpleados">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Empleados"/>
-                <Property name="horizontalAlignment" type="int" value="2"/>
-              </Properties>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
-              </AuxValues>
-            </Component>
-            <Component class="javax.swing.JButton" name="jButtonProfesionales">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Profesionales"/>
                 <Property name="horizontalAlignment" type="int" value="2"/>
               </Properties>
               <AuxValues>
