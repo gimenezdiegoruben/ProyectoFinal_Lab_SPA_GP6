@@ -27,15 +27,15 @@ import javax.swing.event.ListSelectionListener;
     Urbani Jose
  */
 public class ControladorCliente implements ActionListener, FocusListener, KeyListener, ListSelectionListener {
-    
+
     private final VistaCliente vista;
     private final ClienteData data;
     private final Vista_MenuSpa menu;
-    
+
     private boolean buscar = false;
     private boolean seleccion = false;
     private long dniOriginal;
-    
+
     public ControladorCliente(VistaCliente vista, ClienteData data, Vista_MenuSpa menu) {
         this.vista = vista;
         this.data = data;
@@ -47,14 +47,18 @@ public class ControladorCliente implements ActionListener, FocusListener, KeyLis
         vista.jbtNuevo.addActionListener(this);
         vista.jtxDNI.addKeyListener(this);
         vista.jlClientes.addListSelectionListener(this);
+        vista.jtxDNI.addKeyListener(this);
+        vista.jtxNombre.addKeyListener(this);
+        vista.jtxTelefono.addKeyListener(this);
+        vista.jtxaAfecciones.addKeyListener(this);
     }
-    
+
     public void iniciar() {
         menu.JDesktopPFondo.add(vista);
         vista.setVisible(true);
         menu.JDesktopPFondo.moveToFront(vista);
         vista.requestFocus();
-        
+
         desactivarCampos();
         vista.jbtGuardar.setEnabled(false);
         vista.jbtEliminar.setEnabled(false);
@@ -62,14 +66,14 @@ public class ControladorCliente implements ActionListener, FocusListener, KeyLis
         vista.jlClientes.setModel(new DefaultListModel<>());
         cargarLista();
     }
-    
+
     @Override
     public void actionPerformed(java.awt.event.ActionEvent e) {
-        
+
         if (e.getSource() == vista.jbtSalir) {
             vista.dispose();
         }
-        
+
         if (e.getSource() == vista.jbtEliminar) {
             try {
                 int dni = Integer.parseInt(vista.jtxDNI.getText().trim());
@@ -86,12 +90,13 @@ public class ControladorCliente implements ActionListener, FocusListener, KeyLis
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(null, "Ingrese un DNI válido", "Error", JOptionPane.ERROR_MESSAGE);
             }
-            vista.jlClientes.setModel(new DefaultListModel<>());
+            cargarLista();
         }
-        
+
         if (e.getSource() == vista.jbtGuardar) {
             boolean activo = vista.jcheckbEstado.isSelected();
             boolean repetido = false;
+            boolean guardadoExitoso = false;
             if (vista.jtxDNI.getText().trim().isEmpty() || vista.jtxNombre.getText().trim().isEmpty() || vista.jtxTelefono.getText().trim().isEmpty() || vista.jdcFechaNac.getDate() == null || vista.jtxaAfecciones.getText().trim().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Debe llenar todos los campos!!", "Error", JOptionPane.ERROR_MESSAGE);
             } else {
@@ -104,15 +109,19 @@ public class ControladorCliente implements ActionListener, FocusListener, KeyLis
                         java.util.Date nac = vista.jdcFechaNac.getDate();
                         Instant instant = nac.toInstant();
                         LocalDate fecha = instant.atZone(ZoneId.systemDefault()).toLocalDate();
-                        Cliente c1 = new Cliente(Long.parseLong(vista.jtxDNI.getText().trim()), vista.jtxNombre.getText().trim(), Long.parseLong(vista.jtxTelefono.getText().trim()), edad, vista.jtxaAfecciones.getText().trim(), vista.jcheckbEstado.isSelected(), fecha);
-                        Cliente c2 = data.buscarPorDni(dniOriginal);
-                        c1.setCodCli(c2.getCodCli());
-                        data.modificarCliente(c1);
-                        JOptionPane.showMessageDialog(null, "El cliente " + c2.getNombre() + " / DNI: " + c2.getDni() + " Teléfono: " + c2.getTelefono() + " Edad: " + c2.getEdad() + " Afecciones: " + c2.getAfecciones() + " Estado: " + (c2.isEstado() ? "Activo" : "Inactivo")
-                                + " ha sido modificado a: " + c1.getNombre() + " / DNI: " + c1.getDni() + " Teléfono: " + c1.getTelefono() + " Edad: " + c1.getEdad() + " Afecciones: " + c1.getAfecciones() + " Estado: " + (c1.isEstado() ? "Activo" : "Inactivo"));
-                        limpiarCampos();
-                        buscar = false;
-                        vista.jbtEliminar.setEnabled(false);
+                        if (vista.jtxDNI.getText().trim().length() < 8) {
+                            JOptionPane.showMessageDialog(null, "Ingrese un DNI correcto", "Error", JOptionPane.ERROR_MESSAGE);
+                        } else {
+                            Cliente c1 = new Cliente(Long.parseLong(vista.jtxDNI.getText().trim()), vista.jtxNombre.getText().trim(), Long.parseLong(vista.jtxTelefono.getText().trim()), edad, vista.jtxaAfecciones.getText().trim(), vista.jcheckbEstado.isSelected(), fecha);
+                            Cliente c2 = data.buscarPorDni(dniOriginal);
+                            c1.setCodCli(c2.getCodCli());
+                            data.modificarCliente(c1);
+                            JOptionPane.showMessageDialog(null, "El cliente " + c2.getNombre() + " / DNI: " + c2.getDni() + " Teléfono: " + c2.getTelefono() + " Edad: " + c2.getEdad() + " Afecciones: " + c2.getAfecciones() + " Estado: " + (c2.isEstado() ? "Activo" : "Inactivo")
+                                    + " ha sido modificado a: " + c1.getNombre() + " / DNI: " + c1.getDni() + " Teléfono: " + c1.getTelefono() + " Edad: " + c1.getEdad() + " Afecciones: " + c1.getAfecciones() + " Estado: " + (c1.isEstado() ? "Activo" : "Inactivo"));
+                            limpiarCampos();
+                            buscar = false;
+                            vista.jbtEliminar.setEnabled(false);
+                        }
                     } else {
                         Date fechaNacimiento = vista.jdcFechaNac.getCalendar().getTime();
                         LocalDate nacimiento = fechaNacimiento.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
@@ -121,57 +130,92 @@ public class ControladorCliente implements ActionListener, FocusListener, KeyLis
                         java.util.Date nac = vista.jdcFechaNac.getDate();
                         Instant instant = nac.toInstant();
                         LocalDate fecha = instant.atZone(ZoneId.systemDefault()).toLocalDate();
-                        Cliente c1 = new Cliente(Long.parseLong(vista.jtxDNI.getText().trim()), vista.jtxNombre.getText().trim(), Long.parseLong(vista.jtxTelefono.getText().trim()), edad, vista.jtxaAfecciones.getText().trim(), vista.jcheckbEstado.isSelected(), fecha);
-                        List<Cliente> listaClientes = data.listarClientes();
-                        for (Cliente aux : listaClientes) {
-                            if (aux.getNombre().equals(c1.getNombre()) && aux.getTelefono() == c1.getTelefono() && aux.getEdad() == c1.getEdad() && aux.getAfecciones().equals(c1.getAfecciones())) {
-                                JOptionPane.showMessageDialog(null, "El cliente que intentas guardar ya ha sido guardado", "Cliente repetido", JOptionPane.ERROR_MESSAGE);
+                        if (vista.jtxDNI.getText().trim().length() < 8) {
+                            JOptionPane.showMessageDialog(null, "Ingrese un DNI correcto", "Error", JOptionPane.ERROR_MESSAGE);
+                        } else {
+                            Cliente c1 = new Cliente(Long.parseLong(vista.jtxDNI.getText().trim()), vista.jtxNombre.getText().trim(), Long.parseLong(vista.jtxTelefono.getText().trim()), edad, vista.jtxaAfecciones.getText().trim(), vista.jcheckbEstado.isSelected(), fecha);
+                            List<Cliente> listaClientes = data.listarClientes();
+                            for (Cliente aux : listaClientes) {
+                                if (aux.getNombre().equals(c1.getNombre()) && aux.getTelefono() == c1.getTelefono() && aux.getEdad() == c1.getEdad() && aux.getAfecciones().equals(c1.getAfecciones())) {
+                                    JOptionPane.showMessageDialog(null, "El cliente que intentas guardar ya ha sido guardado", "Cliente repetido", JOptionPane.ERROR_MESSAGE);
+                                    limpiarCampos();
+                                    vista.jbtEliminar.setEnabled(false);
+                                    repetido = true;
+                                }
+                            }
+                            if (!repetido) {
+                                data.guardarCliente(c1);
+                                JOptionPane.showMessageDialog(null, "Cliente " + c1.getNombre() + "añadido exitosamente.", "Válido", JOptionPane.INFORMATION_MESSAGE);
                                 limpiarCampos();
                                 vista.jbtEliminar.setEnabled(false);
-                                repetido = true;
+                                guardadoExitoso = true;
                             }
-                        }
-                        if (!repetido) {
-                            data.guardarCliente(c1);
-                            JOptionPane.showMessageDialog(null, "Cliente " + c1.getNombre() + "añadido exitosamente.", "Válido", JOptionPane.INFORMATION_MESSAGE);
-                            limpiarCampos();
-                            vista.jbtEliminar.setEnabled(false);
                         }
                     }
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(null, "Debe ingresar un número en el campo DNI y Teléfono!", "Error", JOptionPane.ERROR_MESSAGE);
                 }
-                desactivarCampos();
-                vista.jtxDNI.setEnabled(true);
-                vista.jlClientes.setModel(new DefaultListModel<>());
+
+                if (guardadoExitoso) {
+                    desactivarCampos();
+                    vista.jtxDNI.setEnabled(true);
+                    cargarLista();
+                }
             }
-            vista.jlClientes.setModel(new DefaultListModel<>());
+            cargarLista();
         }
-        
+
         if (e.getSource() == vista.jbtNuevo) {
+            buscar = false;
             activarCampos();
             limpiarCampos();
             vista.jbtGuardar.setEnabled(true);
             vista.jlClientes.setModel(new DefaultListModel<>());
         }
     }
-    
+
     @Override
     public void focusGained(FocusEvent fe) {
     }
-    
+
     @Override
     public void focusLost(FocusEvent fe) {
     }
-    
+
     @Override
-    public void keyTyped(KeyEvent ke) {
+    public void keyTyped(KeyEvent e) {
+        if (e.getSource() == vista.jtxDNI) {
+            char caracter = e.getKeyChar();
+            if ((caracter < '0' || caracter > '9' && caracter != '\b')) {
+                e.consume();
+            }
+            if (vista.jtxDNI.getText().length() >= 8 && caracter != '\b') {
+                e.consume();
+            }
+        }
+
+        if (e.getSource() == vista.jtxNombre) {
+            char caracter = e.getKeyChar();
+            if (!Character.isLetter(caracter) && caracter != ' ' && caracter != '\b') {
+                e.consume();
+            }
+        }
+
+        if (e.getSource() == vista.jtxTelefono) {
+            char caracter = e.getKeyChar();
+            if ((caracter < '0' || caracter > '9' && caracter != '\b')) {
+                e.consume();
+            }
+            if (vista.jtxTelefono.getText().length() >= 10 && vista.jtxTelefono.getText().length() <= 16 && caracter != '\b') {
+                e.consume();
+            }
+        }
     }
-    
+
     @Override
     public void keyPressed(KeyEvent ke) {
     }
-    
+
     @Override
     public void keyReleased(KeyEvent e) {
         if (e.getSource() == vista.jtxDNI) {
@@ -187,7 +231,7 @@ public class ControladorCliente implements ActionListener, FocusListener, KeyLis
             vista.jlClientes.setModel(modelo);
         }
     }
-    
+
     @Override
     public void valueChanged(ListSelectionEvent lse) {
         if (!lse.getValueIsAdjusting()) {
@@ -219,7 +263,7 @@ public class ControladorCliente implements ActionListener, FocusListener, KeyLis
             }
         }
     }
-    
+
     public void limpiarCampos() {
         vista.jtxDNI.setText("");
         vista.jtxNombre.setText("");
@@ -227,7 +271,7 @@ public class ControladorCliente implements ActionListener, FocusListener, KeyLis
         vista.jdcFechaNac.setDate(null);
         vista.jtxaAfecciones.setText("");
     }
-    
+
     public void activarCampos() {
         vista.jtxDNI.setEnabled(true);
         vista.jtxNombre.setEnabled(true);
@@ -235,7 +279,7 @@ public class ControladorCliente implements ActionListener, FocusListener, KeyLis
         vista.jdcFechaNac.setEnabled(true);
         vista.jtxaAfecciones.setEnabled(true);
     }
-    
+
     public void desactivarCampos() {
         vista.jtxDNI.setEnabled(false);
         vista.jtxNombre.setEnabled(false);
@@ -243,15 +287,15 @@ public class ControladorCliente implements ActionListener, FocusListener, KeyLis
         vista.jdcFechaNac.setEnabled(false);
         vista.jtxaAfecciones.setEnabled(false);
     }
-    
-    public void cargarLista() { 
+
+    public void cargarLista() {
         DefaultListModel<String> modelo = new DefaultListModel<>();
         List<Cliente> clientes = data.listarClientes();
-        
+
         for (Cliente aux : clientes) {
-           modelo.addElement(aux.getNombre() + " / " + aux.getDni()); 
+            modelo.addElement(aux.getNombre() + " / " + aux.getDni());
         }
-        
+
         vista.jlClientes.setModel(modelo);
     }
 }

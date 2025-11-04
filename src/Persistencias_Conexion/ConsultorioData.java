@@ -25,16 +25,17 @@ public class ConsultorioData {
 
     public void nuevoConsultorio(Consultorio consultorio) {
 
-        String sql = "INSERT INTO consultorio (usos, equipamiento, apto) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO consultorio (nroConsultorio, usos, equipamiento, apto) VALUES (?, ?, ?, ?)";
         PreparedStatement ps = null;
         con = Conexion.getConexion();
 
         try {
 
             ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setInt(1, consultorio.getUsos());
-            ps.setString(2, consultorio.getEquipamiento());
-            ps.setString(3, consultorio.getApto());
+            ps.setInt(1, consultorio.getNroConsultorio());
+            ps.setInt(2, consultorio.getUsos());
+            ps.setString(3, consultorio.getEquipamiento());
+            ps.setString(4, consultorio.getApto());
 
             int filasAfectadas = ps.executeUpdate();
             if (filasAfectadas > 0) {
@@ -59,17 +60,18 @@ public class ConsultorioData {
 
     public void modificarConsultorio(Consultorio consultorio) {
 
-        String sql = "UPDATE consultorio SET usos = ?, equipamiento = ?, apto = ? WHERE nroConsultorio = ?";
+        String sql = "UPDATE consultorio SET nroConsultorio = ? usos = ?, equipamiento = ?, apto = ? WHERE nroConsultorio = ?";
         PreparedStatement ps = null;
         con = Conexion.getConexion();
 
         try {
 
             ps = con.prepareStatement(sql);
-            ps.setInt(1, consultorio.getUsos());
-            ps.setString(2, consultorio.getEquipamiento());
-            ps.setString(3, consultorio.getApto());
-            ps.setInt(4, consultorio.getNroConsultorio());
+            ps.setInt(1, consultorio.getNroConsultorio());
+            ps.setInt(2, consultorio.getUsos());
+            ps.setString(3, consultorio.getEquipamiento());
+            ps.setString(4, consultorio.getApto());
+            ps.setInt(5, consultorio.getNroConsultorio());
 
             int exito = ps.executeUpdate();
             if (exito == 1) {

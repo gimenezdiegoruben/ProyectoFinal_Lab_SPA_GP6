@@ -9,7 +9,7 @@ package Modelos;
 
 public class Consultorio {
     
-    private int nroConsultorio = -1;
+    private int nroConsultorio;
     private int usos;
     private String equipamiento;
     private String apto;
@@ -17,7 +17,8 @@ public class Consultorio {
     public Consultorio() {
     }
 
-    public Consultorio(int usos, String equipamiento, String apto) {
+    public Consultorio(int nroConsultorio, int usos, String equipamiento, String apto) {
+        this.nroConsultorio = nroConsultorio;
         this.usos = usos;
         this.equipamiento = equipamiento;
         this.apto = apto;
