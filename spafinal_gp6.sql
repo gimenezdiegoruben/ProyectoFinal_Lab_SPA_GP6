@@ -64,7 +64,6 @@ CREATE TABLE `dia_de_spa` (
   `fechayhoraCompra` datetime NOT NULL,
   `preferencias` varchar(60) NOT NULL,
   `codCli` int(11) NOT NULL,
-  `sesiones` int(11) DEFAULT NULL,
   `monto` double NOT NULL,
   `estado` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -83,7 +82,7 @@ CREATE TABLE `empleado` (
   `telefono` varchar(20) DEFAULT NULL,
   `fechaNacimiento` date NOT NULL,
   `puesto` varchar(40) NOT NULL,
-  `matricula` int(11) DEFAULT NULL,
+  `matricula` varchar(20) DEFAULT NULL,
   `especialidad` varchar(60) DEFAULT NULL,
   `estado` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -114,7 +113,7 @@ CREATE TABLE `sesion` (
   `fechaHoraFinal` datetime NOT NULL,
   `codTratam` int(11) NOT NULL,
   `nroConsultorio` int(11) NOT NULL,
-  `idMasajista` int(11) NOT NULL,
+  `matriculaMasajista` varchar(20) NOT NULL,
   `idRegistrador` int(11) NOT NULL,
   `codInstal` int(11) NOT NULL,
   `codPack` int(11) NOT NULL,
@@ -183,7 +182,7 @@ ALTER TABLE `sesion`
   ADD PRIMARY KEY (`codSesion`),
   ADD KEY `fk_codTratam` (`codTratam`),
   ADD KEY `fk_nroConsultorio` (`nroConsultorio`),
-  ADD KEY `fk_idMasajista` (`idMasajista`),
+  ADD KEY `fk_matriculaMasajista` (`matriculaMasajista`),
   ADD KEY `fk_idRegistrador` (`idRegistrador`),
   ADD KEY `fk_codInstal` (`codInstal`),
   ADD KEY `fk_codPack` (`codPack`);
@@ -203,12 +202,6 @@ ALTER TABLE `tratamiento`
 --
 ALTER TABLE `cliente`
   MODIFY `codCli` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
-
---
--- AUTO_INCREMENT de la tabla `consultorio`
---
-ALTER TABLE `consultorio`
-  MODIFY `nroConsultorio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `dia_de_spa`
@@ -257,8 +250,8 @@ ALTER TABLE `sesion`
   ADD CONSTRAINT `fk_codInstal` FOREIGN KEY (`codInstal`) REFERENCES `instalacion` (`codInstal`),
   ADD CONSTRAINT `fk_codPack` FOREIGN KEY (`codPack`) REFERENCES `dia_de_spa` (`codPack`),
   ADD CONSTRAINT `fk_codTratam` FOREIGN KEY (`codTratam`) REFERENCES `tratamiento` (`codTratam`),
-  ADD CONSTRAINT `fk_idMasajista` FOREIGN KEY (`idMasajista`) REFERENCES `empleado` (`idEmpleado`),
   ADD CONSTRAINT `fk_idRegistrador` FOREIGN KEY (`idRegistrador`) REFERENCES `empleado` (`idEmpleado`),
+  ADD CONSTRAINT `fk_matriculaMasajista` FOREIGN KEY (`matriculaMasajista`) REFERENCES `empleado` (`matricula`),
   ADD CONSTRAINT `fk_nroConsultorio` FOREIGN KEY (`nroConsultorio`) REFERENCES `consultorio` (`nroConsultorio`);
 COMMIT;
 

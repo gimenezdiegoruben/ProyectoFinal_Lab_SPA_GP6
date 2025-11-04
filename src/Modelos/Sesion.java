@@ -1,37 +1,51 @@
 package Modelos;
 
-import java.time.*;
-import java.util.List;
-
-/*  @author Grupo 6 
-    Gimenez Diego Ruben
-    Carlos German Mecias Giacomelli
-    Tomas Migliozzi Badani
-    Urbani Jose
- */
+import java.time.LocalDateTime;
 
 public class Sesion {
-    private int codSesion = -1;
-    private LocalDateTime fechaHoraInicio;
-    private LocalDateTime fechaHoraFinal;
-    private Tratamiento tratamiento;
+
+   private int codSesion;
+    private Empleado masajista;      //lo/la Identificamos por matrícula
+    private Empleado registrador;    //identif por id
     private Consultorio consultorio;
-    private Masajista masajista;
-    private List<Instalacion> instalaciones;
-    private DiaDeSpa diaDeSpa;
+    private Tratamiento tratamiento; 
+    private Instalacion instalacion;
+    private LocalDateTime fechaHoraInicio; 
+    private LocalDateTime fechaHoraFinal;
+    private int codPack;
     private boolean estado;
 
     public Sesion() {
     }
 
-    public Sesion(LocalDateTime fechaHoraInicio, LocalDateTime fechaHoraFinal, Tratamiento tratamiento, Consultorio consultorio, Masajista masajista, List<Instalacion> instalaciones, DiaDeSpa diaDeSpa, boolean estado) {
+    //Contr p crear nuevas sesiones sin codSesion
+    public Sesion(Empleado masajista, Empleado registrador, Consultorio consultorio, 
+                  Tratamiento tratamiento, Instalacion instalacion, 
+                  LocalDateTime fechaHoraInicio, LocalDateTime fechaHoraFinal, int codPack) {
+        this.masajista = masajista;
+        this.registrador = registrador;
+        this.consultorio = consultorio;
+        this.tratamiento = tratamiento;
+        this.instalacion = instalacion;
         this.fechaHoraInicio = fechaHoraInicio;
         this.fechaHoraFinal = fechaHoraFinal;
-        this.tratamiento = tratamiento;
-        this.consultorio = consultorio;
+        this.codPack = codPack;
+        this.estado = true; //sesión activa x def
+    }
+
+    //Constructor completo 
+    public Sesion(int codSesion, Empleado masajista, Empleado registrador, 
+                  Consultorio consultorio, Tratamiento tratamiento, Instalacion instalacion, 
+                  LocalDateTime fechaHoraInicio, LocalDateTime fechaHoraFinal, int codPack, boolean estado) {
+        this.codSesion = codSesion;
         this.masajista = masajista;
-        this.instalaciones = instalaciones;
-        this.diaDeSpa = diaDeSpa;
+        this.registrador = registrador;
+        this.consultorio = consultorio;
+        this.tratamiento = tratamiento;
+        this.instalacion = instalacion;
+        this.fechaHoraInicio = fechaHoraInicio;
+        this.fechaHoraFinal = fechaHoraFinal;
+        this.codPack = codPack;
         this.estado = estado;
     }
 
@@ -41,6 +55,46 @@ public class Sesion {
 
     public void setCodSesion(int codSesion) {
         this.codSesion = codSesion;
+    }
+
+    public Empleado getMasajista() {
+        return masajista;
+    }
+
+    public void setMasajista(Empleado masajista) {
+        this.masajista = masajista;
+    }
+
+    public Empleado getRegistrador() {
+        return registrador;
+    }
+
+    public void setRegistrador(Empleado registrador) {
+        this.registrador = registrador;
+    }
+
+    public Consultorio getConsultorio() {
+        return consultorio;
+    }
+
+    public void setConsultorio(Consultorio consultorio) {
+        this.consultorio = consultorio;
+    }
+
+    public Tratamiento getTratamiento() {
+        return tratamiento;
+    }
+
+    public void setTratamiento(Tratamiento tratamiento) {
+        this.tratamiento = tratamiento;
+    }
+
+    public Instalacion getInstalacion() {
+        return instalacion;
+    }
+
+    public void setInstalacion(Instalacion instalacion) {
+        this.instalacion = instalacion;
     }
 
     public LocalDateTime getFechaHoraInicio() {
@@ -59,44 +113,12 @@ public class Sesion {
         this.fechaHoraFinal = fechaHoraFinal;
     }
 
-    public Tratamiento getTratamiento() {
-        return tratamiento;
+    public int getCodPack() {
+        return codPack;
     }
 
-    public void setTratamiento(Tratamiento tratamiento) {
-        this.tratamiento = tratamiento;
-    }
-
-    public Consultorio getConsultorio() {
-        return consultorio;
-    }
-
-    public void setConsultorio(Consultorio consultorio) {
-        this.consultorio = consultorio;
-    }
-
-    public Masajista getMasajista() {
-        return masajista;
-    }
-
-    public void setMasajista(Masajista masajista) {
-        this.masajista = masajista;
-    }
-
-    public List<Instalacion> getInstalaciones() {
-        return instalaciones;
-    }
-
-    public void setInstalaciones(List<Instalacion> instalaciones) {
-        this.instalaciones = instalaciones;
-    }
-    
-    public DiaDeSpa getCodPack() {
-        return diaDeSpa;
-    }
-
-    public void setCodPack(DiaDeSpa diaDeSpa) {
-        this.diaDeSpa = diaDeSpa;
+    public void setCodPack(int codPack) {
+        this.codPack = codPack;
     }
 
     public boolean getEstado() {
@@ -107,11 +129,52 @@ public class Sesion {
         this.estado = estado;
     }
 
-    @Override
-    public String toString() {
-        return "Sesion{" + "codSesion=" + codSesion + ", fechaHoraInicio=" + fechaHoraInicio + ", fechaHoraFinal=" + fechaHoraFinal + ", tratamiento=" + tratamiento + ", consultorio=" + consultorio + ", masajista=" + masajista + ", instalaciones=" + instalaciones + ", diaDeSpa=" + diaDeSpa + ", estado=" + estado + '}';
+    public boolean isActiva() {
+        return estado;
     }
 
+    public void anular() {
+        this.estado = false;
+    }
 
-    
+    //Mét para calcular la duración en minutos
+    public long getDuracionMinutos() {
+        if (fechaHoraInicio != null && fechaHoraFinal != null) {
+            return java.time.Duration.between(fechaHoraInicio, fechaHoraFinal).toMinutes();
+        }
+        return 0;
+    }
+
+    @Override
+    public String toString() {
+        String masajistaInfo = (masajista != null) ? 
+            masajista.getNombre() + " " + masajista.getApellido() + " (" + masajista.getMatricula() + ")" : 
+            "No asignado";
+        
+        String tratamientoInfo = (tratamiento != null) ? 
+            tratamiento.getNombre() : "No asignado";
+        
+        return "Sesión #" + codSesion + 
+               " - " + tratamientoInfo +
+               " - Masajista: " + masajistaInfo +
+               " - " + fechaHoraInicio.toLocalDate() +
+               " " + fechaHoraInicio.toLocalTime() +
+               (estado ? " (Activa)" : " (Anulada)");
+    }
+
+    //Met p información detallada
+    public String toDetailedString() {
+        return "Sesion{" +
+               "codSesion=" + codSesion +
+               ", masajista=" + (masajista != null ? masajista.getNombre() + " " + masajista.getApellido() : "N/A") +
+               ", registrador=" + (registrador != null ? registrador.getNombre() + " " + registrador.getApellido() : "N/A") +
+               ", consultorio=" + (consultorio != null ? consultorio.getNroConsultorio() : "N/A") +
+               ", tratamiento=" + (tratamiento != null ? tratamiento.getNombre() : "N/A") +
+               ", instalacion=" + (instalacion != null ? instalacion.getNombre() : "N/A") +
+               ", fechaHoraInicio=" + fechaHoraInicio +
+               ", fechaHoraFinal=" + fechaHoraFinal +
+               ", codPack=" + codPack +
+               ", estado=" + estado +
+               '}';
+    }
 }

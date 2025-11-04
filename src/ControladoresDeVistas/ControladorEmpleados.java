@@ -300,45 +300,45 @@ public class ControladorEmpleados implements ActionListener, KeyListener {
                 vista.jbtEliminar.setEnabled(true);
                 JOptionPane.showMessageDialog(vista, "Empleado encontrado. Listo para modificar.");
             } else {
-            // Empleado no encontrado
-            this.idEmpleado = -1; // Marcar como nuevo registro potencial
+                // Empleado no encontrado
+                this.idEmpleado = -1; // Marcar como nuevo registro potencial
 
-            int opcion = JOptionPane.showConfirmDialog(
-                    vista,
-                    "¿Desea agregarlo como nuevo empleado?",
-                    "Empleado No Encontrado",
-                    JOptionPane.YES_NO_OPTION
-            );
+                int opcion = JOptionPane.showConfirmDialog(
+                        vista,
+                        "¿Desea agregarlo como nuevo empleado?",
+                        "Empleado No Encontrado",
+                        JOptionPane.YES_NO_OPTION
+                );
 
-            if (opcion == JOptionPane.YES_OPTION) {
-                // El DNI se mantiene en el campo para ser usado en el nuevo registro
-                vista.jbtEliminar.setEnabled(false);
-                vista.jbtGuardar.setEnabled(true);
-                vista.jCheckBoxEstado.setSelected(true); // Estado seleccionado activo para nuevo
-                activarCampos(); // Habilita campos para la carga de datos
-                vista.jtxtApellido.requestFocus(); // Mover el foco al siguiente campo
-                
-                // Controlar visibilidad de especialidad según puesto por defecto
-                controlarVisibilidadEspecialidad();
-                
-            } else {
-                // Si el usuario no desea agregarlo, limpiamos el DNI para buscar de nuevo
-                vista.jtxDocumento.setText("");
-                vista.jtxDocumento.requestFocus();
-                this.idEmpleado = -1; // Se reinicia el id para asegurarnos
-                inactivarCampos(); // Asegurar que los campos sigan deshabilitados
+                if (opcion == JOptionPane.YES_OPTION) {
+                    // El DNI se mantiene en el campo para ser usado en el nuevo registro
+                    vista.jbtEliminar.setEnabled(false);
+                    vista.jbtGuardar.setEnabled(true);
+                    vista.jCheckBoxEstado.setSelected(true); // Estado seleccionado activo para nuevo
+                    activarCampos(); // Habilita campos para la carga de datos
+                    vista.jtxtApellido.requestFocus(); // Mover el foco al siguiente campo
+
+                    // Controlar visibilidad de especialidad según puesto por defecto
+                    controlarVisibilidadEspecialidad();
+
+                } else {
+                    // Si el usuario no desea agregarlo, limpiamos el DNI para buscar de nuevo
+                    vista.jtxDocumento.setText("");
+                    vista.jtxDocumento.requestFocus();
+                    this.idEmpleado = -1; // Se reinicia el id para asegurarnos
+                    inactivarCampos(); // Asegurar que los campos sigan deshabilitados
+                }
             }
-        }
 
-    } catch (NumberFormatException ex) {
-        JOptionPane.showMessageDialog(vista, "DNI inválido. Debe ser un número entero.");
-        vista.jtxDocumento.setText("");
-        vista.jtxDocumento.requestFocus();
-    } catch (Exception ex) {
-        JOptionPane.showMessageDialog(vista, "Error al buscar: " + ex.getMessage());
-        vista.jtxDocumento.requestFocus();
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(vista, "DNI inválido. Debe ser un número entero.");
+            vista.jtxDocumento.setText("");
+            vista.jtxDocumento.requestFocus();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(vista, "Error al buscar: " + ex.getMessage());
+            vista.jtxDocumento.requestFocus();
+        }
     }
-}
 
     private void guardarOModificarEmpleado() {
         if (vista.jtxDocumento.getText().isEmpty() || vista.jtxDocumento.getText().equals("0")) {
@@ -369,8 +369,9 @@ public class ControladorEmpleados implements ActionListener, KeyListener {
             String telefono = vista.jtxTelefono.getText().trim();
             String puesto = (String) vista.jComboBoxPuesto.getSelectedItem();
 
-            if (puesto == null || puesto.isEmpty()) {
+            if (puesto == null || puesto.isEmpty() || puesto.equals("Seleccione...")) {
                 JOptionPane.showMessageDialog(vista, "Debe seleccionar un puesto.");
+                vista.jComboBoxPuesto.requestFocus();
                 return;
             }
 
@@ -381,12 +382,13 @@ public class ControladorEmpleados implements ActionListener, KeyListener {
                 return;
             }
 
-            //Obtenemos especialidad según el puesto
+            //Obtenemos especialidad según el puesto y validar especialidad si es masajista (OBLIGATORIO)
             String especialidad = null;
             if ("Masajista".equals(puesto)) {
                 especialidad = (String) vista.jComboBoxEspecialidad.getSelectedItem();
-                if (especialidad == null || especialidad.isEmpty()) {
+                if (especialidad == null || especialidad.isEmpty() || especialidad.equals("Seleccione...")) {
                     JOptionPane.showMessageDialog(vista, "Debe seleccionar una especialidad para el masajista.");
+                    vista.jComboBoxEspecialidad.requestFocus();
                     return;
                 }
             }
@@ -581,7 +583,9 @@ public class ControladorEmpleados implements ActionListener, KeyListener {
 
         if (e.getSource() == vista.jtxMatricula) {
             char caracter = e.getKeyChar();
-            if (!Character.isLetterOrDigit(caracter) && caracter != '\b') {
+            if (!Character.isLetterOrDigit(caracter)
+                    && caracter != ' ' && caracter != '.' && caracter != '/'
+                    && caracter != '°' && caracter != '-' && caracter != '\b') {
                 e.consume();
             }
             if (vista.jtxMatricula.getText().length() >= 15 && caracter != '\b') {

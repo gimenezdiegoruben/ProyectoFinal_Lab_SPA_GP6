@@ -207,7 +207,7 @@ public class VistaEmpleados extends javax.swing.JInternalFrame {
 
         jComboBoxEspecialidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Facial", "Corporal", "Relajación", "Terapéutico" }));
 
-        jComboBoxPuesto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Masajista", "Estetisista", "Estilista", "Recepcionista", "Técnico", "Chofer", "Maestranza", "Administrativo", "RRHH", "Jefe" }));
+        jComboBoxPuesto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Masajista", "Estetisista", "Estilista", "Cosmetologa", "Recepcionista", "Técnico", "Chofer", "Maestranza", "Administrativo", "RRHH", "Jefe" }));
 
         jlFechaDeNacimiento3.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         jlFechaDeNacimiento3.setText("Listar por Puesto:");
