@@ -168,7 +168,7 @@ public class VistaEmpleados extends javax.swing.JInternalFrame {
             }
         ));
         tbEmpleados.setMaximumSize(new java.awt.Dimension(2147483647, 900));
-        tbEmpleados.setPreferredSize(new java.awt.Dimension(300, 90));
+        tbEmpleados.setPreferredSize(null);
         jScrollPane1.setViewportView(tbEmpleados);
 
         jLabel7.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
