@@ -69,14 +69,16 @@ public class ControladorConsultorio implements ActionListener, FocusListener, Ke
 
         if (e.getSource() == vista.jbtEliminar) {
             Consultorio c1 = data.buscarConsultorio(consultorioSeleccionado);
-            if (c1 != null) {
+            if (c1.getNroConsultorio() == consultorioSeleccionado && c1.getEquipamiento().trim().equalsIgnoreCase(vista.jtxaEquipamiento.getText()) && c1.getApto().trim().equalsIgnoreCase(vista.jcbApto.getSelectedItem().toString())) {
                 int confirmacion = JOptionPane.showConfirmDialog(null, "¿Estás seguro de eliminar el Consultorio nro " + c1.getNroConsultorio() + "?", "Confirmación de eliminación", JOptionPane.YES_NO_OPTION);
                 if (confirmacion == JOptionPane.YES_OPTION) {
-                    data.eliminarConsultorio(consultorioSeleccionado);
+                    data.eliminarConsultorio(Integer.parseInt(vista.jtxNroConsultorio.getText().trim()));
                     JOptionPane.showMessageDialog(null, "Consultorio nro " + c1.getNroConsultorio() + " eliminado con éxito", "Válido", JOptionPane.INFORMATION_MESSAGE);
                     limpiarCampos();
                     vista.jbtEliminar.setEnabled(false);
                 }
+            } else {
+                JOptionPane.showMessageDialog(null, "El consultorio que intentas eliminar no existe o ha sido modificado sin ser guardado", "Error", JOptionPane.ERROR_MESSAGE);
             }
             desactivarCampos();
             cargarLista();
@@ -103,7 +105,6 @@ public class ControladorConsultorio implements ActionListener, FocusListener, Ke
                         for (Consultorio aux : consultorios) {
                             if (aux.getNroConsultorio() == c1.getNroConsultorio()) {
                                 JOptionPane.showMessageDialog(null, "El Consultorio que intentas guardar ya ha sido creado", "Consultorio repetido", JOptionPane.ERROR_MESSAGE);
-                                limpiarCampos();
                                 vista.jbtEliminar.setEnabled(false);
                                 repetido = true;
                             }
@@ -113,14 +114,16 @@ public class ControladorConsultorio implements ActionListener, FocusListener, Ke
                             JOptionPane.showMessageDialog(null, "Consultorio añadido con éxito.", "Válido", JOptionPane.INFORMATION_MESSAGE);
                             limpiarCampos();
                             vista.jbtEliminar.setEnabled(false);
+                            desactivarCampos();
+                            cargarLista();
                         }
                     }
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(null, "Número de consultorio incorrecto.", "Error", JOptionPane.INFORMATION_MESSAGE);
+                    desactivarCampos();
+                    cargarLista();
                 }
             }
-            desactivarCampos();
-            cargarLista();
         }
 
         if (e.getSource() == vista.jbtNuevo) {
@@ -173,9 +176,11 @@ public class ControladorConsultorio implements ActionListener, FocusListener, Ke
                     String consultorioNro = "Consultorio " + aux.getNroConsultorio();
                     if (consultorio.equalsIgnoreCase(consultorioNro)) {
                         consultorioSeleccionado = aux.getNroConsultorio();
+                        vista.jtxNroConsultorio.setText(String.valueOf(aux.getNroConsultorio()));
                         vista.jtxaEquipamiento.setText(aux.getEquipamiento());
                         vista.jcbApto.setSelectedItem(aux.getApto());
                         activarCampos();
+                        vista.jtxNroConsultorio.setEditable(false);
                         vista.jbtGuardar.setEnabled(true);
                         vista.jbtEliminar.setEnabled(true);
                     }
@@ -188,16 +193,21 @@ public class ControladorConsultorio implements ActionListener, FocusListener, Ke
     public void limpiarCampos() {
         vista.jtxaEquipamiento.setText("");
         vista.jcbApto.setSelectedIndex(0);
+        vista.jtxNroConsultorio.setText("");
     }
 
     public void activarCampos() {
         vista.jtxaEquipamiento.setEnabled(true);
+        vista.jtxaEquipamiento.setEditable(true);
         vista.jcbApto.setEnabled(true);
+        vista.jtxNroConsultorio.setEnabled(true);
+        vista.jtxNroConsultorio.setEditable(true);
     }
 
     public void desactivarCampos() {
         vista.jtxaEquipamiento.setEnabled(false);
         vista.jcbApto.setEnabled(false);
+        vista.jtxNroConsultorio.setEnabled(false);
     }
 
     public void cargarLista() {

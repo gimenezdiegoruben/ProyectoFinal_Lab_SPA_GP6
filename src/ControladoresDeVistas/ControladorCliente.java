@@ -15,6 +15,7 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
 import java.util.List;
+import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
@@ -34,7 +35,8 @@ public class ControladorCliente implements ActionListener, FocusListener, KeyLis
 
     private boolean buscar = false;
     private boolean seleccion = false;
-    private long dniOriginal;
+    private int codCliOriginal;
+    private ButtonGroup grupoLista;
 
     public ControladorCliente(VistaCliente vista, ClienteData data, Vista_MenuSpa menu) {
         this.vista = vista;
@@ -45,12 +47,22 @@ public class ControladorCliente implements ActionListener, FocusListener, KeyLis
         vista.jbtEliminar.addActionListener(this);
         vista.jbtGuardar.addActionListener(this);
         vista.jbtNuevo.addActionListener(this);
+        vista.rbtnActivo.addActionListener(this);
+        vista.rbtnInactivo.addActionListener(this);
+        vista.rbtnTodos.addActionListener(this);
         vista.jtxDNI.addKeyListener(this);
         vista.jlClientes.addListSelectionListener(this);
         vista.jtxDNI.addKeyListener(this);
         vista.jtxNombre.addKeyListener(this);
         vista.jtxTelefono.addKeyListener(this);
         vista.jtxaAfecciones.addKeyListener(this);
+
+        grupoLista = new ButtonGroup();
+        grupoLista.add(vista.rbtnActivo);
+        grupoLista.add(vista.rbtnInactivo);
+        grupoLista.add(vista.rbtnTodos);
+        vista.rbtnTodos.setSelected(true);
+
     }
 
     public void iniciar() {
@@ -77,7 +89,7 @@ public class ControladorCliente implements ActionListener, FocusListener, KeyLis
         if (e.getSource() == vista.jbtEliminar) {
             try {
                 int dni = Integer.parseInt(vista.jtxDNI.getText().trim());
-                Cliente c1 = data.buscarPorDni(dni);
+                Cliente c1 = data.buscarPorId(codCliOriginal);
                 if (c1 != null) {
                     int confirmacion = JOptionPane.showConfirmDialog(null, "¿Estás seguro de eliminar al Cliente " + c1.getNombre() + "?", "Confirmación de eliminación", JOptionPane.YES_NO_OPTION);
                     if (confirmacion == JOptionPane.YES_OPTION) {
@@ -113,14 +125,18 @@ public class ControladorCliente implements ActionListener, FocusListener, KeyLis
                             JOptionPane.showMessageDialog(null, "Ingrese un DNI correcto", "Error", JOptionPane.ERROR_MESSAGE);
                         } else {
                             Cliente c1 = new Cliente(Long.parseLong(vista.jtxDNI.getText().trim()), vista.jtxNombre.getText().trim(), Long.parseLong(vista.jtxTelefono.getText().trim()), edad, vista.jtxaAfecciones.getText().trim(), vista.jcheckbEstado.isSelected(), fecha);
-                            Cliente c2 = data.buscarPorDni(dniOriginal);
-                            c1.setCodCli(c2.getCodCli());
-                            data.modificarCliente(c1);
-                            JOptionPane.showMessageDialog(null, "El cliente " + c2.getNombre() + " / DNI: " + c2.getDni() + " Teléfono: " + c2.getTelefono() + " Edad: " + c2.getEdad() + " Afecciones: " + c2.getAfecciones() + " Estado: " + (c2.isEstado() ? "Activo" : "Inactivo")
-                                    + " ha sido modificado a: " + c1.getNombre() + " / DNI: " + c1.getDni() + " Teléfono: " + c1.getTelefono() + " Edad: " + c1.getEdad() + " Afecciones: " + c1.getAfecciones() + " Estado: " + (c1.isEstado() ? "Activo" : "Inactivo"));
-                            limpiarCampos();
-                            buscar = false;
-                            vista.jbtEliminar.setEnabled(false);
+                            Cliente c2 = data.buscarPorId(codCliOriginal);
+                            if (c1.getDni() == c2.getDni() && c1.getEdad() == c2.getEdad() && c1.getFechaNac().equals(c2.getFechaNac()) && c1.getNombre().equals(c2.getNombre()) && c1.getTelefono() == c2.getTelefono() && c1.getAfecciones().equals(c2.getAfecciones()) && c1.isEstado() == c2.isEstado()) {
+                                JOptionPane.showMessageDialog(null, "No se puede guardar ya que no se han efectuado cambios", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                            } else {
+                                c1.setCodCli(c2.getCodCli());
+                                data.modificarCliente(c1);
+                                JOptionPane.showMessageDialog(null, "El cliente " + c2.getNombre() + " / DNI: " + c2.getDni() + " Teléfono: " + c2.getTelefono() + " Edad: " + c2.getEdad() + " Afecciones: " + c2.getAfecciones() + " Estado: " + (c2.isEstado() ? "Activo" : "Inactivo")
+                                        + " ha sido modificado a: " + c1.getNombre() + " / DNI: " + c1.getDni() + " Teléfono: " + c1.getTelefono() + " Edad: " + c1.getEdad() + " Afecciones: " + c1.getAfecciones() + " Estado: " + (c1.isEstado() ? "Activo" : "Inactivo"));
+                                limpiarCampos();
+                                buscar = false;
+                                vista.jbtEliminar.setEnabled(false);
+                            }
                         }
                     } else {
                         Date fechaNacimiento = vista.jdcFechaNac.getCalendar().getTime();
@@ -172,6 +188,16 @@ public class ControladorCliente implements ActionListener, FocusListener, KeyLis
             vista.jbtGuardar.setEnabled(true);
             vista.jlClientes.setModel(new DefaultListModel<>());
         }
+
+        if (e.getSource() == vista.rbtnActivo || e.getSource() == vista.rbtnInactivo || e.getSource() == vista.rbtnTodos) {
+            if (vista.rbtnActivo.isSelected()) {
+                cargarListaActivos();
+            } else if (vista.rbtnInactivo.isSelected()) {
+                cargarListaInactivos();
+            } else if (vista.rbtnTodos.isSelected()) {
+                cargarLista();
+            }
+        }
     }
 
     @Override
@@ -206,7 +232,7 @@ public class ControladorCliente implements ActionListener, FocusListener, KeyLis
             if ((caracter < '0' || caracter > '9' && caracter != '\b')) {
                 e.consume();
             }
-            if (vista.jtxTelefono.getText().length() >= 10 && vista.jtxTelefono.getText().length() <= 16 && caracter != '\b') {
+            if (vista.jtxTelefono.getText().length() >= 16 && caracter != '\b') {
                 e.consume();
             }
         }
@@ -243,7 +269,8 @@ public class ControladorCliente implements ActionListener, FocusListener, KeyLis
                 for (Cliente aux : clientes) {
                     String nombreDni = aux.getNombre() + " / " + aux.getDni();
                     if (clienteSeleccionado.equalsIgnoreCase(nombreDni.trim())) {
-                        dniOriginal = aux.getDni();
+                        codCliOriginal = aux.getCodCli();
+                        System.out.println(codCliOriginal);
                         vista.jtxDNI.setText(String.valueOf(aux.getDni()));
                         vista.jtxNombre.setText(aux.getNombre());
                         vista.jtxTelefono.setText(String.valueOf(aux.getTelefono()));
@@ -270,6 +297,7 @@ public class ControladorCliente implements ActionListener, FocusListener, KeyLis
         vista.jtxTelefono.setText("");
         vista.jdcFechaNac.setDate(null);
         vista.jtxaAfecciones.setText("");
+        vista.jcheckbEstado.setSelected(false);
     }
 
     public void activarCampos() {
@@ -291,6 +319,28 @@ public class ControladorCliente implements ActionListener, FocusListener, KeyLis
     public void cargarLista() {
         DefaultListModel<String> modelo = new DefaultListModel<>();
         List<Cliente> clientes = data.listarClientes();
+
+        for (Cliente aux : clientes) {
+            modelo.addElement(aux.getNombre() + " / " + aux.getDni());
+        }
+
+        vista.jlClientes.setModel(modelo);
+    }
+
+    public void cargarListaActivos() {
+        DefaultListModel<String> modelo = new DefaultListModel<>();
+        List<Cliente> clientes = data.listarClientesActivos();
+
+        for (Cliente aux : clientes) {
+            modelo.addElement(aux.getNombre() + " / " + aux.getDni());
+        }
+
+        vista.jlClientes.setModel(modelo);
+    }
+
+    public void cargarListaInactivos() {
+        DefaultListModel<String> modelo = new DefaultListModel<>();
+        List<Cliente> clientes = data.listarClientesInactivos();
 
         for (Cliente aux : clientes) {
             modelo.addElement(aux.getNombre() + " / " + aux.getDni());

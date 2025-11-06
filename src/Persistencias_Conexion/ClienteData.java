@@ -106,7 +106,7 @@ public class ClienteData {
        }
     }
     public Cliente buscarPorId(int id){
-        String sql = "SELECT dni, nombre, telefono , edad, afecciones, estado, fechaNac FROM cliente WHERE codCli = ? AND estado = 1";
+        String sql = "SELECT dni, nombre, telefono , edad, afecciones, estado, fechaNac FROM cliente WHERE codCli = ?";
         Cliente cliente = null;    
         try {
             PreparedStatement ps = con.prepareStatement(sql);
@@ -120,7 +120,7 @@ public class ClienteData {
                  cliente.setTelefono(rs.getLong("telefono"));
                  cliente.setEdad(rs.getInt("edad"));
                  cliente.setAfecciones(rs.getString("afecciones"));
-                 cliente.setEstado(true);
+                 cliente.setEstado(rs.getInt("estado") == 1);
                  cliente.setFechaNac(rs.getDate("fechaNac").toLocalDate());
             }else {
                 JOptionPane.showMessageDialog(null, "No existe un cliente con ese id");
@@ -132,7 +132,7 @@ public class ClienteData {
         return cliente;    
     }
     public Cliente buscarPorDni(long dni){
-        String sql = "SELECT codCli, nombre, telefono , edad, afecciones, estado, fechaNac FROM cliente WHERE dni = ? AND estado = 1";
+        String sql = "SELECT codCli, nombre, telefono , edad, afecciones, estado, fechaNac FROM cliente WHERE dni = ?";
         Cliente cliente = null;    
         try {
             PreparedStatement ps = con.prepareStatement(sql);
@@ -146,10 +146,10 @@ public class ClienteData {
                  cliente.setTelefono(rs.getLong("telefono"));
                  cliente.setEdad(rs.getInt("edad"));
                  cliente.setAfecciones(rs.getString("afecciones"));
-                 cliente.setEstado(true);
+                 cliente.setEstado(rs.getInt("estado") == 1);
                  cliente.setFechaNac(rs.getDate("fechaNac").toLocalDate());
             }else {
-                JOptionPane.showMessageDialog(null, "No existe un cliente cone ese dni");
+                JOptionPane.showMessageDialog(null, "No existe un cliente con ese dni");
             }
             ps.close();
         } catch (SQLException ex) {
@@ -157,7 +157,8 @@ public class ClienteData {
         }
         return cliente;
     }
-    public List<Cliente> listarClientes(){
+    
+    public List<Cliente> listarClientesActivos(){
         String sql = "SELECT codCli, dni ,nombre, telefono , edad, afecciones, estado, fechaNac FROM cliente WHERE estado = 1";
         ArrayList<Cliente> clientes = new ArrayList<>();    
         try {
@@ -173,6 +174,60 @@ public class ClienteData {
                  cliente.setEdad(rs.getInt("edad"));
                  cliente.setAfecciones(rs.getString("afecciones"));
                  cliente.setEstado(true);
+                 cliente.setFechaNac(rs.getDate("fechaNac").toLocalDate());
+                 
+                 clientes.add(cliente);
+            }
+            ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla cliente"+ ex.getMessage() + "\nCodigo SQL:" + ex.getErrorCode());
+        }
+        return clientes;
+    }
+    
+    public List<Cliente> listarClientesInactivos(){
+        String sql = "SELECT codCli, dni ,nombre, telefono , edad, afecciones, estado, fechaNac FROM cliente WHERE estado = 0";
+        ArrayList<Cliente> clientes = new ArrayList<>();    
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            
+            ResultSet rs= ps.executeQuery();
+            while(rs.next()){
+                 Cliente cliente = new Cliente();
+                 cliente.setCodCli(rs.getInt("codCli"));
+                 cliente.setDni(rs.getLong("dni"));
+                 cliente.setNombre(rs.getString("nombre"));
+                 cliente.setTelefono(rs.getLong("telefono"));
+                 cliente.setEdad(rs.getInt("edad"));
+                 cliente.setAfecciones(rs.getString("afecciones"));
+                 cliente.setEstado(false);
+                 cliente.setFechaNac(rs.getDate("fechaNac").toLocalDate());
+                 
+                 clientes.add(cliente);
+            }
+            ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla cliente"+ ex.getMessage() + "\nCodigo SQL:" + ex.getErrorCode());
+        }
+        return clientes;
+    }
+    
+    public List<Cliente> listarClientes(){
+        String sql = "SELECT codCli, dni ,nombre, telefono , edad, afecciones, estado, fechaNac FROM cliente";
+        ArrayList<Cliente> clientes = new ArrayList<>();    
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            
+            ResultSet rs= ps.executeQuery();
+            while(rs.next()){
+                 Cliente cliente = new Cliente();
+                 cliente.setCodCli(rs.getInt("codCli"));
+                 cliente.setDni(rs.getLong("dni"));
+                 cliente.setNombre(rs.getString("nombre"));
+                 cliente.setTelefono(rs.getLong("telefono"));
+                 cliente.setEdad(rs.getInt("edad"));
+                 cliente.setAfecciones(rs.getString("afecciones"));
+                 cliente.setEstado(rs.getInt("estado") == 1);
                  cliente.setFechaNac(rs.getDate("fechaNac").toLocalDate());
                  
                  clientes.add(cliente);

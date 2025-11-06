@@ -60,7 +60,7 @@ public class ConsultorioData {
 
     public void modificarConsultorio(Consultorio consultorio) {
 
-        String sql = "UPDATE consultorio SET nroConsultorio = ? usos = ?, equipamiento = ?, apto = ? WHERE nroConsultorio = ?";
+        String sql = "UPDATE consultorio SET nroConsultorio = ?, usos = ?, equipamiento = ?, apto = ? WHERE nroConsultorio = ?";
         PreparedStatement ps = null;
         con = Conexion.getConexion();
 
