@@ -12,7 +12,7 @@ public class Vista_MenuSpa extends javax.swing.JFrame {
     public Vista_MenuSpa() {
         initComponents();
         setIconImage(new ImageIcon(getClass().getResource("/Icons/IconVista.png")).getImage()); // logo de la esquina para la vista App_Menu
-        setExtendedState(MAXIMIZED_BOTH); // inicia maximizado
+        //setExtendedState(MAXIMIZED_BOTH); // inicia maximizado
         colocarIconos();
     }
 
