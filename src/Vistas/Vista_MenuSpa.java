@@ -52,7 +52,7 @@ public class Vista_MenuSpa extends javax.swing.JFrame {
         jmSalir = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Spa Entre Dedos");
+        setTitle("Spa Entre Dedos GP6");
 
         JPanelFondo.setBackground(new java.awt.Color(0, 255, 255));
         JPanelFondo.setNextFocusableComponent(JDesktopPFondo);
@@ -63,11 +63,11 @@ public class Vista_MenuSpa extends javax.swing.JFrame {
         JDesktopPFondo.setLayout(JDesktopPFondoLayout);
         JDesktopPFondoLayout.setHorizontalGroup(
             JDesktopPFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1189, Short.MAX_VALUE)
+            .addGap(0, 1201, Short.MAX_VALUE)
         );
         JDesktopPFondoLayout.setVerticalGroup(
             JDesktopPFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 676, Short.MAX_VALUE)
         );
 
         JPanelBotones.setBackground(new java.awt.Color(204, 204, 204));
@@ -144,7 +144,7 @@ public class Vista_MenuSpa extends javax.swing.JFrame {
                 .addGap(0, 0, 0)
                 .addComponent(jButtonSpace, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(jButtonSalir, javax.swing.GroupLayout.DEFAULT_SIZE, 62, Short.MAX_VALUE))
+                .addComponent(jButtonSalir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout JPanelFondoLayout = new javax.swing.GroupLayout(JPanelFondo);
@@ -154,12 +154,15 @@ public class Vista_MenuSpa extends javax.swing.JFrame {
             .addGroup(JPanelFondoLayout.createSequentialGroup()
                 .addComponent(JPanelBotones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(JDesktopPFondo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(JDesktopPFondo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0))
         );
         JPanelFondoLayout.setVerticalGroup(
             JPanelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(JPanelBotones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(JDesktopPFondo)
+            .addGroup(JPanelFondoLayout.createSequentialGroup()
+                .addComponent(JDesktopPFondo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         jMenuEmpleados.setText("Empleados");
