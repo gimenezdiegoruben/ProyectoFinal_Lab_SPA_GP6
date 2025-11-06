@@ -37,6 +37,7 @@ public class Vista_MenuSpa extends javax.swing.JFrame {
         jButtonConsultorios = new javax.swing.JButton();
         jButtonTienda = new javax.swing.JButton();
         jButtonTurnos = new javax.swing.JButton();
+        jButtonSpace = new javax.swing.JButton();
         jMenuBar = new javax.swing.JMenuBar();
         jMenuEmpleados = new javax.swing.JMenu();
         jMenuVerEmpleados = new javax.swing.JMenuItem();
@@ -97,21 +98,28 @@ public class Vista_MenuSpa extends javax.swing.JFrame {
         jButtonTurnos.setText("TURNOS");
         jButtonTurnos.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
 
+        jButtonSpace.setBorderPainted(false);
+        jButtonSpace.setEnabled(false);
+        jButtonSpace.setFocusPainted(false);
+        jButtonSpace.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+
         javax.swing.GroupLayout JPanelBotonesLayout = new javax.swing.GroupLayout(JPanelBotones);
         JPanelBotones.setLayout(JPanelBotonesLayout);
         JPanelBotonesLayout.setHorizontalGroup(
             JPanelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(JPanelBotonesLayout.createSequentialGroup()
-                .addGroup(JPanelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jButtonTienda, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonConsultorios, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonInstalaciones, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonTratamientos, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonEmpleados, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonClientes, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonBusquedas, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
-                    .addComponent(jButtonTurnos, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonSalir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(JPanelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButtonSpace, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonTienda, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(JPanelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jButtonConsultorios, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonInstalaciones, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonTratamientos, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonEmpleados, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonClientes, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonBusquedas, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
+                        .addComponent(jButtonTurnos, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonSalir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         JPanelBotonesLayout.setVerticalGroup(
@@ -133,9 +141,10 @@ public class Vista_MenuSpa extends javax.swing.JFrame {
                 .addComponent(jButtonConsultorios, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(jButtonTienda, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(67, 67, 67)
-                .addComponent(jButtonSalir, javax.swing.GroupLayout.DEFAULT_SIZE, 61, Short.MAX_VALUE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 0, 0)
+                .addComponent(jButtonSpace, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(jButtonSalir, javax.swing.GroupLayout.DEFAULT_SIZE, 62, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout JPanelFondoLayout = new javax.swing.GroupLayout(JPanelFondo);
@@ -256,6 +265,7 @@ public class Vista_MenuSpa extends javax.swing.JFrame {
     public javax.swing.JButton jButtonEmpleados;
     public javax.swing.JButton jButtonInstalaciones;
     public javax.swing.JButton jButtonSalir;
+    public javax.swing.JButton jButtonSpace;
     public javax.swing.JButton jButtonTienda;
     public javax.swing.JButton jButtonTratamientos;
     public javax.swing.JButton jButtonTurnos;
@@ -282,6 +292,7 @@ public class Vista_MenuSpa extends javax.swing.JFrame {
         jButtonClientes.setIcon(prepararIcono("iconClientes.png",alto,ancho)); // asignamos al boton el icono
         jButtonEmpleados.setIcon(prepararIcono("iconEmpleados.png",alto,ancho));
         jButtonInstalaciones.setIcon(prepararIcono("iconInstalaciones.png",alto,ancho));
+        jButtonTratamientos.setIcon(prepararIcono("iconTratamientos.png",alto,ancho));
         jButtonConsultorios.setIcon(prepararIcono("iconConsultorios.png",alto,ancho));
         jButtonTienda.setIcon(prepararIcono("iconTienda.png",alto,ancho));
         jButtonSalir.setIcon(prepararIcono("icon_salir.png",alto,ancho));
