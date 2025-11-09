@@ -211,30 +211,26 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="103" groupAlignment="1" attributes="0">
-                      <Component id="jButtonSpace" pref="151" max="32767" attributes="0"/>
-                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                          <Component id="jButtonConsultorios" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jButtonInstalaciones" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jButtonTratamientos" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jButtonEmpleados" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jButtonClientes" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jButtonBusquedas" alignment="0" pref="151" max="32767" attributes="0"/>
-                          <Component id="jButtonTurnos" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jButtonSalir" max="32767" attributes="0"/>
-                      </Group>
+                  <Component id="jButtonSpace" alignment="1" pref="151" max="32767" attributes="0"/>
+                  <Group type="103" alignment="1" groupAlignment="1" max="-2" attributes="0">
+                      <Component id="jButtonConsultorios" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jButtonInstalaciones" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jButtonTratamientos" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jButtonEmpleados" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jButtonClientes" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jButtonBusquedas" alignment="0" pref="151" max="32767" attributes="0"/>
+                      <Component id="jButtonTurnos_DiaDeSPA" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jButtonSalir" max="32767" attributes="0"/>
                   </Group>
-                  <Group type="102" attributes="0">
-                      <Component id="jButtonTienda" max="32767" attributes="0"/>
-                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                  </Group>
+                  <Component id="jButtonTienda" max="32767" attributes="0"/>
+                  <Component id="jButtonSesiones" alignment="0" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                      <Component id="jButtonTurnos" min="-2" pref="70" max="-2" attributes="0"/>
+                      <Component id="jButtonTurnos_DiaDeSPA" min="-2" pref="70" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                       <Component id="jButtonBusquedas" min="-2" pref="65" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
@@ -250,7 +246,9 @@
                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                       <Component id="jButtonTienda" min="-2" pref="65" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                      <Component id="jButtonSpace" min="-2" pref="63" max="-2" attributes="0"/>
+                      <Component id="jButtonSesiones" min="-2" pref="65" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                      <Component id="jButtonSpace" min="-2" pref="24" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                       <Component id="jButtonSalir" max="32767" attributes="0"/>
                   </Group>
@@ -329,7 +327,7 @@
                 <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
               </AuxValues>
             </Component>
-            <Component class="javax.swing.JButton" name="jButtonTurnos">
+            <Component class="javax.swing.JButton" name="jButtonTurnos_DiaDeSPA">
               <Properties>
                 <Property name="text" type="java.lang.String" value="TURNOS"/>
                 <Property name="horizontalAlignment" type="int" value="2"/>
@@ -343,6 +341,15 @@
                 <Property name="borderPainted" type="boolean" value="false"/>
                 <Property name="enabled" type="boolean" value="false"/>
                 <Property name="focusPainted" type="boolean" value="false"/>
+                <Property name="horizontalAlignment" type="int" value="2"/>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JButton" name="jButtonSesiones">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Sesiones"/>
                 <Property name="horizontalAlignment" type="int" value="2"/>
               </Properties>
               <AuxValues>

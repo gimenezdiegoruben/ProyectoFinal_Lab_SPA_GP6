@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /*  @author Grupo 6 
@@ -107,11 +108,11 @@ public class ControladorEmpleados implements ActionListener, KeyListener {
         modeloTabla.addColumn("Estado");
 
         vista.tbEmpleados.setModel(modeloTabla);
-
+        vista.tbEmpleados.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         //Ocultar columna ID 
-        vista.tbEmpleados.getColumnModel().getColumn(0).setMinWidth(0);
-        vista.tbEmpleados.getColumnModel().getColumn(0).setMaxWidth(0);
-        vista.tbEmpleados.getColumnModel().getColumn(0).setWidth(0);
+        vista.tbEmpleados.getColumnModel().getColumn(0).setPreferredWidth(22);
+        vista.tbEmpleados.getColumnModel().getColumn(0).setPreferredWidth(22);
+        vista.tbEmpleados.getColumnModel().getColumn(0).setPreferredWidth(22);
     }
 
     private void configurarComboboxPuestoFiltro() {

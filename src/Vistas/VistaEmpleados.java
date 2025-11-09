@@ -62,7 +62,6 @@ public class VistaEmpleados extends javax.swing.JInternalFrame {
         jlFechaDeNacimiento3 = new javax.swing.JLabel();
 
         setResizable(false);
-        setPreferredSize(new java.awt.Dimension(1130, 663));
 
         jlAlumno.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
         jlAlumno.setForeground(new java.awt.Color(0, 102, 255));

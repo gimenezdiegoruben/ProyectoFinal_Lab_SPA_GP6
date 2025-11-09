@@ -1,12 +1,17 @@
 package ControladoresDeVistas;
 
-import Modelos.Empleado;
 import Persistencias_Conexion.ClienteData;
 import Persistencias_Conexion.ConsultorioData;
+import Persistencias_Conexion.DiaDeSpaData;
 import Vistas.VistaEmpleados;
 import Persistencias_Conexion.EmpleadoData;
+import Persistencias_Conexion.InstalacionData;
+import Persistencias_Conexion.SesionData;
+import Persistencias_Conexion.TratamientoData;
 import Vistas.VistaCliente;
 import Vistas.VistaConsultorio;
+import Vistas.VistaDiaDeSpa;
+import Vistas.VistaSesiones;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -42,7 +47,7 @@ public class ControladorApp_MenuSpa implements ActionListener, MenuListener, Com
         this.menu.jmSalir.addMenuListener(this);
 
         //escucha de botones del panel Lateral
-        menu.jButtonTurnos.addActionListener(this);
+        menu.jButtonTurnos_DiaDeSPA.addActionListener(this);
         menu.jButtonBusquedas.addActionListener(this);
         menu.jButtonClientes.addActionListener(this);
         menu.jButtonEmpleados.addActionListener(this);
@@ -50,6 +55,7 @@ public class ControladorApp_MenuSpa implements ActionListener, MenuListener, Com
         menu.jButtonInstalaciones.addActionListener(this);
         menu.jButtonConsultorios.addActionListener(this);
         menu.jButtonTienda.addActionListener(this);
+        menu.jButtonSesiones.addActionListener(this);
         menu.jButtonSalir.addActionListener(this);
 
         //Listener para redimensionar el fondo cuando el escritorio cambie de tamaño
@@ -107,15 +113,43 @@ public class ControladorApp_MenuSpa implements ActionListener, MenuListener, Com
             VistaCliente vista = new VistaCliente();
             ClienteData data = new ClienteData();
             ControladorCliente ctrl = new ControladorCliente(vista, data, menu);
-            
+
             ctrl.iniciar();
         }
-        
+
         if (e.getSource() == menu.jButtonConsultorios) {
             VistaConsultorio vista = new VistaConsultorio();
             ConsultorioData data = new ConsultorioData();
             ControladorConsultorio ctrl = new ControladorConsultorio(vista, data, menu);
-            
+
+            ctrl.iniciar();
+        }
+
+        if (e.getSource() == menu.jButtonTurnos_DiaDeSPA) {
+            VistaDiaDeSpa vista = new VistaDiaDeSpa();
+            DiaDeSpaData data = new DiaDeSpaData();
+            ClienteData clienteData = new ClienteData();
+            ControladorDiaDeSpa ctrl = new ControladorDiaDeSpa(vista, data, clienteData, menu);
+
+            ctrl.iniciar();
+        }
+
+        if (e.getSource() == menu.jButtonSesiones) {
+            VistaSesiones vista = new VistaSesiones();
+
+            EmpleadoData empleadoData = new EmpleadoData();
+            ConsultorioData consultorioData = new ConsultorioData();
+            TratamientoData tratamientoData = new TratamientoData();
+            InstalacionData instalacionData = new InstalacionData();
+            ClienteData clienteData = new ClienteData();
+            DiaDeSpaData diaDeSpaData = new DiaDeSpaData();
+
+            //Instanciamos SesionData con sus 4 dependencias 
+            SesionData sesionData = new SesionData(empleadoData, consultorioData, tratamientoData, instalacionData);
+
+            //Creamos el ControladorSesiones con sus 9 argumentos..su vista, 7 Data objects, menu
+            ControladorSesiones ctrl = new ControladorSesiones(vista, sesionData, empleadoData, consultorioData, tratamientoData, instalacionData, clienteData, diaDeSpaData, menu);
+
             ctrl.iniciar();
         }
     }
@@ -144,8 +178,6 @@ public class ControladorApp_MenuSpa implements ActionListener, MenuListener, Com
 
         //Agrega la imagen de fondo al JPanel
         menu.JDesktopPFondo.add(imagenFondoLabel);
-
-
         menu.JDesktopPFondo.setComponentZOrder(imagenFondoLabel, 0); //Fondo detras siempre
         menu.JDesktopPFondo.revalidate(); //Actualiza el JPanel para mostrar la imagen
         menu.JDesktopPFondo.repaint();
