@@ -56,7 +56,7 @@ public class VistaSesiones extends javax.swing.JInternalFrame {
 
         jLabelTitulo.setFont(new java.awt.Font("Times New Roman", 1, 30)); // NOI18N
         jLabelTitulo.setForeground(new java.awt.Color(0, 102, 102));
-        jLabelTitulo.setText("Gestionamiento de sesiones");
+        jLabelTitulo.setText("       Gestion de sesiones");
 
         jLabelFecha.setFont(new java.awt.Font("Times New Roman", 1, 20)); // NOI18N
         jLabelFecha.setForeground(new java.awt.Color(255, 255, 255));
@@ -72,6 +72,11 @@ public class VistaSesiones extends javax.swing.JInternalFrame {
 
         jCmb_TipoTratamiento.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jCmb_TipoTratamiento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Facial", "Corporal", "Relajacion", "Estetico" }));
+        jCmb_TipoTratamiento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCmb_TipoTratamientoActionPerformed(evt);
+            }
+        });
 
         jCmb_Hora.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jCmb_Hora.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00" }));
@@ -237,6 +242,10 @@ public class VistaSesiones extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jCmb_TipoTratamientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCmb_TipoTratamientoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCmb_TipoTratamientoActionPerformed
 
     /**
      * @param args the command line arguments
