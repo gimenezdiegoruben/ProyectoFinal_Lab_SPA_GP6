@@ -224,4 +224,83 @@ public class TratamientoData {
     return tratamientos;
 }
       
+       public List<Tratamiento>  listarTratamientosInactivos(){
+        String sql = "SELECT codtratam,nombre,tipo,detalle,producotos,duracion,costo,estado"
+                + "FROM tratamieto WHERE estado = 0";  
+        ArrayList<Tratamiento> lista = new ArrayList<>();
+        
+          try {
+              PreparedStatement ps = con.prepareStatement(sql);
+              ResultSet rs = ps.executeQuery();
+              while(rs.next()){
+                  Tratamiento t = new Tratamiento();
+                  t.setCodTratam(rs.getInt("codtratam"));
+                  t.setNombre(rs.getString("nombre"));
+                  t.setTipo(rs.getString("tipo"));
+                  t.setProductos(rs.getInt("productos"));
+                  t.setDuracion(rs.getInt("duracion"));
+                  t.setCosto(rs.getInt("costo"));
+                  t.setEstado(false);
+                  
+                  lista.add(t);
+              }
+              ps.close();
+          } catch (SQLException ex) {
+             System.err.println("Error al cerrar el PreparedStatement o la Conexión: " + ex.getMessage());
+          }
+          return lista;
+    }
+    public List<Tratamiento> listarTratameintosActivos(){
+        String sql = "SELECT codtratam,nombre,tipo,detalle,producotos,duracion,costo,estado"
+                + "FROM tratamieto WHERE estado = 1";
+        
+        ArrayList<Tratamiento> lista = new ArrayList<>();
+        
+          try {
+              PreparedStatement ps = con.prepareStatement(sql);
+              ResultSet rs = ps.executeQuery();
+              
+              while(rs.next()){
+                  Tratamiento t = new Tratamiento();
+                  t.setCodTratam(rs.getInt(("codTratam")));
+                  t.setNombre(rs.getString("nombre"));
+                    t.setTipo(rs.getString("tipo"));
+                  t.setProductos(rs.getInt("productos"));
+                  t.setDuracion(rs.getInt("duracion"));
+                  t.setCosto(rs.getInt("costo"));
+                  t.setEstado(true);
+                  
+                  lista.add(t);
+                  
+              }
+              ps.close();
+          } catch (SQLException ex) {
+             System.err.println("Error al cerrar el PreparedStatement o la Conexión: " + ex.getMessage());
+          }
+          return lista;
+    }
+    public void cambiarEstadoTratamiento(int codTratam, boolean nuevo){
+        String sql = "UPDATE tratamiento set estado = ? WHERE codtratam=?";
+        
+          try {
+              PreparedStatement ps = con.prepareStatement(sql);
+              ps.setBoolean(1, nuevo);
+              ps.setInt(2, codTratam);
+              
+              int f = ps.executeUpdate();
+              
+              if(f > 0 ){
+                    String msg = nuevo ? 
+                          "Tratamiento dado de ALTA correctamente":
+                          "Tratamiento dado de BAJA correctamente";
+                    JOptionPane.showMessageDialog(null, msg);
+              }else{
+                  JOptionPane.showMessageDialog(null, "No se encontro ningun tratamiento para cambiarle el estado");
+              }
+          } catch (SQLException ex) {
+              System.err.println("Error al cerrar el PreparedStatement o la Conexión: " + ex.getMessage());
+          }
+    }
 }
+
+

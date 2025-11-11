@@ -132,6 +132,7 @@ public class ControladorApp_MenuSpa implements ActionListener, MenuListener, Com
             ControladorDiaDeSpa ctrl = new ControladorDiaDeSpa(vista, data, clienteData, menu);
 
             ctrl.iniciar();
+            
         }
 
         if (e.getSource() == menu.jButtonSesiones) {

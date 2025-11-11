@@ -19,9 +19,7 @@ public class Sesion {
     }
 
     //Contr p crear nuevas sesiones sin codSesion
-    public Sesion(Empleado masajista, Empleado registrador, Consultorio consultorio, 
-                  Tratamiento tratamiento, Instalacion instalacion, 
-                  LocalDateTime fechaHoraInicio, LocalDateTime fechaHoraFinal, int codPack) {
+    public Sesion(Empleado masajista,Empleado registrador, Consultorio consultorio,Tratamiento tratamiento, Instalacion instalacion,LocalDateTime fechaHoraInicio, LocalDateTime fechaHoraFinal, int codPack) {
         this.masajista = masajista;
         this.registrador = registrador;
         this.consultorio = consultorio;
@@ -34,9 +32,7 @@ public class Sesion {
     }
 
     //Constructor completo 
-    public Sesion(int codSesion, Empleado masajista, Empleado registrador, 
-                  Consultorio consultorio, Tratamiento tratamiento, Instalacion instalacion, 
-                  LocalDateTime fechaHoraInicio, LocalDateTime fechaHoraFinal, int codPack, boolean estado) {
+    public Sesion(int codSesion, Empleado masajista, Empleado registrador,Consultorio consultorio,Tratamiento tratamiento,Instalacion instalacion,LocalDateTime fechaHoraInicio, LocalDateTime fechaHoraFinal, int codPack, boolean estado) {
         this.codSesion = codSesion;
         this.masajista = masajista;
         this.registrador = registrador;
