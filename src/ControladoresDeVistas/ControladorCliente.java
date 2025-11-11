@@ -171,7 +171,7 @@ public class ControladorCliente implements ActionListener, FocusListener, KeyLis
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(null, "Debe ingresar un número en el campo DNI y Teléfono!", "Error", JOptionPane.ERROR_MESSAGE);
                 }
-
+                
                 if (guardadoExitoso) {
                     desactivarCampos();
                     vista.jtxDNI.setEnabled(true);

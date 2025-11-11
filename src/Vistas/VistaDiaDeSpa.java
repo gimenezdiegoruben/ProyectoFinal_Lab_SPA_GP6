@@ -30,30 +30,32 @@ public class VistaDiaDeSpa extends javax.swing.JInternalFrame {
         jFormattedTextField1 = new javax.swing.JFormattedTextField();
         jPanel2 = new javax.swing.JPanel();
         jlDNI = new javax.swing.JLabel();
-        jTextFieldDNI = new javax.swing.JTextField();
+        jtxDNI = new javax.swing.JTextField();
         jlNombre = new javax.swing.JLabel();
         jtxNombre = new javax.swing.JTextField();
         jlTelefono = new javax.swing.JLabel();
         jtxTelefono = new javax.swing.JTextField();
         jlFecha = new javax.swing.JLabel();
-        jdcFechaNac = new com.toedter.calendar.JDateChooser();
+        jdcFecha = new com.toedter.calendar.JDateChooser();
         jlPreferencias = new javax.swing.JLabel();
         jlHora = new javax.swing.JLabel();
-        jSpinner1 = new javax.swing.JSpinner();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextAreaPreferencias = new javax.swing.JTextArea();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tbSesiones = new javax.swing.JTable();
         jlSesiones = new javax.swing.JLabel();
         jLabelTituloDiaDeSpa = new javax.swing.JLabel();
         btnAgregarSesiones = new javax.swing.JButton();
         jlMonto = new javax.swing.JLabel();
-        jTextFieldMonto = new javax.swing.JTextField();
+        jtxMonto = new javax.swing.JTextField();
         jcheckbEstado = new javax.swing.JCheckBox();
         jbtNuevo = new javax.swing.JButton();
         jbtGuardar = new javax.swing.JButton();
         jbtEliminar = new javax.swing.JButton();
         jbtSalir = new javax.swing.JButton();
+        jbtBuscar = new javax.swing.JButton();
+        jcboxHora = new javax.swing.JComboBox<>();
+        jbtBuscarTurnos = new javax.swing.JButton();
 
         jFormattedTextField1.setText("jFormattedTextField1");
 
@@ -82,7 +84,7 @@ public class VistaDiaDeSpa extends javax.swing.JInternalFrame {
         jTextAreaPreferencias.setRows(5);
         jScrollPane2.setViewportView(jTextAreaPreferencias);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tbSesiones.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -93,7 +95,7 @@ public class VistaDiaDeSpa extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tbSesiones);
 
         jlSesiones.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jlSesiones.setText("Sesiones:");
@@ -101,6 +103,9 @@ public class VistaDiaDeSpa extends javax.swing.JInternalFrame {
         jLabelTituloDiaDeSpa.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabelTituloDiaDeSpa.setText("Dia de Spa (TURNO)");
 
+        btnAgregarSesiones.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        btnAgregarSesiones.setForeground(new java.awt.Color(51, 0, 255));
+        btnAgregarSesiones.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icon_inscribir.png"))); // NOI18N
         btnAgregarSesiones.setText("Agregar Sesiones");
 
         jlMonto.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -108,29 +113,58 @@ public class VistaDiaDeSpa extends javax.swing.JInternalFrame {
 
         jcheckbEstado.setText("Estado");
 
-        jbtNuevo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jbtNuevo.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        jbtNuevo.setForeground(new java.awt.Color(0, 204, 102));
         jbtNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icon_nuevo.png"))); // NOI18N
         jbtNuevo.setText("Nuevo");
         jbtNuevo.setMaximumSize(new java.awt.Dimension(125, 57));
         jbtNuevo.setMinimumSize(new java.awt.Dimension(125, 57));
         jbtNuevo.setPreferredSize(new java.awt.Dimension(125, 57));
 
-        jbtGuardar.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jbtGuardar.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        jbtGuardar.setForeground(new java.awt.Color(0, 204, 102));
         jbtGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icon_guardar.png"))); // NOI18N
         jbtGuardar.setText("Guardar");
 
-        jbtEliminar.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jbtEliminar.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        jbtEliminar.setForeground(new java.awt.Color(255, 0, 51));
         jbtEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icon_eliminar.png"))); // NOI18N
         jbtEliminar.setText("Eliminar");
         jbtEliminar.setMaximumSize(new java.awt.Dimension(125, 57));
         jbtEliminar.setMinimumSize(new java.awt.Dimension(125, 57));
         jbtEliminar.setPreferredSize(new java.awt.Dimension(125, 57));
 
+        jbtSalir.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        jbtSalir.setForeground(new java.awt.Color(255, 0, 51));
         jbtSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icon_salir.png"))); // NOI18N
         jbtSalir.setText("Salir");
         jbtSalir.setMaximumSize(new java.awt.Dimension(125, 57));
         jbtSalir.setMinimumSize(new java.awt.Dimension(125, 57));
         jbtSalir.setPreferredSize(new java.awt.Dimension(125, 57));
+
+        jbtBuscar.setBackground(new java.awt.Color(204, 204, 255));
+        jbtBuscar.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        jbtBuscar.setForeground(new java.awt.Color(51, 0, 255));
+        jbtBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icon_buscar.png"))); // NOI18N
+        jbtBuscar.setText("Buscar");
+        jbtBuscar.setMargin(new java.awt.Insets(2, 6, 3, 6));
+        jbtBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtBuscarActionPerformed(evt);
+            }
+        });
+
+        jcboxHora.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jbtBuscarTurnos.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        jbtBuscarTurnos.setForeground(new java.awt.Color(51, 0, 255));
+        jbtBuscarTurnos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icon_buscar.png"))); // NOI18N
+        jbtBuscarTurnos.setText("Buscar Turnos");
+        jbtBuscarTurnos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtBuscarTurnosActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -139,58 +173,61 @@ public class VistaDiaDeSpa extends javax.swing.JInternalFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(72, 72, 72)
                 .addComponent(jLabelTituloDiaDeSpa)
-                .addGap(263, 263, 263)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jlSesiones)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(310, 310, 310))
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jlTelefono)
-                            .addComponent(jlNombre)
-                            .addComponent(jlFecha)
-                            .addComponent(jlDNI)
-                            .addComponent(jlHora))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jtxNombre)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jbtGuardar)
+                        .addGap(85, 85, 85)
+                        .addComponent(jbtEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                            .addComponent(jlPreferencias)
+                            .addGap(58, 58, 58)
+                            .addComponent(jbtNuevo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jlFecha)
+                                .addComponent(jlHora))
+                            .addGap(18, 18, 18)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jdcFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jcboxHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jlTelefono)
+                                .addComponent(jlNombre)
+                                .addComponent(jlDNI))
+                            .addGap(18, 18, 18)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addComponent(jtxDNI, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(30, 30, 30)
+                                    .addComponent(jbtBuscar))
+                                .addGroup(jPanel2Layout.createSequentialGroup()
                                     .addComponent(jtxTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jdcFechaNac, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addComponent(jTextFieldDNI, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(54, 54, 54)
-                                        .addComponent(jcheckbEstado)))
-                                .addGap(0, 0, Short.MAX_VALUE))))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jlPreferencias)
-                                .addGap(58, 58, 58)
-                                .addComponent(jbtNuevo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jbtGuardar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jbtEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane2))))
+                                    .addGap(38, 38, 38)
+                                    .addComponent(jcheckbEstado))
+                                .addComponent(jtxNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addComponent(jlMonto)
                         .addGap(10, 10, 10)
-                        .addComponent(jTextFieldMonto, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(73, 73, 73)
-                        .addComponent(btnAgregarSesiones))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jbtSalir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 585, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(14, Short.MAX_VALUE))
+                        .addComponent(jtxMonto, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(51, 51, 51)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jbtBuscarTurnos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnAgregarSesiones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(37, 37, 37)
+                        .addComponent(jbtSalir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(27, 27, 27))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 675, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -206,49 +243,51 @@ public class VistaDiaDeSpa extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addGap(1, 1, 1)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jlMonto)
-                            .addComponent(jTextFieldMonto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnAgregarSesiones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextFieldDNI, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jtxDNI, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jlDNI)
-                            .addComponent(jcheckbEstado))
-                        .addGap(20, 20, 20)
+                            .addComponent(jbtBuscar))
+                        .addGap(4, 4, 4)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jlNombre)
                             .addComponent(jtxNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(20, 20, 20)
+                        .addGap(19, 19, 19)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jlTelefono)
-                            .addComponent(jtxTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(20, 20, 20)
+                            .addComponent(jtxTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jcheckbEstado))
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jlFecha)
-                            .addComponent(jdcFechaNac, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jdcFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(20, 20, 20)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jlHora)
-                                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(20, 20, 20)
+                                    .addComponent(jcboxHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
                                 .addComponent(jlPreferencias))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jbtNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jbtGuardar)
                             .addComponent(jbtEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jbtSalir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(15, Short.MAX_VALUE))))
+                        .addContainerGap())
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(31, 31, 31)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jlMonto)
+                            .addComponent(jtxMonto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnAgregarSesiones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jbtBuscarTurnos))))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -267,6 +306,14 @@ public class VistaDiaDeSpa extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jbtBuscarTurnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtBuscarTurnosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbtBuscarTurnosActionPerformed
+
+    private void jbtBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtBuscarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbtBuscarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JButton btnAgregarSesiones;
@@ -275,17 +322,16 @@ public class VistaDiaDeSpa extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    public javax.swing.JSpinner jSpinner1;
-    public javax.swing.JTable jTable1;
     public javax.swing.JTextArea jTextAreaPreferencias;
-    public javax.swing.JTextField jTextFieldDNI;
-    public javax.swing.JTextField jTextFieldMonto;
+    public javax.swing.JButton jbtBuscar;
+    public javax.swing.JButton jbtBuscarTurnos;
     public javax.swing.JButton jbtEliminar;
     public javax.swing.JButton jbtGuardar;
     public javax.swing.JButton jbtNuevo;
     public javax.swing.JButton jbtSalir;
+    public javax.swing.JComboBox<String> jcboxHora;
     public javax.swing.JCheckBox jcheckbEstado;
-    public com.toedter.calendar.JDateChooser jdcFechaNac;
+    public com.toedter.calendar.JDateChooser jdcFecha;
     private javax.swing.JLabel jlDNI;
     private javax.swing.JLabel jlFecha;
     private javax.swing.JLabel jlHora;
@@ -294,7 +340,10 @@ public class VistaDiaDeSpa extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jlPreferencias;
     private javax.swing.JLabel jlSesiones;
     private javax.swing.JLabel jlTelefono;
+    public javax.swing.JTextField jtxDNI;
+    public javax.swing.JTextField jtxMonto;
     public javax.swing.JTextField jtxNombre;
     public javax.swing.JTextField jtxTelefono;
+    public javax.swing.JTable tbSesiones;
     // End of variables declaration//GEN-END:variables
 }

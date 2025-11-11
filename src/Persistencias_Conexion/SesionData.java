@@ -24,6 +24,11 @@ public class SesionData {
     private TratamientoData tratData;
     private InstalacionData instalData;
 
+    public SesionData() {
+    }
+    
+    
+
     public SesionData(EmpleadoData empData, ConsultorioData consData, TratamientoData tratData, InstalacionData instalData) {
         con = Conexion.getConexion();
         this.empData = empData;
