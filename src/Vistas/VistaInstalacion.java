@@ -229,15 +229,15 @@ public class VistaInstalacion extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTableInstalaciones;
-    private javax.swing.JButton jbtnBuscar;
-    private javax.swing.JButton jbtnEliminar;
-    private javax.swing.JButton jbtnGuardar;
-    private javax.swing.JButton jbtnLimpiar;
-    private javax.swing.JButton jbtnModificar;
-    private javax.swing.JCheckBox jchbEstadoInstalacion;
-    private javax.swing.JTextArea jtaDetalleUso;
-    private javax.swing.JTextField jtfCodInstalacion;
-    private javax.swing.JTextField jtfNombreInstalacion;
-    private javax.swing.JTextField jtfPrecio30m;
+    public javax.swing.JButton jbtnBuscar;
+    public javax.swing.JButton jbtnEliminar;
+    public javax.swing.JButton jbtnGuardar;
+    public javax.swing.JButton jbtnLimpiar;
+    public javax.swing.JButton jbtnModificar;
+    public javax.swing.JCheckBox jchbEstadoInstalacion;
+    public javax.swing.JTextArea jtaDetalleUso;
+    public javax.swing.JTextField jtfCodInstalacion;
+    public javax.swing.JTextField jtfNombreInstalacion;
+    public javax.swing.JTextField jtfPrecio30m;
     // End of variables declaration//GEN-END:variables
 }
