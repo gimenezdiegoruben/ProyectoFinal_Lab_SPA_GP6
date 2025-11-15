@@ -117,6 +117,7 @@ CREATE TABLE `sesion` (
   `idRegistrador` int(11) NOT NULL,
   `codInstal` int(11) NOT NULL,
   `codPack` int(11) NOT NULL,
+  `monto` double NOT NULL DEFAULT 0,
   `estado` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -226,6 +227,7 @@ ALTER TABLE `instalacion`
 --
 ALTER TABLE `sesion`
   MODIFY `codSesion` int(11) NOT NULL AUTO_INCREMENT;
+  ADD COLUMN monto DOUBLE NOT NULL DEFAULT 0 AFTER codPack;
 
 --
 -- AUTO_INCREMENT de la tabla `tratamiento`
