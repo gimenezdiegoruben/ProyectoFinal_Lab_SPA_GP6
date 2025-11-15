@@ -26,8 +26,6 @@ public class SesionData {
 
     public SesionData() {
     }
-    
-    
 
     public SesionData(EmpleadoData empData, ConsultorioData consData, TratamientoData tratData, InstalacionData instalData) {
         con = Conexion.getConexion();
@@ -43,15 +41,28 @@ public class SesionData {
 
         try {
             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            
+
             ps.setTimestamp(1, Timestamp.valueOf(sesion.getFechaHoraInicio()));
             ps.setTimestamp(2, Timestamp.valueOf(sesion.getFechaHoraFinal()));
             ps.setInt(3, sesion.getTratamiento().getCodTratam());
             ps.setInt(4, sesion.getConsultorio().getNroConsultorio());
             ps.setString(5, sesion.getMasajista().getMatricula());  //matricula del masajista
             ps.setInt(6, sesion.getRegistrador().getIdEmpleado());  //id del registrador (la recep)
-            ps.setInt(7, sesion.getInstalacion().getCodInstal());
-            ps.setInt(8, sesion.getCodPack());
+
+            //Si la instalación es opcional “Ninguna”, no rompe nada
+            //Si aún no estmos vinculando la sesión a un codPack real y sigue en 0, no romperá la clave foranea y guarda null
+            if (sesion.getInstalacion() != null) {
+                ps.setInt(7, sesion.getInstalacion().getCodInstal());
+            } else {
+                ps.setNull(7, java.sql.Types.INTEGER);
+            }
+
+            if (sesion.getCodPack() > 0) {
+                ps.setInt(8, sesion.getCodPack());
+            } else {
+                ps.setNull(8, java.sql.Types.INTEGER);
+            }
+
             ps.setBoolean(9, sesion.getEstado());
 
             ps.executeUpdate();
@@ -78,7 +89,14 @@ public class SesionData {
             ps.setInt(4, sesion.getConsultorio().getNroConsultorio());
             ps.setString(5, sesion.getMasajista().getMatricula());  //matricula
             ps.setInt(6, sesion.getRegistrador().getIdEmpleado());  //id recep
-            ps.setInt(7, sesion.getInstalacion().getCodInstal());
+
+            //Maneja el codPack, si es 0 o valor inválido se inserta nulo
+            if (sesion.getInstalacion() != null) {
+                ps.setInt(7, sesion.getInstalacion().getCodInstal());
+            } else {
+                ps.setNull(7, java.sql.Types.INTEGER);
+            }
+
             ps.setInt(8, sesion.getCodPack());
             ps.setBoolean(9, sesion.getEstado());
             ps.setInt(10, sesion.getCodSesion());
@@ -151,14 +169,15 @@ public class SesionData {
     public List<Empleado> listarMasajistasLibres(LocalDateTime desde, LocalDateTime hasta) {
         ArrayList<Empleado> lista = new ArrayList<>();
 
-        String sql = "SELECT e.* FROM empleado e " +
-                     "WHERE e.estado = 1 " +
-                     "AND e.matricula IS NOT NULL " +  //Solo masajistas (unicos que tienen matrícula)
-                     "AND e.matricula NOT IN (" +
-                     "    SELECT s.matriculaMasajista FROM sesion s " +
-                     "    WHERE s.estado = 1 " +
-                     "    AND (s.fechaHoraInicio < ? AND s.fechaHoraFinal > ?)" +
-                     ")";
+        String sql = "SELECT e.* FROM empleado e "
+                + "WHERE e.estado = 1 "
+                + "AND e.matricula IS NOT NULL "
+                //Solo masajistas (unicos que tienen matrícula)
+                + "AND e.matricula NOT IN ("
+                + "    SELECT s.matriculaMasajista FROM sesion s "
+                + "    WHERE s.estado = 1 "
+                + "    AND (s.fechaHoraInicio < ? AND s.fechaHoraFinal > ?)"
+                + ")";
 
         try {
             PreparedStatement ps = con.prepareStatement(sql);
@@ -191,7 +210,7 @@ public class SesionData {
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
-            
+
             while (rs.next()) {
                 Empleado e = new Empleado();
                 e.setIdEmpleado(rs.getInt("idEmpleado"));
@@ -233,13 +252,12 @@ public class SesionData {
 
     public List<Instalacion> listarInstalacionesLibres(LocalDateTime desde, LocalDateTime hasta) {
         ArrayList<Instalacion> lista = new ArrayList<>();
-        String sql = "SELECT i.* FROM instalacion i " +
-                     "WHERE i.estado = 1 " +
-                     "AND i.codInstal NOT IN (" +
-                     "    SELECT s.codInstal FROM sesion s " +
-                     "    WHERE s.estado = 1 " +
-                     "    AND (s.fechaHoraInicio < ? AND s.fechaHoraFinal > ?)" +
-                     ")";
+        String sql = "SELECT i.* FROM instalacion i "
+                + "WHERE i.estado = 1 "
+                + "AND i.codInstal NOT IN ("
+                + "    SELECT s.codInstal FROM sesion s "
+                + "    WHERE s.estado = 1 "
+                + "    AND (s.fechaHoraInicio < ? AND s.fechaHoraFinal > ?)" + ")";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setTimestamp(1, Timestamp.valueOf(hasta));
@@ -260,12 +278,11 @@ public class SesionData {
 
     public List<Consultorio> listarConsultoriosLibres(LocalDateTime desde, LocalDateTime hasta) {
         ArrayList<Consultorio> lista = new ArrayList<>();
-        String sql = "SELECT c.* FROM consultorio c " +
-                     "WHERE c.nroConsultorio NOT IN (" +
-                     "    SELECT s.nroConsultorio FROM sesion s " +
-                     "    WHERE s.estado = 1 " +
-                     "    AND (s.fechaHoraInicio < ? AND s.fechaHoraFinal > ?)" +
-                     ")";
+        String sql = "SELECT c.* FROM consultorio c "
+                + "WHERE c.nroConsultorio NOT IN ("
+                + "    SELECT s.nroConsultorio FROM sesion s "
+                + "    WHERE s.estado = 1 "
+                + "    AND (s.fechaHoraInicio < ? AND s.fechaHoraFinal > ?)" + ")";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setTimestamp(1, Timestamp.valueOf(hasta));
@@ -354,4 +371,37 @@ public class SesionData {
         }
         return sesion;
     }
+
+    public void actualizarSesion(Sesion sesion) {
+        String sql = "UPDATE sesion SET fechaHoraInicio = ?, fechaHoraFinal = ?, codTratam = ?, nroConsultorio = ?, matriculaMasajista = ?, idRegistrador = ?, codInstal = ?, codPack = ?, estado = ? WHERE codSesion = ?";
+
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setTimestamp(1, Timestamp.valueOf(sesion.getFechaHoraInicio()));
+            ps.setTimestamp(2, Timestamp.valueOf(sesion.getFechaHoraFinal()));
+            ps.setInt(3, sesion.getTratamiento().getCodTratam());
+            ps.setInt(4, sesion.getConsultorio().getNroConsultorio());
+            ps.setString(5, sesion.getMasajista().getMatricula());
+            ps.setInt(6, sesion.getRegistrador().getIdEmpleado());
+            ps.setInt(7, sesion.getInstalacion().getCodInstal());
+
+            //Maneja el codPack, si es 0 o valor inválido se inserta nulo
+            if (sesion.getCodPack() > 0) {
+                ps.setInt(8, sesion.getCodPack());
+            } else {
+                ps.setNull(8, java.sql.Types.INTEGER);
+            }
+
+            ps.setBoolean(9, sesion.isActiva());
+            ps.setInt(10, sesion.getCodSesion()); //Condición where de cod ses
+
+            if (ps.executeUpdate() == 0) {
+                System.out.println("No se encontró la sesión para actualizar: " + sesion.getCodSesion());
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al actualizar sesión: " + ex.getMessage());
+        }
+    }
+    
+    
+    
 }

@@ -11,6 +11,7 @@ import Persistencias_Conexion.TratamientoData;
 import Vistas.VistaCliente;
 import Vistas.VistaConsultorio;
 import Vistas.VistaDiaDeSpa;
+import Vistas.VistaInstalacion;
 import Vistas.VistaSesiones;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -152,6 +153,18 @@ public class ControladorApp_MenuSpa implements ActionListener, MenuListener, Com
             ControladorSesiones ctrl = new ControladorSesiones(vista, sesionData, empleadoData, consultorioData, tratamientoData, instalacionData, clienteData, diaDeSpaData, menu);
 
             ctrl.iniciar();
+        }
+        
+        if (e.getSource() == menu.jButtonInstalaciones) {
+            VistaInstalacion vista = new VistaInstalacion();
+            InstalacionData data = new InstalacionData();
+            
+            ControladorInstalacion ctrl = new ControladorInstalacion(vista, data, menu); 
+
+            menu.JDesktopPFondo.add(vista);
+            ctrl.iniciar(); //
+            vista.setVisible(true);
+            vista.toFront();
         }
     }
 
