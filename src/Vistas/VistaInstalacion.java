@@ -4,12 +4,18 @@
  */
 package Vistas;
 
+import Modelos.Instalacion;
+import Persistencias_Conexion.InstalacionData;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author Ger
  */
 public class VistaInstalacion extends javax.swing.JInternalFrame {
-
+    
+    private DefaultTableModel modelo;
+    private InstalacionData instalacionData= new InstalacionData();
     /**
      * Creates new form VistaInstalacion
      */
@@ -30,7 +36,7 @@ public class VistaInstalacion extends javax.swing.JInternalFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTableInstalaciones = new javax.swing.JTable();
+        tablaInstalaciones = new javax.swing.JTable();
         jtfCodInstalacion = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -53,7 +59,7 @@ public class VistaInstalacion extends javax.swing.JInternalFrame {
         jLabel1.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
         jLabel1.setText("Instalaciones");
 
-        jTableInstalaciones.setModel(new javax.swing.table.DefaultTableModel(
+        tablaInstalaciones.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -64,7 +70,7 @@ public class VistaInstalacion extends javax.swing.JInternalFrame {
                 "ID", "Nombre", "Precio (30m)", "Detalle", "Estado"
             }
         ));
-        jScrollPane1.setViewportView(jTableInstalaciones);
+        jScrollPane1.setViewportView(tablaInstalaciones);
 
         jtfCodInstalacion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -199,7 +205,7 @@ public class VistaInstalacion extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+ 
     private void jtfCodInstalacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfCodInstalacionActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jtfCodInstalacionActionPerformed
@@ -228,7 +234,6 @@ public class VistaInstalacion extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTableInstalaciones;
     public javax.swing.JButton jbtnBuscar;
     public javax.swing.JButton jbtnEliminar;
     public javax.swing.JButton jbtnGuardar;
@@ -239,5 +244,64 @@ public class VistaInstalacion extends javax.swing.JInternalFrame {
     public javax.swing.JTextField jtfCodInstalacion;
     public javax.swing.JTextField jtfNombreInstalacion;
     public javax.swing.JTextField jtfPrecio30m;
+    private javax.swing.JTable tablaInstalaciones;
     // End of variables declaration//GEN-END:variables
+
+    public void limpiarCampos(){
+        jtfCodInstalacion.setText("");
+        jtfNombreInstalacion.setText("");
+        jtaDetalleUso.setText("");
+        jtfPrecio30m.setText("");
+        jchbEstadoInstalacion.setSelected(true);
+    }
+    
+    public void cargarFormDesdeInstalacion(Instalacion instalacion){
+        jtfCodInstalacion.setText(String.valueOf(instalacion.getCodInstal()));
+        jtfNombreInstalacion.setText(instalacion.getNombre());
+        jtfPrecio30m.setText(String.valueOf(instalacion.getPrecio()));
+        jtaDetalleUso.setText(instalacion.getDetalleUso());
+        jchbEstadoInstalacion.setSelected(instalacion.isEstado());
+    }
+    
+    private void armarCabeceraTabla(){
+        modelo = new DefaultTableModel(){
+            
+            @Override
+            public boolean isCellEditable(int fila, int columna){
+                return false;
+            }
+        };
+                
+        String[] titulos={"ID","Nombre","Precio (30m)","Detalle","Estado"};
+        modelo.setColumnIdentifiers(titulos);
+        tablaInstalaciones.setModel(modelo);
+    }
+    
+    public void cargarTablaInstalaciones(){
+        borrarFilas();
+        
+        try {
+            List<Instalacion> listaInstalaciones= instalacionData.listarTodasInstalacionesActivas();
+            
+            for(Instalacion i: listaInstalaciones){
+                modelo.addRow(new Object[]{
+                    i.getCodInstal(),
+                    i.getNombre(),
+                    String.format(".2f", i.getPrecio()),
+                    i.getDetalleUso(),
+                    i.isEstado() ?  "Activa" : "Inactiva"
+                });
+            }
+        } catch (Exception e) {
+            
+        }
+        
+    }
+    
+    private void borrarFilas(){
+        int a= modelo.getRowCount()- 1;
+        for(int i= a; i>=0;i--){
+            modelo.removeRow(i);
+        }
+    }
 }
