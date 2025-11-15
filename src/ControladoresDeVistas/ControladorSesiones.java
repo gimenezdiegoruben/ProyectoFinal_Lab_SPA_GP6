@@ -24,15 +24,15 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
-/**
- * @author Grupo 6 
- * Gimenez Diego Ruben 
- * Carlos German Mecias 
- * Giacomelli Tomas
- * Migliozzi Badani Urbani Jose
+/*  @author Grupo 6 
+    Gimenez Diego Ruben
+    Carlos German Mecias Giacomelli
+    Tomas Migliozzi Badani
+    Urbani Jose
  */
-
 public class ControladorSesiones implements ActionListener {
 
     private final VistaSesiones vista;
@@ -51,6 +51,7 @@ public class ControladorSesiones implements ActionListener {
     private Consultorio consultorioSeleccionado;
     private Instalacion instalacionSeleccionado;
     private Cliente clienteSeleccionado;
+    private DiaDeSpa diaActual;
 
     public ControladorSesiones(VistaSesiones vista, SesionData sesionData, EmpleadoData empleadoData,
             ConsultorioData consultorioData, TratamientoData tratamientoData, InstalacionData instalacionData,
@@ -69,6 +70,9 @@ public class ControladorSesiones implements ActionListener {
         this.vista.jButton_Agregar.addActionListener(this);
         this.vista.jButton_LimpiarCampos.addActionListener(this);
         this.vista.jButton_Salir.addActionListener(this);
+        this.vista.jButton_Modificar_Guardar.addActionListener(this);
+        this.vista.jButton_Anular_Sesión.addActionListener(this);
+        this.vista.jButton_BuscarPack.addActionListener(this);
 
         this.vista.jCmb_TipoTratamiento.addActionListener(this);
         this.vista.jCmb_Especialidad.addActionListener(this);
@@ -86,6 +90,8 @@ public class ControladorSesiones implements ActionListener {
         cargarCombos();
         configurarFechaHoraPorDefecto();
         limpiarCampos();
+        configurarTabla();
+        cargarSesionesEnTabla();
     }
 
     private void cargarCombos() {
@@ -203,6 +209,66 @@ public class ControladorSesiones implements ActionListener {
         this.vista.jCmb_Hora.setSelectedItem(horaSeleccionada);
     }
 
+    private void cargarSesionesEnTabla() {
+        DefaultTableModel modelo = (DefaultTableModel) vista.tbSesiones.getModel();
+        modelo.setRowCount(0);
+
+        List<Sesion> sesiones = sesionData.listarSesiones();
+
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+
+        for (Sesion s : sesiones) {
+
+            String fechaHora = "";
+            if (s.getFechaHoraInicio() != null) {
+                fechaHora = s.getFechaHoraInicio().format(formato);
+            }
+
+            String masajista = "";
+            if (s.getMasajista() != null) {
+                masajista = s.getMasajista().getNombre() + " " + s.getMasajista().getApellido();
+            }
+
+            String tratamiento = "";
+            if (s.getTratamiento() != null) {
+                tratamiento = s.getTratamiento().getNombre();
+            }
+
+            Object[] fila = new Object[]{
+                s.getCodSesion(),
+                fechaHora,
+                masajista,
+                tratamiento,
+                "",//Notas/Comentarios vacíos al iniciar
+                s.getEstado()
+            };
+
+            modelo.addRow(fila);
+        }
+    }
+
+    public void modificarTabla() {
+        DefaultTableModel modelo = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
+        modelo.addColumn("Masajista");
+        modelo.addColumn("Registrador");
+        modelo.addColumn("Consultorio");
+        modelo.addColumn("Tratamiento");
+        modelo.addColumn("Instalación");
+        modelo.addColumn("Hora inicio");
+        modelo.addColumn("Hora fin");
+        modelo.addColumn("Turno");
+        modelo.addColumn("Estado");
+
+        vista.tbSesiones.setModel(modelo);
+        vista.tbSesiones.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+    }
+
     private void actualizarTratamientoSeleccionado() {
         String seleccion = (String) this.vista.jCmb_Tratamiento.getSelectedItem();
         if (seleccion != null) {
@@ -290,6 +356,12 @@ public class ControladorSesiones implements ActionListener {
             actualizarInstalacionSeleccionada();
         } else if (e.getSource() == this.vista.jCmb_Consultorio) {
             actualizarConsultorioSeleccionado();
+        } else if (e.getSource() == vista.jButton_Modificar_Guardar) {
+            guardarCambiosEnTabla();//Guarda cambios hechos en las celdas de la tabla
+        } else if (e.getSource() == vista.jButton_Anular_Sesión) {
+            anularSesionSeleccionada();//Anula la sesión que se seleccionó
+        } else if (e.getSource() == this.vista.jButton_BuscarPack) {
+            buscarDiaDeSpaPorCodigo();
         }
     }
 
@@ -298,7 +370,16 @@ public class ControladorSesiones implements ActionListener {
             return;
         }
 
+        //Verificar que haya un Día de Spa (pack) seleccionado
+        if (this.diaActual == null) {
+            JOptionPane.showMessageDialog(this.vista,
+                    "Primero busque y seleccione un Día de Spa (pack) válido antes de agregar sesiones.",
+                    "Pack no seleccionado", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
         try {
+            //Fecha y hora desde la vista
             LocalDate fecha = this.vista.jDC_Fecha.getDate().toInstant()
                     .atZone(java.time.ZoneId.systemDefault()).toLocalDate();
             String horaStr = (String) this.vista.jCmb_Hora.getSelectedItem();
@@ -311,6 +392,7 @@ public class ControladorSesiones implements ActionListener {
                 fechaHoraFinal = fechaHoraInicio.plusMinutes((long) this.tratamientoSeleccionado.getDuracion());
             }
 
+            //Verificar disponibilidad
             if (!verificarDisponibilidad(fechaHoraInicio, fechaHoraFinal)) {
                 JOptionPane.showMessageDialog(this.vista,
                         "No hay disponibilidad en el horario seleccionado. Por favor, elija otro horario.",
@@ -318,6 +400,7 @@ public class ControladorSesiones implements ActionListener {
                 return;
             }
 
+            //Registrador (recepción)
             Empleado registrador = obtenerRegistrador();
             if (registrador == null) {
                 JOptionPane.showMessageDialog(this.vista,
@@ -326,12 +409,25 @@ public class ControladorSesiones implements ActionListener {
                 return;
             }
 
-            Sesion sesion = new Sesion(this.masajistaSeleccionado, registrador, this.consultorioSeleccionado,
-                    this.tratamientoSeleccionado, this.instalacionSeleccionado,
-                    fechaHoraInicio, fechaHoraFinal, 0);
+            //Toma el codPack del Día de Spa actual
+            int codPack = this.diaActual.getCodPack();
 
+            //Crear la sesión vinculada a ese pack
+            Sesion sesion = new Sesion(
+                    this.masajistaSeleccionado,
+                    registrador,
+                    this.consultorioSeleccionado,
+                    this.tratamientoSeleccionado,
+                    this.instalacionSeleccionado,
+                    fechaHoraInicio,
+                    fechaHoraFinal,
+                    codPack
+            );
+
+            // Guardar en BD
             this.sesionData.crearSesion(sesion);
 
+            // Mensaje
             JOptionPane.showMessageDialog(this.vista,
                     "Sesión creada exitosamente.\n"
                     + "Fecha: " + fechaHoraInicio.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")) + "\n"
@@ -340,7 +436,11 @@ public class ControladorSesiones implements ActionListener {
                     + "Monto: $" + this.vista.jTextField_MontoSesion.getText(),
                     "Sesión Creada", JOptionPane.INFORMATION_MESSAGE);
 
+            // ✅ 4) Limpiar campos del formulario
             limpiarCampos();
+
+            // ✅ 5) Recargar la tabla pero SOLO con las sesiones de ese pack
+            cargarSesionesEnTablaPorPack(codPack);
 
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this.vista,
@@ -449,5 +549,185 @@ public class ControladorSesiones implements ActionListener {
         actualizarMasajistaSeleccionado();
         actualizarConsultorioSeleccionado();
         actualizarInstalacionSeleccionada();
+    }
+
+    public void configurarTabla() {
+        // Define las columnas que se mostrarán
+        String[] nombresColumna = {"ID", "Fecha/Hora", "Masajista", "Tratamiento", "Notas/Comentarios", "Estado"};
+
+        DefaultTableModel modeloEditable = new DefaultTableModel(
+                new Object[][]{}, //Datos iniciales vacíos
+                nombresColumna) {
+            // Sobreescribe el método para controlar la editabilidad de las celdas
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                // Hacemos editable solo la columna de Comentarios (Columna 4)
+                // y el Estado (Columna 5) para cambios rápidos.
+                return column == 4 || column == 5;
+            }
+
+            @Override
+            public Class<?> getColumnClass(int columnIndex) {
+                //La columna "Estado" (índice 5) se ve como check box, es booleana,Evitamos que el casteo a Boolean no rompa
+                if (columnIndex == 5) {
+                    return Boolean.class;
+                }
+                return String.class;
+            }
+        };
+        vista.tbSesiones.setModel(modeloEditable);
+    }
+
+    public void agregarFilaSesion(Object[] datos) {
+        DefaultTableModel modelo = (DefaultTableModel) vista.tbSesiones.getModel();
+        modelo.addRow(datos);
+    }
+
+    public void limpiarTabla() {
+        DefaultTableModel modelo = (DefaultTableModel) vista.tbSesiones.getModel();
+        modelo.setRowCount(0);
+    }
+
+    private void guardarCambiosEnTabla() {
+        DefaultTableModel modelo = (DefaultTableModel) vista.tbSesiones.getModel();
+
+        for (int i = 0; i < modelo.getRowCount(); i++) {
+            try {
+                //obtenemos el id de la sesión
+                int idSesion = Integer.parseInt(modelo.getValueAt(i, 0).toString());
+
+                // 2. Obtener los valores editados
+                String nuevoComentario = (String) modelo.getValueAt(i, 4); // Asumo Columna 4 es Notas
+                Boolean nuevoEstado = (Boolean) modelo.getValueAt(i, 5); // Asumo Columna 5 es Estado (si la hiciste editable con Boolean.class)
+
+                // 3. Buscar la sesión completa para no perder las FK
+                Sesion sesionAActualizar = sesionData.buscarSesionPorCodigo(idSesion);
+
+                if (sesionAActualizar != null) {
+                    // 4. Aplicar los cambios:
+                    // Nota: Tu clase Sesion debe tener un campo de Comentarios/Notas para este ejemplo
+                    // sesionAActualizar.setComentarios(nuevoComentario); 
+                    sesionAActualizar.setEstado(nuevoEstado); // Asumo que se puede cambiar el estado (Activo/Anulado)
+
+                    // 5. Persistir el cambio en la BD
+                    sesionData.actualizarSesion(sesionAActualizar);
+                }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(vista, "Error al procesar fila " + (i + 1) + ": " + ex.getMessage(), "Error de Guardado", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        JOptionPane.showMessageDialog(vista, "Cambios de la tabla guardados exitosamente en la base de datos.");
+    }
+
+    private void anularSesionSeleccionada() {
+        int filaSeleccionada = vista.tbSesiones.getSelectedRow();
+
+        if (filaSeleccionada != -1) {
+            DefaultTableModel modelo = (DefaultTableModel) vista.tbSesiones.getModel();
+            int idSesion = Integer.parseInt(modelo.getValueAt(filaSeleccionada, 0).toString());
+
+            int confirm = JOptionPane.showConfirmDialog(vista, "¿Está seguro de que desea ANULAR la sesión con ID " + idSesion + "?", "Confirmar Anulación", JOptionPane.YES_NO_OPTION);
+
+            if (confirm == JOptionPane.YES_OPTION) {
+                sesionData.anularSesion(idSesion);
+
+                // 🚨 Importante: Actualizar la tabla visualmente
+                // Una opción: cambiar el estado en la celda
+                modelo.setValueAt(false, filaSeleccionada, 5); // Suponiendo que la Columna 5 es el Estado (false = Anulado)
+            }
+        } else {
+            JOptionPane.showMessageDialog(vista, "Seleccione una fila de la tabla para anular la sesión.");
+        }
+    }
+
+    private void limpiarTablaSesiones() {
+        DefaultTableModel modelo = (DefaultTableModel) vista.tbSesiones.getModel();
+        modelo.setRowCount(0);
+    }
+
+    private void cargarSesionesEnTablaPorPack(int codPack) {
+        DefaultTableModel modelo = (DefaultTableModel) vista.tbSesiones.getModel();
+        modelo.setRowCount(0);
+
+        List<Sesion> sesiones = sesionData.listarSesiones();
+
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+
+        for (Sesion s : sesiones) {
+
+            if (s.getCodPack() != codPack) {
+                continue; // filtramos por pack
+            }
+
+            String fechaHora = "";
+            if (s.getFechaHoraInicio() != null) {
+                fechaHora = s.getFechaHoraInicio().format(formato);
+            }
+
+            String masajista = "";
+            if (s.getMasajista() != null) {
+                masajista = s.getMasajista().getNombre() + " " + s.getMasajista().getApellido();
+            }
+
+            String tratamiento = "";
+            if (s.getTratamiento() != null) {
+                tratamiento = s.getTratamiento().getNombre();
+            }
+
+            Object[] fila = new Object[]{
+                s.getCodSesion(), // ID
+                fechaHora, // Fecha/Hora inicio
+                masajista, // Masajista
+                tratamiento, // Tratamiento
+                "", // Comentarios (si luego lo usás)
+                s.isActiva()// Estado (Boolean)
+            };
+
+            modelo.addRow(fila);
+        }
+    }
+
+    private void buscarDiaDeSpaPorCodigo() {
+        String textoCodPack = vista.jTextField_NumPack.getText().trim();
+
+        if (textoCodPack.isEmpty()) {
+            JOptionPane.showMessageDialog(vista, "Ingrese un número de pack.");
+            return;
+        }
+
+        int codPack;
+        try {
+            codPack = Integer.parseInt(textoCodPack);
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(vista, "El código de pack debe ser numérico.");
+            return;
+        }
+
+        DiaDeSpa dia = diaDeSpaData.buscarDiaDeSpa(codPack);
+
+        if (dia == null || !dia.isEstado()) {
+            JOptionPane.showMessageDialog(vista,
+                    "No se encontró un Día de Spa activo con ese código.",
+                    "Pack inexistente", JOptionPane.WARNING_MESSAGE);
+
+            this.diaActual = null;
+
+            mostrarTablaInicial();   // ← Nueva versión
+            limpiarCampos();          // opcional si querés limpiar combos/campos
+
+        } else {
+            this.diaActual = dia;
+            cargarSesionesEnTablaPorPack(codPack);
+        }
+    }
+
+    private void mostrarTablaInicial() {
+        DefaultTableModel modelo = (DefaultTableModel) vista.tbSesiones.getModel();
+        modelo.setRowCount(0);
+
+        // Opcional: fila indicativa
+        modelo.addRow(new Object[]{
+            "-", "-", "No hay datos", "Busque un pack", "-", false
+        });
     }
 }
