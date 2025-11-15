@@ -47,7 +47,7 @@ public class ControladorInstalacion implements ActionListener{
         }
         //Recargamos tabla despues 
         if (e.getSource() == vista.jbtnGuardar || e.getSource() == vista.jbtnModificar || e.getSource() == vista.jbtnEliminar) {
-             vista.cargarTablaInstalaciones(instalacionData.listarInstalacionesActivas());
+             vista.cargarTablaInstalaciones();
         }
     }
     
@@ -100,7 +100,7 @@ public class ControladorInstalacion implements ActionListener{
     
              Instalacion encontrada = instalacionData.buscarInstalacionPorCod(codInstal);
              if(encontrada!=null){
-                vista.cargarFormularioDesdeInstalacion(encontrada);
+                vista.cargarFormDesdeInstalacion(encontrada);
              }else{
                 JOptionPane.showMessageDialog(vista, "Instalación con ID " + codInstal + " no encontrada.");
                 vista.limpiarCampos();
@@ -112,14 +112,35 @@ public class ControladorInstalacion implements ActionListener{
     
     //MODIFICAR INSTALACION
     private void modificarInstalacion(){
-    Instalacion instalacionModif = obtenerInstalacionDesdeFormulario(true);
+    Instalacion instalacionModif = obtenerDatosForm(true);
     
-    if(instalacionModif != null)
+    if(instalacionModif != null && instalacionModif.getCodInstal()>0){
+        try {
+            instalacionData.modificarInstalacion(instalacionModif);
+            vista.limpiarCampos();
+        } catch (Exception e) {
+        }
+    }else if(instalacionModif!=null){
+        JOptionPane.showMessageDialog(vista,"Debe ingresar el codigo de la instalacion a modificar","Fallo de datos",JOptionPane.WARNING_MESSAGE);
+    }
     }
     
     
     //ELIMINAR INSTALACION
-    private void eliminarInstalacion(){}
+    private void eliminarInstalacion(){
+        try {
+            int codInstal= Integer.parseInt(vista.jtfCodInstalacion.getText().trim());
+            
+            int confirmacion= JOptionPane.showConfirmDialog(vista,"Estas seguro de eliminar la instalacion con ID "+codInstal+" ?","Confirmar eliminacion", JOptionPane.YES_NO_OPTION);
+            
+            if(confirmacion == JOptionPane.YES_OPTION){
+                instalacionData.eliminarInstalacion(codInstal);
+                vista.limpiarCampos();
+            }
+        } catch (Exception e) {
+        }
+    }
+    
     
     
 }
