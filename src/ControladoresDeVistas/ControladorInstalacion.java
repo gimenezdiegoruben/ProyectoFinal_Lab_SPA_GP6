@@ -7,6 +7,7 @@ package ControladoresDeVistas;
 import Modelos.Instalacion;
 import Persistencias_Conexion.InstalacionData;
 import Vistas.VistaInstalacion;
+import Vistas.Vista_MenuSpa;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
@@ -17,11 +18,16 @@ import javax.swing.JOptionPane;
 public class ControladorInstalacion implements ActionListener{
     private VistaInstalacion vista;
     private InstalacionData instalacionData;
+    private ControladorApp_MenuSpa menu;
     
-    public ControladorInstalacion(VistaInstalacion vista){
+    public ControladorInstalacion(VistaInstalacion vista, InstalacionData data, Vista_MenuSpa menu){
         this.vista=vista;
         this.instalacionData= new InstalacionData();
+        this.menu= this.menu;
         iniciarListenerBotones();
+    }
+    public void iniciar() {
+        vista.setTitle("Gestión de Instalaciones");
     }
     
     private void iniciarListenerBotones(){
