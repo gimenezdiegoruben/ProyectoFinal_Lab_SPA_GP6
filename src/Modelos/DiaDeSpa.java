@@ -17,18 +17,17 @@ public class DiaDeSpa {
     private String preferencias;
     private Cliente cliente;
     private List<Sesion> sesiones;
-    private double monto;
+    private double monto = 0;
     private boolean estado;
 
     public DiaDeSpa() {
     }
 
-    public DiaDeSpa(LocalDateTime fechayhora, String preferencias, Cliente cliente, List<Sesion> sesiones, double monto, boolean estado) {
+    public DiaDeSpa(LocalDateTime fechayhora, String preferencias, Cliente cliente, List<Sesion> sesiones, boolean estado) {
         this.fechayhora = fechayhora;
         this.preferencias = preferencias;
         this.cliente = cliente;
         this.sesiones = sesiones;
-        this.monto = monto;
         this.estado = estado;
     }
 

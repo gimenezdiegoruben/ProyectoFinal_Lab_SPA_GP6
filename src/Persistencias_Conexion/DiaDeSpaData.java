@@ -72,12 +72,13 @@ public class DiaDeSpaData {
             ps.setInt(3, diaDeSpa.getCliente().getCodCli());
             ps.setDouble(4, diaDeSpa.getMonto());
             ps.setBoolean(5, diaDeSpa.isEstado());
+            ps.setInt(6, diaDeSpa.getCodPack());
             int exito = ps.executeUpdate();
             
             if (exito == 1) {
-                System.out.println("Consultorio modificado con éxito.");
+                System.out.println("Turno modificado con éxito.");
             } else {
-                System.out.println("El número de consultorio ingresado no esta vinculado a ningun consultorio.");
+                System.out.println("El número de turno ingresado no esta vinculado a ningun turno.");
             }
         } catch (SQLException ex) {
             System.out.println("Error al acceder a la base de datos " + ex.getMessage());
@@ -91,6 +92,35 @@ public class DiaDeSpaData {
             }
         }
     }
+    
+    public void asignarMonto(DiaDeSpa diaDeSpa, double monto) {
+        String sql = "UPDATE dia_de_spa SET monto = ? WHERE codPack = ?";
+        PreparedStatement ps = null;
+        con = Conexion.getConexion();
+        
+        try {
+            ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setDouble(1, monto);
+            ps.setInt(2, diaDeSpa.getCodPack());
+            int exito = ps.executeUpdate();
+            
+            if (exito == 1) {
+                System.out.println("Monto agregado con éxito.");
+            } else {
+                System.out.println("El monto no se ha podido agregar, el número de turno no existe.");
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error al acceder a la base de datos " + ex.getMessage());
+        } finally {
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+            }catch (SQLException ex) {
+                    System.out.println("Error al cerrar el PreparedStatement: " + ex.getMessage());
+                }
+            }
+        }
     
     public DiaDeSpa buscarDiaDeSpa(int codPack) {
         String sql = "SELECT * FROM dia_de_spa WHERE codPack = ?";
@@ -116,7 +146,7 @@ public class DiaDeSpaData {
                 diaDeSpa.setEstado(rs.getBoolean("estado"));
                 
             } else {
-                System.out.println("El número de consultorio ingresado no esta vinculado a ningun consultorio.");
+                System.out.println("El número de turno ingresado no esta vinculado a ningun turno.");
             }
         } catch (SQLException ex) {
             System.out.println("Error al acceder a la base de datos " + ex.getMessage());
@@ -136,6 +166,81 @@ public class DiaDeSpaData {
     public List<DiaDeSpa> listarDiaDeSpa() {
 
         String sql = "SELECT * FROM dia_de_spa";
+        PreparedStatement ps = null;
+        con = Conexion.getConexion();
+        List<DiaDeSpa> paquetes = new ArrayList<>();
+
+        try {
+
+            ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                DiaDeSpa diaDeSpa = new DiaDeSpa();
+                diaDeSpa.setCodPack(rs.getInt("codPack"));
+                diaDeSpa.setFechayhora(rs.getTimestamp("fechayhoraCompra").toLocalDateTime());
+                diaDeSpa.setPreferencias(rs.getString("preferencias"));
+                Cliente c1 = new Cliente();
+                c1.setCodCli(rs.getInt("codCli"));
+                diaDeSpa.setCliente(c1);
+                diaDeSpa.setMonto(rs.getDouble("monto"));
+                diaDeSpa.setEstado(rs.getBoolean("estado"));
+                paquetes.add(diaDeSpa);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error al acceder a la base de datos " + ex.getMessage());
+        } finally {
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+            } catch (SQLException ex) {
+                System.err.println("Error al cerrar el PreparedStatement: " + ex.getMessage());
+            }
+        }
+
+        return paquetes;
+    }
+    public List<DiaDeSpa> listarDiaDeSpaActivos() {
+
+        String sql = "SELECT * FROM dia_de_spa WHERE estado = 1";
+        PreparedStatement ps = null;
+        con = Conexion.getConexion();
+        List<DiaDeSpa> paquetes = new ArrayList<>();
+
+        try {
+
+            ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                DiaDeSpa diaDeSpa = new DiaDeSpa();
+                diaDeSpa.setCodPack(rs.getInt("codPack"));
+                diaDeSpa.setFechayhora(rs.getTimestamp("fechayhoraCompra").toLocalDateTime());
+                diaDeSpa.setPreferencias(rs.getString("preferencias"));
+                Cliente c1 = new Cliente();
+                c1.setCodCli(rs.getInt("codCli"));
+                diaDeSpa.setCliente(c1);
+                diaDeSpa.setMonto(rs.getDouble("monto"));
+                diaDeSpa.setEstado(rs.getBoolean("estado"));
+                paquetes.add(diaDeSpa);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error al acceder a la base de datos " + ex.getMessage());
+        } finally {
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+            } catch (SQLException ex) {
+                System.err.println("Error al cerrar el PreparedStatement: " + ex.getMessage());
+            }
+        }
+
+        return paquetes;
+    }
+    
+    public List<DiaDeSpa> listarDiaDeSpaInactivos() {
+
+        String sql = "SELECT * FROM dia_de_spa WHERE estado = 0";
         PreparedStatement ps = null;
         con = Conexion.getConexion();
         List<DiaDeSpa> paquetes = new ArrayList<>();

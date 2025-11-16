@@ -46,7 +46,7 @@ public class ClienteData {
         ResultSet rs= ps.getGeneratedKeys();
         if(rs.next()){
             cliente.setCodCli(rs.getInt(1));
-            JOptionPane.showMessageDialog(null, "Alumno guardado");
+            JOptionPane.showMessageDialog(null, "Cliente guardado");
         }
         ps.close();
         
@@ -120,7 +120,7 @@ public class ClienteData {
                  cliente.setTelefono(rs.getLong("telefono"));
                  cliente.setEdad(rs.getInt("edad"));
                  cliente.setAfecciones(rs.getString("afecciones"));
-                 cliente.setEstado(rs.getInt("estado") == 1);
+                 cliente.setEstado(rs.getBoolean("estado"));
                  cliente.setFechaNac(rs.getDate("fechaNac").toLocalDate());
             }else {
                 JOptionPane.showMessageDialog(null, "No existe un cliente con ese id");

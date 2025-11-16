@@ -110,7 +110,6 @@ public class SesionData {
 
         return lista;
     }
-
     public List<Sesion> listarSesionesPorPack(int codPack) {
 
         List<Sesion> lista = new ArrayList<>();
