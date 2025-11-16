@@ -1,22 +1,13 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
- */
+
 package Vistas;
 
-/**
- *
- * @author patri
- */
 public class VistasTratamiento extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form VistasTratamiento
      */
     public VistasTratamiento() {
-        /*initComponents();
-        ProductoData productoData= new ProductoData();
-       cargarComboProductos(productoData.cargarProductos());*/ 
+        initComponents();
     }
 
     /**
@@ -33,7 +24,7 @@ public class VistasTratamiento extends javax.swing.JInternalFrame {
         jLabel2 = new javax.swing.JLabel();
         comboEspecialidad = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
-        comboProducto = new javax.swing.JComboBox<>();
+        comboProducto = new javax.swing.JComboBox();
         btnEliminar = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblProducto = new javax.swing.JTable();
@@ -60,29 +51,13 @@ public class VistasTratamiento extends javax.swing.JInternalFrame {
 
         jLabel1.setText("Nombre");
 
-        txtNombre.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNombreActionPerformed(evt);
-            }
-        });
-
         jLabel2.setText("Especialidad");
 
         comboEspecialidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Facial", "Corporal", "Relajacion", "Estetico" }));
-        comboEspecialidad.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                comboEspecialidadActionPerformed(evt);
-            }
-        });
 
         jLabel3.setText("Productos");
 
         btnEliminar.setText("Eliminar");
-        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEliminarActionPerformed(evt);
-            }
-        });
 
         tblProducto.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -111,25 +86,9 @@ public class VistasTratamiento extends javax.swing.JInternalFrame {
 
         jLabel4.setText("Precio Total");
 
-        txtPrecio.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtPrecioActionPerformed(evt);
-            }
-        });
-
         btnGuardarTrat.setText("Guardar");
-        btnGuardarTrat.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGuardarTratActionPerformed(evt);
-            }
-        });
 
         btnSalir.setText("Salir");
-        btnSalir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSalirActionPerformed(evt);
-            }
-        });
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel5.setText("Tratamiento");
@@ -137,18 +96,8 @@ public class VistasTratamiento extends javax.swing.JInternalFrame {
         jLabel6.setText("Detalle");
 
         btnModificar.setText("Modificar");
-        btnModificar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnModificarActionPerformed(evt);
-            }
-        });
 
         btndeAltaoBaja.setText("Alta/Baja");
-        btndeAltaoBaja.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btndeAltaoBajaActionPerformed(evt);
-            }
-        });
 
         jLabelDuracion7.setText("duracion");
 
@@ -254,42 +203,9 @@ public class VistasTratamiento extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
-        
-    }//GEN-LAST:event_txtNombreActionPerformed
-
     private void formCaretPositionChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_formCaretPositionChanged
         
     }//GEN-LAST:event_formCaretPositionChanged
-
-    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-        
-    }//GEN-LAST:event_btnSalirActionPerformed
-
-    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-       
-    }//GEN-LAST:event_btnEliminarActionPerformed
-
-    private void btnGuardarTratActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarTratActionPerformed
-            
-                
-    }//GEN-LAST:event_btnGuardarTratActionPerformed
-
-    private void txtPrecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPrecioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtPrecioActionPerformed
-
-    privjButtonModificar1 comboEspecialidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboEspecialidadActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_comboEspecialidadActionPerformed
-
-    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-     
-    }//GEN-LAST:event_btnModificarActionPerformed
-
-    private void btndeAltaoBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndeAltaoBajaActionPerformed
-        
-    }//GEN-LAST:event_btndeAltaoBajaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -299,7 +215,7 @@ public class VistasTratamiento extends javax.swing.JInternalFrame {
     public javax.swing.JButton btnSalir;
     public javax.swing.JButton btndeAltaoBaja;
     public javax.swing.JComboBox<String> comboEspecialidad;
-    public javax.swing.JComboBox<Producto> comboProducto;
+    public javax.swing.JComboBox comboProducto;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -314,13 +230,7 @@ public class VistasTratamiento extends javax.swing.JInternalFrame {
     public javax.swing.JTextField txtNombre;
     public javax.swing.JTextField txtPrecio;
     // End of variables declaration//GEN-END:variables
- /*public void cargarComboProductos(ArrayList<Producto> listado){
-        
-     for (Producto aux : listado){
-         comboProducto.addItem(aux);
-         
-     }
-    }*/
+
 
 }
 

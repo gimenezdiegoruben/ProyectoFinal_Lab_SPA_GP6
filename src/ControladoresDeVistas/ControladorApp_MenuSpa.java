@@ -24,6 +24,8 @@ import javax.swing.JLabel;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 import Vistas.Vista_MenuSpa;
+import Vistas.VistasTratamiento;
+import javax.swing.JOptionPane;
 
 /*  @author Grupo 6 
     Gimenez Diego Ruben
@@ -100,72 +102,124 @@ public class ControladorApp_MenuSpa implements ActionListener, MenuListener, Com
         }
 
         if (e.getSource() == menu.jButtonEmpleados) { // Iniciar el jInternalFrame de Pacientes
-            VistaEmpleados vista = new VistaEmpleados();
-            EmpleadoData data = new EmpleadoData();
-            ControladorEmpleados ctrl = new ControladorEmpleados(menu, vista, data);
+            if (vistaAbierta(VistaEmpleados.class)) {
+                JOptionPane.showMessageDialog(menu, "La vista Empleados ya está abierta.");
+                return;
+            } else {
+                VistaEmpleados vista = new VistaEmpleados();
+                EmpleadoData data = new EmpleadoData();
+                ControladorEmpleados ctrl = new ControladorEmpleados(menu, vista, data);
 
-            menu.JDesktopPFondo.add(vista);
-            ctrl.iniciar();
-            vista.setVisible(true);
-            vista.toFront();
+                menu.JDesktopPFondo.add(vista);
+                ctrl.iniciar();
+                vista.setVisible(true);
+                vista.toFront();
+            }
         }
         //[aquí los demás botones]
         if (e.getSource() == menu.jButtonClientes) {
-            VistaCliente vista = new VistaCliente();
-            ClienteData data = new ClienteData();
-            ControladorCliente ctrl = new ControladorCliente(vista, data, menu);
+            if (vistaAbierta(VistaCliente.class)) {
+                JOptionPane.showMessageDialog(menu, "La vista Clientes ya está abierta.");
+                return;
+            } else {
+                VistaCliente vista = new VistaCliente();
+                ClienteData data = new ClienteData();
+                ControladorCliente ctrl = new ControladorCliente(vista, data, menu);
 
-            ctrl.iniciar();
+                ctrl.iniciar();
+            }
         }
 
         if (e.getSource() == menu.jButtonConsultorios) {
-            VistaConsultorio vista = new VistaConsultorio();
-            ConsultorioData data = new ConsultorioData();
-            ControladorConsultorio ctrl = new ControladorConsultorio(vista, data, menu);
+            if (vistaAbierta(VistaConsultorio.class)) {
+                JOptionPane.showMessageDialog(menu, "La vista Consultorios ya está abierta.");
+                return;
+            } else {
+                VistaConsultorio vista = new VistaConsultorio();
+                ConsultorioData data = new ConsultorioData();
+                ControladorConsultorio ctrl = new ControladorConsultorio(vista, data, menu);
 
-            ctrl.iniciar();
+                ctrl.iniciar();
+            }
         }
 
         if (e.getSource() == menu.jButtonTurnos_DiaDeSPA) {
-            VistaDiaDeSpa vista = new VistaDiaDeSpa();
-            DiaDeSpaData data = new DiaDeSpaData();
-            ClienteData clienteData = new ClienteData();
-            ControladorDiaDeSpa ctrl = new ControladorDiaDeSpa(vista, data, clienteData, menu);
+            if (vistaAbierta(VistaDiaDeSpa.class)) {
+                JOptionPane.showMessageDialog(menu, "La vista Dia de SPA (Turnos) ya está abierta.");
+                return;
+            } else {
+                VistaDiaDeSpa vista = new VistaDiaDeSpa();
+                DiaDeSpaData data = new DiaDeSpaData();
+                ClienteData clienteData = new ClienteData();
+                ControladorDiaDeSpa ctrl = new ControladorDiaDeSpa(vista, data, clienteData, menu);
 
-            ctrl.iniciar();
-            
+                ctrl.iniciar();
+            }
         }
 
         if (e.getSource() == menu.jButtonSesiones) {
-            VistaSesiones vista = new VistaSesiones();
+            if (vistaAbierta(VistaSesiones.class)) {
+                JOptionPane.showMessageDialog(menu, "La vista Sesiones ya está abierta.");
+                return;
+            } else {
+                VistaSesiones vista = new VistaSesiones();
 
-            EmpleadoData empleadoData = new EmpleadoData();
-            ConsultorioData consultorioData = new ConsultorioData();
-            TratamientoData tratamientoData = new TratamientoData();
-            InstalacionData instalacionData = new InstalacionData();
-            ClienteData clienteData = new ClienteData();
-            DiaDeSpaData diaDeSpaData = new DiaDeSpaData();
+                EmpleadoData empleadoData = new EmpleadoData();
+                ConsultorioData consultorioData = new ConsultorioData();
+                TratamientoData tratamientoData = new TratamientoData();
+                InstalacionData instalacionData = new InstalacionData();
+                ClienteData clienteData = new ClienteData();
+                DiaDeSpaData diaDeSpaData = new DiaDeSpaData();
 
-            //Instanciamos SesionData con sus 4 dependencias 
-            SesionData sesionData = new SesionData(empleadoData, consultorioData, tratamientoData, instalacionData);
+                //Instanciamos SesionData con sus 4 dependencias 
+                SesionData sesionData = new SesionData(empleadoData, consultorioData, tratamientoData, instalacionData);
 
-            //Creamos el ControladorSesiones con sus 9 argumentos..su vista, 7 Data objects, menu
-            ControladorSesiones ctrl = new ControladorSesiones(vista, sesionData, empleadoData, consultorioData, tratamientoData, instalacionData, clienteData, diaDeSpaData, menu);
+                //Creamos el ControladorSesiones con sus 9 argumentos..su vista, 7 Data objects, menu
+                ControladorSesiones ctrl = new ControladorSesiones(vista, sesionData, empleadoData, consultorioData, tratamientoData, instalacionData, clienteData, diaDeSpaData, menu);
 
-            ctrl.iniciar();
+                ctrl.iniciar();
+            }
         }
-        
+
         if (e.getSource() == menu.jButtonInstalaciones) {
-            VistaInstalacion vista = new VistaInstalacion();
-            InstalacionData data = new InstalacionData();
-            
-            ControladorInstalacion ctrl = new ControladorInstalacion(vista, data, menu); 
+            if (vistaAbierta(VistaInstalacion.class)) {
+                JOptionPane.showMessageDialog(menu, "La vista Instalción ya está abierta.");
+                return;
+            } else {
 
-            menu.JDesktopPFondo.add(vista);
-            ctrl.iniciar(); //
-            vista.setVisible(true);
-            vista.toFront();
+                VistaInstalacion vista = new VistaInstalacion();
+                InstalacionData data = new InstalacionData();
+
+                ControladorInstalacion ctrl = new ControladorInstalacion(vista, data, menu);
+
+                menu.JDesktopPFondo.add(vista);
+                ctrl.iniciar(); //
+                vista.setVisible(true);
+                vista.toFront();
+            }
         }
+        if (e.getSource() == menu.jButtonTratamientos) {
+            if (vistaAbierta(VistasTratamiento.class)) {
+                JOptionPane.showMessageDialog(menu, "La vista Tratamientos ya está abierta.");
+                return;
+            } else {
+
+                VistasTratamiento vista = new VistasTratamiento();
+                TratamientoData data = new TratamientoData();
+
+                ControladorTratamiento controlador = new ControladorTratamiento(vista, data, menu);
+                controlador.iniciar();
+            }
+        }
+    }
+
+    private boolean vistaAbierta(Class tipo) {
+        for (java.awt.Component comp : menu.JDesktopPFondo.getComponents()) {
+            if (tipo.isInstance(comp)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void ponerFondo() {
