@@ -118,6 +118,7 @@ CREATE TABLE `sesion` (
   `codInstal` int(11) NOT NULL,
   `codPack` int(11) NOT NULL,
   `monto` double NOT NULL DEFAULT 0,
+  `notas` varchar(200),  
   `estado` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -132,7 +133,7 @@ CREATE TABLE `tratamiento` (
   `nombre` varchar(60) NOT NULL,
   `tipo` varchar(200) NOT NULL,
   `detalle` varchar(60) NOT NULL,
-  `productos` int(11) NOT NULL,
+  `productos` varchar(50) NOT NULL,
   `duracion` int(11) NOT NULL,
   `costo` double NOT NULL,
   `estado` tinyint(1) NOT NULL DEFAULT 1
@@ -227,7 +228,6 @@ ALTER TABLE `instalacion`
 --
 ALTER TABLE `sesion`
   MODIFY `codSesion` int(11) NOT NULL AUTO_INCREMENT;
-  ADD COLUMN monto DOUBLE NOT NULL DEFAULT 0 AFTER codPack;
 
 --
 -- AUTO_INCREMENT de la tabla `tratamiento`

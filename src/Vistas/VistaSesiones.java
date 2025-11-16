@@ -56,6 +56,9 @@ public class VistaSesiones extends javax.swing.JInternalFrame {
         jButton_Anular_Sesión = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbSesiones = new javax.swing.JTable();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextArea_Notas = new javax.swing.JTextArea();
+        jLabel_Notas = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -174,6 +177,14 @@ public class VistaSesiones extends javax.swing.JInternalFrame {
         tbSesiones.setPreferredSize(null);
         jScrollPane1.setViewportView(tbSesiones);
 
+        jTextArea_Notas.setColumns(20);
+        jTextArea_Notas.setRows(5);
+        jScrollPane2.setViewportView(jTextArea_Notas);
+
+        jLabel_Notas.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jLabel_Notas.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel_Notas.setText("Notas / Comentarios");
+
         javax.swing.GroupLayout jPanelSesionesLayout = new javax.swing.GroupLayout(jPanelSesiones);
         jPanelSesiones.setLayout(jPanelSesionesLayout);
         jPanelSesionesLayout.setHorizontalGroup(
@@ -182,47 +193,60 @@ public class VistaSesiones extends javax.swing.JInternalFrame {
                 .addGap(6, 6, 6)
                 .addGroup(jPanelSesionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelSesionesLayout.createSequentialGroup()
-                        .addGroup(jPanelSesionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel_Tratamiento)
-                            .addComponent(jLabel_MontoSes)
-                            .addComponent(jLabel_Consultorio)
-                            .addComponent(jLabel_Instalacion)
-                            .addComponent(jLabel_Profesional)
-                            .addComponent(jLabel_Especialidad)
-                            .addComponent(jLabel_TipoTratamiento)
-                            .addComponent(jLabelHora)
-                            .addComponent(jLabelFecha)
-                            .addComponent(jLabel_NumPack))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanelSesionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanelSesionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanelSesionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jCmb_TipoTratamiento, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jCmb_Especialidad, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jCmb_Tratamiento, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jCmb_Profesional, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jCmb_Instalacion, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jCmb_Consultorio, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanelSesionesLayout.createSequentialGroup()
+                                .addGap(7, 7, 7)
+                                .addGroup(jPanelSesionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanelSesionesLayout.createSequentialGroup()
+                                        .addGroup(jPanelSesionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jLabel_Tratamiento)
+                                            .addComponent(jLabel_MontoSes)
+                                            .addComponent(jLabel_Consultorio)
+                                            .addComponent(jLabel_Instalacion)
+                                            .addComponent(jLabel_Profesional)
+                                            .addComponent(jLabel_Especialidad)
+                                            .addComponent(jLabel_TipoTratamiento)
+                                            .addComponent(jLabelHora)
+                                            .addComponent(jLabelFecha)
+                                            .addComponent(jLabel_NumPack))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(jPanelSesionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addComponent(jCmb_TipoTratamiento, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(jCmb_Especialidad, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(jCmb_Tratamiento, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(jCmb_Profesional, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(jCmb_Instalacion, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(jCmb_Consultorio, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addGroup(jPanelSesionesLayout.createSequentialGroup()
+                                                .addGroup(jPanelSesionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(jDC_Fecha, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(jTextField_NumPack, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(jCmb_Hora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                                                .addComponent(jButton_BuscarPack)
+                                                .addGap(2, 2, 2))))
                                     .addGroup(jPanelSesionesLayout.createSequentialGroup()
                                         .addGroup(jPanelSesionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jDC_Fecha, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jTextField_NumPack, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jCmb_Hora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
-                                        .addComponent(jButton_BuscarPack)
-                                        .addGap(2, 2, 2)))
-                                .addComponent(jButton_LimpiarCampos, javax.swing.GroupLayout.Alignment.TRAILING))
-                            .addGroup(jPanelSesionesLayout.createSequentialGroup()
-                                .addComponent(jTextField_MontoSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton_Agregar, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(10, 10, 10)
+                                            .addGroup(jPanelSesionesLayout.createSequentialGroup()
+                                                .addGap(96, 96, 96)
+                                                .addComponent(jTextField_MontoSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(jPanelSesionesLayout.createSequentialGroup()
+                                                .addGap(17, 17, 17)
+                                                .addComponent(jLabel_Notas)))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jButton_Agregar)))
+                                .addGap(10, 10, 10))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelSesionesLayout.createSequentialGroup()
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)))
                         .addGroup(jPanelSesionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanelSesionesLayout.createSequentialGroup()
-                                .addComponent(jButton_Modificar_Guardar)
+                                .addComponent(jButton_Modificar_Guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
+                                .addComponent(jButton_LimpiarCampos)
+                                .addGap(38, 38, 38)
                                 .addComponent(jButton_Anular_Sesión)
-                                .addGap(177, 177, 177)
+                                .addGap(52, 52, 52)
                                 .addComponent(jButton_Salir, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 731, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanelSesionesLayout.createSequentialGroup()
@@ -277,18 +301,24 @@ public class VistaSesiones extends javax.swing.JInternalFrame {
                             .addComponent(jCmb_Consultorio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel_Consultorio))
                         .addGap(18, 18, 18)
-                        .addGroup(jPanelSesionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel_MontoSes)
+                        .addGroup(jPanelSesionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jButton_Agregar)
-                            .addComponent(jTextField_MontoSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanelSesionesLayout.createSequentialGroup()
+                                .addGroup(jPanelSesionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextField_MontoSesion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel_MontoSes))
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel_Notas))))
                     .addComponent(jScrollPane1))
-                .addGap(10, 10, 10)
-                .addGroup(jPanelSesionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton_Modificar_Guardar)
-                    .addComponent(jButton_Anular_Sesión)
-                    .addComponent(jButton_LimpiarCampos)
-                    .addComponent(jButton_Salir))
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelSesionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelSesionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton_Modificar_Guardar)
+                        .addComponent(jButton_LimpiarCampos)
+                        .addComponent(jButton_Anular_Sesión)
+                        .addComponent(jButton_Salir))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -369,12 +399,15 @@ public class VistaSesiones extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel_Especialidad;
     private javax.swing.JLabel jLabel_Instalacion;
     private javax.swing.JLabel jLabel_MontoSes;
+    private javax.swing.JLabel jLabel_Notas;
     private javax.swing.JLabel jLabel_NumPack;
     private javax.swing.JLabel jLabel_Profesional;
     private javax.swing.JLabel jLabel_TipoTratamiento;
     private javax.swing.JLabel jLabel_Tratamiento;
     public javax.swing.JPanel jPanelSesiones;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    public javax.swing.JTextArea jTextArea_Notas;
     public javax.swing.JTextField jTextField_MontoSesion;
     public javax.swing.JTextField jTextField_NumPack;
     public javax.swing.JTable tbSesiones;

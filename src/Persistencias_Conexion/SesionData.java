@@ -25,6 +25,7 @@ public class SesionData {
     private InstalacionData instalData;
 
     public SesionData() {
+        con = Conexion.getConexion();
     }
 
     public SesionData(EmpleadoData empData, ConsultorioData consData, TratamientoData tratData, InstalacionData instalData) {
@@ -36,8 +37,8 @@ public class SesionData {
     }
 
     public void crearSesion(Sesion sesion) {
-        String sql = "INSERT INTO sesion(fechaHoraInicio, fechaHoraFinal, codTratam, nroConsultorio, matriculaMasajista, idRegistrador, codInstal, codPack, estado) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO sesion(fechaHoraInicio, fechaHoraFinal, codTratam, nroConsultorio, matriculaMasajista, idRegistrador, codInstal, codPack, monto, notas, estado) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try {
             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -46,9 +47,9 @@ public class SesionData {
             ps.setTimestamp(2, Timestamp.valueOf(sesion.getFechaHoraFinal()));
             ps.setInt(3, sesion.getTratamiento().getCodTratam());
             ps.setInt(4, sesion.getConsultorio().getNroConsultorio());
-            ps.setString(5, sesion.getMasajista().getMatricula());  //matricula del masajista
-            ps.setInt(6, sesion.getRegistrador().getIdEmpleado());  //id del registrador (la recep)
-
+            ps.setString(5, sesion.getMasajista().getMatricula());
+            ps.setInt(6, sesion.getRegistrador().getIdEmpleado());//id del registrador (la recep)
+            
             //Si la instalación es opcional “Ninguna”, no rompe nada
             //Si aún no estmos vinculando la sesión a un codPack real y sigue en 0, no romperá la clave foranea y guarda null
             if (sesion.getInstalacion() != null) {
@@ -56,112 +57,84 @@ public class SesionData {
             } else {
                 ps.setNull(7, java.sql.Types.INTEGER);
             }
-
+            
             if (sesion.getCodPack() > 0) {
                 ps.setInt(8, sesion.getCodPack());
             } else {
                 ps.setNull(8, java.sql.Types.INTEGER);
-            }
-
-            ps.setBoolean(9, sesion.getEstado());
+            }            
+            
+            ps.setDouble(9, sesion.getMonto());
+            ps.setString(10, sesion.getNotas());
+            ps.setBoolean(11, sesion.getEstado());
 
             ps.executeUpdate();
+
             ResultSet rs = ps.getGeneratedKeys();
             if (rs.next()) {
                 sesion.setCodSesion(rs.getInt(1));
                 JOptionPane.showMessageDialog(null, "Sesión creada con éxito. Código: " + sesion.getCodSesion());
             }
             ps.close();
+            rs.close();
+
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al crear la Sesión: " + ex.getMessage());
         }
     }
 
     public void modificarSesion(Sesion sesion) {
-        String sql = "UPDATE sesion SET fechaHoraInicio = ?, fechaHoraFinal = ?, codTratam = ?, nroConsultorio = ?, matriculaMasajista = ?, idRegistrador = ?, codInstal = ?, codPack = ?, estado = ? "
-                + "WHERE codSesion = ?";
-
-        try {
-            PreparedStatement ps = con.prepareStatement(sql);
-            ps.setTimestamp(1, Timestamp.valueOf(sesion.getFechaHoraInicio()));
-            ps.setTimestamp(2, Timestamp.valueOf(sesion.getFechaHoraFinal()));
-            ps.setInt(3, sesion.getTratamiento().getCodTratam());
-            ps.setInt(4, sesion.getConsultorio().getNroConsultorio());
-            ps.setString(5, sesion.getMasajista().getMatricula());  //matricula
-            ps.setInt(6, sesion.getRegistrador().getIdEmpleado());  //id recep
-
-            //Maneja el codPack, si es 0 o valor inválido se inserta nulo
-            if (sesion.getInstalacion() != null) {
-                ps.setInt(7, sesion.getInstalacion().getCodInstal());
-            } else {
-                ps.setNull(7, java.sql.Types.INTEGER);
-            }
-
-            ps.setInt(8, sesion.getCodPack());
-            ps.setBoolean(9, sesion.getEstado());
-            ps.setInt(10, sesion.getCodSesion());
-
-            int exito = ps.executeUpdate();
-            if (exito > 0) {
-                JOptionPane.showMessageDialog(null, "Sesión modificada.");
-            } else {
-                JOptionPane.showMessageDialog(null, "No se encontró la sesión a modificar.");
-            }
-            ps.close();
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla sesión (modificar): " + ex.getMessage());
-        }
+        actualizarSesion(sesion);
     }
 
-    public List<Sesion> listarSesiones() {
-        ArrayList<Sesion> lista = new ArrayList<>();
-        String sql = "SELECT * FROM sesion";
+    public List<Sesion> listarSesiones() {   // NUEVO
+
+        List<Sesion> lista = new ArrayList<>();
+        String sql = "SELECT * FROM sesion";  // NUEVO
 
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                Sesion sesi = new Sesion();
-                sesi.setCodSesion(rs.getInt("codSesion"));
-
-                //Obtener datos de bd
-                int nroConsultorio = rs.getInt("nroConsultorio");
-                int codTratam = rs.getInt("codTratam");
-                int codInstal = rs.getInt("codInstal");
-                String matriculaMasajista = rs.getString("matriculaMasajista");  //matric masaj
-                int idRegistrador = rs.getInt("idRegistrador");                  //id recep
-                int codPack = rs.getInt("codPack");
-
-                //Buscar objetos complet
-                Empleado masajista = empData.buscarEmpleadoPorMatricula(matriculaMasajista);
-                Empleado registrador = empData.buscarEmpleadoPorId(idRegistrador);
-                Consultorio cons = consData.buscarConsultorio(nroConsultorio);
-                Tratamiento trat = tratData.buscarTratamientoPorCodigo(codTratam);
-                Instalacion inst = instalData.buscarInstalacionPorCod(codInstal);
-
-                //objetos
-                sesi.setMasajista(masajista);
-                sesi.setRegistrador(registrador);
-                sesi.setConsultorio(cons);
-                sesi.setTratamiento(trat);
-                sesi.setInstalacion(inst);
-
-                //horarios
-                sesi.setFechaHoraInicio(rs.getTimestamp("fechaHoraInicio").toLocalDateTime());
-                sesi.setFechaHoraFinal(rs.getTimestamp("fechaHoraFinal").toLocalDateTime());
-
-                sesi.setCodPack(codPack);
-                sesi.setEstado(rs.getBoolean("estado"));
-
-                lista.add(sesi);
+                Sesion sesion = construirSesionDesdeResultSet(rs);  // NUEVO: reutiliza helper (incluye monto y notas)
+                lista.add(sesion);
             }
+
+            rs.close();
             ps.close();
+
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla sesión: " + ex.getMessage());
+            JOptionPane.showMessageDialog(null, "Error en listarSesiones: " + ex.getMessage());
+        }
+
+        return lista;
+    }
+
+    public List<Sesion> listarSesionesPorPack(int codPack) {
+
+        List<Sesion> lista = new ArrayList<>();
+        String sql = "SELECT * FROM sesion WHERE codPack = ?";
+
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, codPack);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Sesion sesion = construirSesionDesdeResultSet(rs);
+                lista.add(sesion);
+            }
+
+            rs.close();
+            ps.close();
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error en listarSesionesPorPack: " + ex.getMessage());
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al construir la Sesión: " + e.getMessage());
         }
+
         return lista;
     }
 
@@ -341,31 +314,13 @@ public class SesionData {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, codSesion);
             ResultSet rs = ps.executeQuery();
+
             if (rs.next()) {
-                sesion = new Sesion();
-                sesion.setCodSesion(rs.getInt("codSesion"));
-                int nroConsultorio = rs.getInt("nroConsultorio");
-                int codTratam = rs.getInt("codTratam");
-                int codInstal = rs.getInt("codInstal");
-                String matriculaMasajista = rs.getString("matriculaMasajista");
-                int idRegistrador = rs.getInt("idRegistrador");
-                int codPack = rs.getInt("codPack");
-                Empleado masajista = empData.buscarEmpleadoPorMatricula(matriculaMasajista);
-                Empleado registrador = empData.buscarEmpleadoPorId(idRegistrador);
-                Consultorio cons = consData.buscarConsultorio(nroConsultorio);
-                Tratamiento trat = tratData.buscarTratamientoPorCodigo(codTratam);
-                Instalacion inst = instalData.buscarInstalacionPorCod(codInstal);
-                sesion.setMasajista(masajista);
-                sesion.setRegistrador(registrador);
-                sesion.setConsultorio(cons);
-                sesion.setTratamiento(trat);
-                sesion.setInstalacion(inst);
-                sesion.setFechaHoraInicio(rs.getTimestamp("fechaHoraInicio").toLocalDateTime());
-                sesion.setFechaHoraFinal(rs.getTimestamp("fechaHoraFinal").toLocalDateTime());
-                sesion.setCodPack(codPack);
-                sesion.setEstado(rs.getBoolean("estado"));
+                sesion = construirSesionDesdeResultSet(rs);
             }
+            rs.close();
             ps.close();
+
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al buscar sesión: " + ex.getMessage());
         }
@@ -373,7 +328,7 @@ public class SesionData {
     }
 
     public void actualizarSesion(Sesion sesion) {
-        String sql = "UPDATE sesion SET fechaHoraInicio = ?, fechaHoraFinal = ?, codTratam = ?, nroConsultorio = ?, matriculaMasajista = ?, idRegistrador = ?, codInstal = ?, codPack = ?, estado = ? WHERE codSesion = ?";
+        String sql = "UPDATE sesion SET fechaHoraInicio=?, fechaHoraFinal=?, codTratam=?, nroConsultorio=?, matriculaMasajista=?, idRegistrador=?, codInstal=?, codPack=?, monto=?, notas=?, estado=? WHERE codSesion=?";
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setTimestamp(1, Timestamp.valueOf(sesion.getFechaHoraInicio()));
@@ -391,17 +346,57 @@ public class SesionData {
                 ps.setNull(8, java.sql.Types.INTEGER);
             }
 
-            ps.setBoolean(9, sesion.isActiva());
-            ps.setInt(10, sesion.getCodSesion()); //Condición where de cod ses
+            ps.setDouble(9, sesion.getMonto());
+            ps.setString(10, sesion.getNotas());
+            ps.setBoolean(11, sesion.isActiva());
+            ps.setInt(12, sesion.getCodSesion()); //Condición where de cod ses
 
-            if (ps.executeUpdate() == 0) {
-                System.out.println("No se encontró la sesión para actualizar: " + sesion.getCodSesion());
-            }
+            ps.executeUpdate();
+            ps.close();
+
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al actualizar sesión: " + ex.getMessage());
         }
     }
-    
-    
-    
+
+    private Sesion construirSesionDesdeResultSet(ResultSet rs) throws SQLException {
+
+        Sesion s = new Sesion();
+
+        s.setCodSesion(rs.getInt("codSesion"));
+        s.setFechaHoraInicio(rs.getTimestamp("fechaHoraInicio").toLocalDateTime());
+        s.setFechaHoraFinal(rs.getTimestamp("fechaHoraFinal").toLocalDateTime());
+
+        //Empleado masajista (solo matricula conocida aquí)
+        Empleado mas = new Empleado();
+        mas.setMatricula(rs.getString("matriculaMasajista"));
+        s.setMasajista(mas);
+
+        // Empleado registrador (solo id conocido aquí)
+        Empleado reg = new Empleado();
+        reg.setIdEmpleado(rs.getInt("idRegistrador"));
+        s.setRegistrador(reg);
+
+        // Consultorio
+        Consultorio cons = new Consultorio();
+        cons.setNroConsultorio(rs.getInt("nroConsultorio"));
+        s.setConsultorio(cons);
+
+        // Tratamiento
+        Tratamiento trat = new Tratamiento();
+        trat.setCodTratam(rs.getInt("codTratam"));
+        s.setTratamiento(trat);
+
+        // Instalación
+        Instalacion inst = new Instalacion();
+        inst.setCodInstal(rs.getInt("codInstal"));
+        s.setInstalacion(inst);
+
+        s.setCodPack(rs.getInt("codPack"));
+        s.setMonto(rs.getDouble("monto"));//monto
+        s.setNotas(rs.getString("notas"));//notas
+        s.setEstado(rs.getBoolean("estado"));
+
+        return s;
+    }
 }
