@@ -7,24 +7,6 @@
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
       </AuxValues>
       <SubComponents>
-        <Menu class="javax.swing.JMenu" name="jMenuEmpleados">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Empleados"/>
-          </Properties>
-          <AuxValues>
-            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
-          </AuxValues>
-          <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuVerEmpleados">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Ver / Cargar Empleados"/>
-              </Properties>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
-              </AuxValues>
-            </MenuItem>
-          </SubComponents>
-        </Menu>
         <Menu class="javax.swing.JMenu" name="jMenuBusquedas">
           <Properties>
             <Property name="text" type="java.lang.String" value="Busquedas"/>
@@ -78,6 +60,24 @@
             <MenuItem class="javax.swing.JMenuItem" name="jMenuHistorialProductos">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Historial de Productos"/>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+              </AuxValues>
+            </MenuItem>
+          </SubComponents>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="jMenuConfiguracion">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Configuraciones"/>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+          </AuxValues>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuConfigUserAndPass">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Configurar usuarios y contrase&#xf1;as"/>
               </Properties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
@@ -158,9 +158,8 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <Component id="JPanelBotones" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                  <Component id="JDesktopPFondo" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                  <Component id="JDesktopPFondo" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -188,33 +187,15 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace pref="1082" max="32767" attributes="0"/>
-                      <Component id="lblUsuarioActual" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="82" max="-2" attributes="0"/>
-                  </Group>
+                  <EmptySpace min="0" pref="1203" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="lblUsuarioActual" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="654" max="32767" attributes="0"/>
-                  </Group>
+                  <EmptySpace min="0" pref="676" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
           </Layout>
-          <SubComponents>
-            <Component class="javax.swing.JLabel" name="lblUsuarioActual">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="usuario:"/>
-              </Properties>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
-              </AuxValues>
-            </Component>
-          </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="JPanelBotones">
           <Properties>
@@ -229,46 +210,69 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jButtonSpace" alignment="1" pref="151" max="32767" attributes="0"/>
-                  <Group type="103" alignment="1" groupAlignment="1" max="-2" attributes="0">
-                      <Component id="jButtonConsultorios" alignment="0" max="32767" attributes="0"/>
-                      <Component id="jButtonInstalaciones" alignment="0" max="32767" attributes="0"/>
-                      <Component id="jButtonTratamientos" alignment="0" max="32767" attributes="0"/>
-                      <Component id="jButtonEmpleados" alignment="0" max="32767" attributes="0"/>
-                      <Component id="jButtonClientes" alignment="0" max="32767" attributes="0"/>
-                      <Component id="jButtonBusquedas" alignment="0" pref="151" max="32767" attributes="0"/>
-                      <Component id="jButtonTurnos_DiaDeSPA" alignment="0" max="32767" attributes="0"/>
-                      <Component id="jButtonSalir" max="32767" attributes="0"/>
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                          <Component id="jButtonConsultorios" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jButtonInstalaciones" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jButtonTratamientos" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jButtonEmpleados" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jButtonClientes" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jButtonBusquedas" alignment="0" pref="151" max="32767" attributes="0"/>
+                          <Component id="jButtonTurnos_DiaDeSPA" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jButtonSalir" max="32767" attributes="0"/>
+                      </Group>
                   </Group>
                   <Component id="jButtonTienda" max="32767" attributes="0"/>
                   <Component id="jButtonSesiones" alignment="0" max="32767" attributes="0"/>
+                  <Component id="jButtonAuditoria" alignment="0" max="32767" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="lblUsuarioActual" max="32767" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
+                              <Component id="jLabel1" min="-2" pref="70" max="-2" attributes="0"/>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                  </Group>
+                  <Component id="jButtonDisponible" alignment="0" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                      <Component id="jButtonTurnos_DiaDeSPA" min="-2" pref="70" max="-2" attributes="0"/>
+                      <Component id="jButtonTurnos_DiaDeSPA" min="-2" pref="52" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                      <Component id="jButtonBusquedas" min="-2" pref="65" max="-2" attributes="0"/>
+                      <Component id="jButtonBusquedas" min="-2" pref="53" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                      <Component id="jButtonClientes" min="-2" pref="65" max="-2" attributes="0"/>
+                      <Component id="jButtonClientes" min="-2" pref="53" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                      <Component id="jButtonEmpleados" min="-2" pref="65" max="-2" attributes="0"/>
+                      <Component id="jButtonEmpleados" min="-2" pref="53" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                      <Component id="jButtonTratamientos" min="-2" pref="65" max="-2" attributes="0"/>
+                      <Component id="jButtonTratamientos" min="-2" pref="53" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                      <Component id="jButtonInstalaciones" min="-2" pref="65" max="-2" attributes="0"/>
+                      <Component id="jButtonInstalaciones" min="-2" pref="53" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                      <Component id="jButtonConsultorios" min="-2" pref="65" max="-2" attributes="0"/>
+                      <Component id="jButtonConsultorios" min="-2" pref="53" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                      <Component id="jButtonTienda" min="-2" pref="65" max="-2" attributes="0"/>
+                      <Component id="jButtonTienda" min="-2" pref="53" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                      <Component id="jButtonSesiones" min="-2" pref="65" max="-2" attributes="0"/>
+                      <Component id="jButtonSesiones" min="-2" pref="53" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                      <Component id="jButtonSpace" min="-2" pref="24" max="-2" attributes="0"/>
+                      <Component id="jButtonAuditoria" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                      <Component id="jButtonSalir" max="32767" attributes="0"/>
+                      <Component id="jButtonDisponible" min="-2" pref="38" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="lblUsuarioActual" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jButtonSalir" min="-2" pref="53" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -276,6 +280,9 @@
           <SubComponents>
             <Component class="javax.swing.JButton" name="jButtonSalir">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Icons/icon_salir.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Salir"/>
               </Properties>
               <AuxValues>
@@ -354,20 +361,52 @@
                 <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
               </AuxValues>
             </Component>
-            <Component class="javax.swing.JButton" name="jButtonSpace">
+            <Component class="javax.swing.JButton" name="jButtonSesiones">
               <Properties>
-                <Property name="borderPainted" type="boolean" value="false"/>
-                <Property name="enabled" type="boolean" value="false"/>
-                <Property name="focusPainted" type="boolean" value="false"/>
+                <Property name="text" type="java.lang.String" value="Sesiones"/>
                 <Property name="horizontalAlignment" type="int" value="2"/>
               </Properties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
               </AuxValues>
             </Component>
-            <Component class="javax.swing.JButton" name="jButtonSesiones">
+            <Component class="javax.swing.JLabel" name="lblUsuarioActual">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Sesiones"/>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Segoe UI" size="12" style="3"/>
+                </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="cc" green="0" red="cc" type="rgb"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="usuario:"/>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel1">
+              <Properties>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="cc" green="0" red="99" type="rgb"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Actual user:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JButton" name="jButtonAuditoria">
+              <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Icons/icon_audit.png"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Auditoria"/>
+                <Property name="horizontalAlignment" type="int" value="2"/>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JButton" name="jButtonDisponible">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Boton disponible"/>
                 <Property name="horizontalAlignment" type="int" value="2"/>
               </Properties>
               <AuxValues>

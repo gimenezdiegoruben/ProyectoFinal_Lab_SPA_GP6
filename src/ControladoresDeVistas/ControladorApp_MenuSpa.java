@@ -48,7 +48,7 @@ public class ControladorApp_MenuSpa implements ActionListener, MenuListener, Com
         );
 
         // AddMenuListener escucha a jMenuBar en los metodos menuSelected, MenuDeselected y menuCanceled
-        this.menu.jMenuVerEmpleados.addActionListener(this);
+        this.menu.jMenuConfigUserAndPass.addActionListener(this);
         this.menu.jMenuHistorialSes_Turnos.addActionListener(this);
         this.menu.jMenuHistorialClientes.addActionListener(this);
         this.menu.jMenuHistorialVentas.addActionListener(this);
@@ -84,7 +84,7 @@ public class ControladorApp_MenuSpa implements ActionListener, MenuListener, Com
     public void actionPerformed(ActionEvent e) {
 
         //[aquí los action performeds de los menús]
-        if (e.getSource() == menu.jMenuVerEmpleados) {
+        if (e.getSource() == menu.jMenuConfigUserAndPass) {
             VistaEmpleados vista = new VistaEmpleados();
             EmpleadoData data = new EmpleadoData();
             ControladorEmpleados ctrl = new ControladorEmpleados(menu, vista, data);

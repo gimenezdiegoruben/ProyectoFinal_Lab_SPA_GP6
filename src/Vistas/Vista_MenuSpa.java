@@ -27,7 +27,6 @@ public class Vista_MenuSpa extends javax.swing.JFrame {
 
         JPanelFondo = new javax.swing.JPanel();
         JDesktopPFondo = new javax.swing.JDesktopPane();
-        lblUsuarioActual = new javax.swing.JLabel();
         JPanelBotones = new javax.swing.JPanel();
         jButtonSalir = new javax.swing.JButton();
         jButtonBusquedas = new javax.swing.JButton();
@@ -38,11 +37,12 @@ public class Vista_MenuSpa extends javax.swing.JFrame {
         jButtonConsultorios = new javax.swing.JButton();
         jButtonTienda = new javax.swing.JButton();
         jButtonTurnos_DiaDeSPA = new javax.swing.JButton();
-        jButtonSpace = new javax.swing.JButton();
         jButtonSesiones = new javax.swing.JButton();
+        lblUsuarioActual = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jButtonAuditoria = new javax.swing.JButton();
+        jButtonDisponible = new javax.swing.JButton();
         jMenuBar = new javax.swing.JMenuBar();
-        jMenuEmpleados = new javax.swing.JMenu();
-        jMenuVerEmpleados = new javax.swing.JMenuItem();
         jMenuBusquedas = new javax.swing.JMenu();
         jMenuHistorialSes_Turnos = new javax.swing.JMenuItem();
         jMenuHistorialClientes = new javax.swing.JMenuItem();
@@ -50,6 +50,8 @@ public class Vista_MenuSpa extends javax.swing.JFrame {
         jMenuTienda = new javax.swing.JMenu();
         jMenuHistorialVentas = new javax.swing.JMenuItem();
         jMenuHistorialProductos = new javax.swing.JMenuItem();
+        jMenuConfiguracion = new javax.swing.JMenu();
+        jMenuConfigUserAndPass = new javax.swing.JMenuItem();
         jMenuEspaciador = new javax.swing.JMenu();
         jmSalir = new javax.swing.JMenu();
 
@@ -61,29 +63,20 @@ public class Vista_MenuSpa extends javax.swing.JFrame {
 
         JDesktopPFondo.setBackground(new java.awt.Color(153, 102, 255));
 
-        lblUsuarioActual.setText("usuario:");
-
-        JDesktopPFondo.setLayer(lblUsuarioActual, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
         javax.swing.GroupLayout JDesktopPFondoLayout = new javax.swing.GroupLayout(JDesktopPFondo);
         JDesktopPFondo.setLayout(JDesktopPFondoLayout);
         JDesktopPFondoLayout.setHorizontalGroup(
             JDesktopPFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, JDesktopPFondoLayout.createSequentialGroup()
-                .addContainerGap(1082, Short.MAX_VALUE)
-                .addComponent(lblUsuarioActual)
-                .addGap(82, 82, 82))
+            .addGap(0, 1203, Short.MAX_VALUE)
         );
         JDesktopPFondoLayout.setVerticalGroup(
             JDesktopPFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(JDesktopPFondoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblUsuarioActual)
-                .addContainerGap(654, Short.MAX_VALUE))
+            .addGap(0, 676, Short.MAX_VALUE)
         );
 
         JPanelBotones.setBackground(new java.awt.Color(204, 204, 204));
 
+        jButtonSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icon_salir.png"))); // NOI18N
         jButtonSalir.setText("Salir");
 
         jButtonBusquedas.setText("Busquedas / Historial");
@@ -110,56 +103,84 @@ public class Vista_MenuSpa extends javax.swing.JFrame {
         jButtonTurnos_DiaDeSPA.setText("TURNOS");
         jButtonTurnos_DiaDeSPA.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
 
-        jButtonSpace.setBorderPainted(false);
-        jButtonSpace.setEnabled(false);
-        jButtonSpace.setFocusPainted(false);
-        jButtonSpace.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-
         jButtonSesiones.setText("Sesiones");
         jButtonSesiones.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+
+        lblUsuarioActual.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        lblUsuarioActual.setForeground(new java.awt.Color(204, 0, 204));
+        lblUsuarioActual.setText("usuario:");
+
+        jLabel1.setForeground(new java.awt.Color(153, 0, 204));
+        jLabel1.setText("Actual user:");
+
+        jButtonAuditoria.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icon_audit.png"))); // NOI18N
+        jButtonAuditoria.setText("Auditoria");
+        jButtonAuditoria.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+
+        jButtonDisponible.setText("Boton disponible");
+        jButtonDisponible.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
 
         javax.swing.GroupLayout JPanelBotonesLayout = new javax.swing.GroupLayout(JPanelBotones);
         JPanelBotones.setLayout(JPanelBotonesLayout);
         JPanelBotonesLayout.setHorizontalGroup(
             JPanelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jButtonSpace, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, JPanelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                .addComponent(jButtonConsultorios, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButtonInstalaciones, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButtonTratamientos, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButtonEmpleados, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButtonClientes, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButtonBusquedas, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
-                .addComponent(jButtonTurnos_DiaDeSPA, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButtonSalir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, JPanelBotonesLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(JPanelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jButtonConsultorios, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonInstalaciones, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonTratamientos, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonEmpleados, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonClientes, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonBusquedas, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
+                    .addComponent(jButtonTurnos_DiaDeSPA, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonSalir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
             .addComponent(jButtonTienda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jButtonSesiones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jButtonAuditoria, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(JPanelBotonesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(JPanelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblUsuarioActual, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(JPanelBotonesLayout.createSequentialGroup()
+                        .addGap(32, 32, 32)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addComponent(jButtonDisponible, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         JPanelBotonesLayout.setVerticalGroup(
             JPanelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(JPanelBotonesLayout.createSequentialGroup()
                 .addGap(0, 0, 0)
-                .addComponent(jButtonTurnos_DiaDeSPA, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButtonTurnos_DiaDeSPA, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(jButtonBusquedas, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButtonBusquedas, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(jButtonClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButtonClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(jButtonEmpleados, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButtonEmpleados, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(jButtonTratamientos, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButtonTratamientos, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(jButtonInstalaciones, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButtonInstalaciones, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(jButtonConsultorios, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButtonConsultorios, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(jButtonTienda, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButtonTienda, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(jButtonSesiones, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButtonSesiones, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(jButtonSpace, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButtonAuditoria)
                 .addGap(0, 0, 0)
-                .addComponent(jButtonSalir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jButtonDisponible, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblUsuarioActual)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0))
         );
 
         javax.swing.GroupLayout JPanelFondoLayout = new javax.swing.GroupLayout(JPanelFondo);
@@ -168,9 +189,8 @@ public class Vista_MenuSpa extends javax.swing.JFrame {
             JPanelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(JPanelFondoLayout.createSequentialGroup()
                 .addComponent(JPanelBotones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(JDesktopPFondo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0))
+                .addGap(0, 0, 0)
+                .addComponent(JDesktopPFondo))
         );
         JPanelFondoLayout.setVerticalGroup(
             JPanelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -179,13 +199,6 @@ public class Vista_MenuSpa extends javax.swing.JFrame {
                 .addComponent(JDesktopPFondo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
-
-        jMenuEmpleados.setText("Empleados");
-
-        jMenuVerEmpleados.setText("Ver / Cargar Empleados");
-        jMenuEmpleados.add(jMenuVerEmpleados);
-
-        jMenuBar.add(jMenuEmpleados);
 
         jMenuBusquedas.setText("Busquedas");
 
@@ -209,6 +222,13 @@ public class Vista_MenuSpa extends javax.swing.JFrame {
         jMenuTienda.add(jMenuHistorialProductos);
 
         jMenuBar.add(jMenuTienda);
+
+        jMenuConfiguracion.setText("Configuraciones");
+
+        jMenuConfigUserAndPass.setText("Configurar usuarios y contraseñas");
+        jMenuConfiguracion.add(jMenuConfigUserAndPass);
+
+        jMenuBar.add(jMenuConfiguracion);
 
         jMenuEspaciador.setText("                      ");
         jMenuEspaciador.setContentAreaFilled(false);
@@ -277,20 +297,23 @@ public class Vista_MenuSpa extends javax.swing.JFrame {
     public javax.swing.JDesktopPane JDesktopPFondo;
     public javax.swing.JPanel JPanelBotones;
     public javax.swing.JPanel JPanelFondo;
+    public javax.swing.JButton jButtonAuditoria;
     public javax.swing.JButton jButtonBusquedas;
     public javax.swing.JButton jButtonClientes;
     public javax.swing.JButton jButtonConsultorios;
+    public javax.swing.JButton jButtonDisponible;
     public javax.swing.JButton jButtonEmpleados;
     public javax.swing.JButton jButtonInstalaciones;
     public javax.swing.JButton jButtonSalir;
     public javax.swing.JButton jButtonSesiones;
-    public javax.swing.JButton jButtonSpace;
     public javax.swing.JButton jButtonTienda;
     public javax.swing.JButton jButtonTratamientos;
     public javax.swing.JButton jButtonTurnos_DiaDeSPA;
+    private javax.swing.JLabel jLabel1;
     public javax.swing.JMenuBar jMenuBar;
     public javax.swing.JMenu jMenuBusquedas;
-    public javax.swing.JMenu jMenuEmpleados;
+    public javax.swing.JMenuItem jMenuConfigUserAndPass;
+    public javax.swing.JMenu jMenuConfiguracion;
     private javax.swing.JMenu jMenuEspaciador;
     public javax.swing.JMenuItem jMenuHistorialClientes;
     public javax.swing.JMenuItem jMenuHistorialProductos;
@@ -298,7 +321,6 @@ public class Vista_MenuSpa extends javax.swing.JFrame {
     public javax.swing.JMenuItem jMenuHistorialTratamientos;
     public javax.swing.JMenuItem jMenuHistorialVentas;
     public javax.swing.JMenu jMenuTienda;
-    public javax.swing.JMenuItem jMenuVerEmpleados;
     public javax.swing.JMenu jmSalir;
     public javax.swing.JLabel lblUsuarioActual;
     // End of variables declaration//GEN-END:variables
