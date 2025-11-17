@@ -1,6 +1,7 @@
 package Modelos;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /*  @author Grupo 6 
@@ -17,7 +18,7 @@ public class DiaDeSpa {
     private String preferencias;
     private Cliente cliente;
     private List<Sesion> sesiones;
-    private double monto = 0;
+    private double monto;
     private boolean estado;
 
     public DiaDeSpa() {

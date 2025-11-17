@@ -55,7 +55,6 @@ public class ControladorDiaDeSpa implements ActionListener, KeyListener, Propert
     private final SesionData sesionData;
     private final Vista_MenuSpa menu;
     private static DefaultTableModel modelo;
-    private double montoTotal = 0;
     private ButtonGroup grupoLista;
 
     private int codPackSeleccionado = -1;
@@ -79,7 +78,6 @@ public class ControladorDiaDeSpa implements ActionListener, KeyListener, Propert
         this.vista.rbtnTodos.addActionListener(this);
         this.vista.rbtnActivo.addActionListener(this);
         this.vista.rbtnInactivo.addActionListener(this);
-        this.vista.jbtBuscar.addActionListener(this);
         this.vista.jtxDNI.addKeyListener(this);
         this.vista.jdcListarFecha.addPropertyChangeListener(this);
         this.vista.tbSesiones.addMouseListener(this);
@@ -106,8 +104,6 @@ public class ControladorDiaDeSpa implements ActionListener, KeyListener, Propert
         vista.jtxTelefono.setEditable(false);
         vista.jbtGuardar.setEnabled(false);
         vista.jbtEliminar.setEnabled(false);
-        vista.btnAgregarSesiones.setEnabled(false);
-        vista.jbtBuscar.setEnabled(false);
         modificarTabla();
         cargarComboBox();
     }
@@ -120,7 +116,7 @@ public class ControladorDiaDeSpa implements ActionListener, KeyListener, Propert
             }
         };
 
-        modelo.addColumn("Número de turno");
+        modelo.addColumn("Nº Turno");
         modelo.addColumn("Fecha y hora");
         modelo.addColumn("Preferencias");
         modelo.addColumn("Cliente");
@@ -154,8 +150,6 @@ public class ControladorDiaDeSpa implements ActionListener, KeyListener, Propert
                         ControladorCliente ctrl = new ControladorCliente(vista, data, menu);
 
                         ctrl.iniciar();
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Ingrese un cliente válido", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 } else {
                     vista.jtxNombre.setText(c1.getNombre());
@@ -168,19 +162,20 @@ public class ControladorDiaDeSpa implements ActionListener, KeyListener, Propert
             activarCampos();
             limpiarCampos();
             vista.jbtGuardar.setEnabled(true);
-            vista.btnAgregarSesiones.setEnabled(true);
-            vista.jbtBuscar.setEnabled(true);
+            vista.tbSesiones.clearSelection();
+            codPackSeleccionado = -1;
+            buscar = false;
         }
 
         if (e.getSource() == vista.jbtGuardar) {
             boolean repetido = false;
             boolean guardado = false;
-            if (vista.jtxDNI.getText().trim().isEmpty() || vista.jdcFecha.getDate() == null || vista.jTextAreaPreferencias.getText().trim().isEmpty() ) {
+            if (vista.jtxDNI.getText().trim().isEmpty() || vista.jdcFecha.getDate() == null || vista.jTextAreaPreferencias.getText().trim().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Debe llenar todos los campos!!", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             } else {
                 if (buscar) {
-                    List <Sesion> sesiones = sesionData.listarSesionesPorPack(codPackSeleccionado);
+                    List<Sesion> sesiones = sesionData.listarSesionesPorPack(codPackSeleccionado);
                     if (!sesiones.isEmpty()) {
                         JOptionPane.showMessageDialog(null, "No se puede modificar un turno que tenga sesiones cargadas, primero elimine las sesiones vinculadas a este turno", "Error", JOptionPane.ERROR_MESSAGE);
                         return;
@@ -197,7 +192,7 @@ public class ControladorDiaDeSpa implements ActionListener, KeyListener, Propert
                             String horaString = (String) this.vista.jcboxHora.getSelectedItem();
                             LocalTime hora = LocalTime.parse(horaString);
                             LocalDateTime fechayhora = LocalDateTime.of(fecha, hora);
-                            DiaDeSpa d1 = new DiaDeSpa(fechayhora, vista.jTextAreaPreferencias.getText().trim(), c1, ListaSesiones(), vista.jcheckbEstado.isSelected());
+                            DiaDeSpa d1 = new DiaDeSpa(fechayhora, vista.jTextAreaPreferencias.getText().trim(), c1, new ArrayList<>(), vista.jcheckbEstado.isSelected());
                             DiaDeSpa d2 = diaDeSpaData.buscarDiaDeSpa(codPackSeleccionado);
                             if (d1.getFechayhora().equals(d2.getFechayhora())
                                     && d1.getPreferencias().equals(d2.getPreferencias())
@@ -215,9 +210,9 @@ public class ControladorDiaDeSpa implements ActionListener, KeyListener, Propert
                                 buscar = false;
                                 vista.jbtGuardar.setEnabled(false);
                                 vista.jbtEliminar.setEnabled(false);
-                                vista.btnAgregarSesiones.setEnabled(false);
-                                vista.jbtBuscar.setEnabled(false);
                                 cargarTabla();
+                                vista.tbSesiones.clearSelection();
+                                codPackSeleccionado = -1;
                             }
                         }
                     }
@@ -232,7 +227,7 @@ public class ControladorDiaDeSpa implements ActionListener, KeyListener, Propert
                         LocalDateTime fechayhora = LocalDateTime.of(fecha, hora);
                         Cliente c1 = clienteData.buscarPorDni(Long.parseLong(vista.jtxDNI.getText().trim()));
                         System.out.println(c1);
-                        DiaDeSpa d1 = new DiaDeSpa(fechayhora, vista.jTextAreaPreferencias.getText().trim(), c1, ListaSesiones(), vista.jcheckbEstado.isSelected());
+                        DiaDeSpa d1 = new DiaDeSpa(fechayhora, vista.jTextAreaPreferencias.getText().trim(), c1, new ArrayList<>(), vista.jcheckbEstado.isSelected());
                         List<DiaDeSpa> turnos = diaDeSpaData.listarDiaDeSpa();
                         for (DiaDeSpa aux : turnos) {
                             if (aux.getCliente() == null || d1.getCliente() == null) {
@@ -257,8 +252,9 @@ public class ControladorDiaDeSpa implements ActionListener, KeyListener, Propert
                             vista.jtxDNI.setText("");
                             vista.jbtGuardar.setEnabled(false);
                             vista.jbtEliminar.setEnabled(false);
-                            vista.btnAgregarSesiones.setEnabled(false);
                             guardado = true;
+                            vista.tbSesiones.clearSelection();
+                            codPackSeleccionado = -1;
                         }
                     }
                 }
@@ -271,7 +267,7 @@ public class ControladorDiaDeSpa implements ActionListener, KeyListener, Propert
         }
 
         if (e.getSource() == vista.jbtEliminar) {
-            List <Sesion> sesiones = sesionData.listarSesionesPorPack(codPackSeleccionado);
+            List<Sesion> sesiones = sesionData.listarSesionesPorPack(codPackSeleccionado);
             if (!sesiones.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "No se puede eliminar un turno que tenga sesiones cargadas", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -288,7 +284,10 @@ public class ControladorDiaDeSpa implements ActionListener, KeyListener, Propert
                     limpiarCampos();
                     vista.jtxDNI.setText("");
                     vista.jbtEliminar.setEnabled(false);
+                    vista.jbtGuardar.setEnabled(false);
                     cargarTabla();
+                    vista.tbSesiones.clearSelection();
+                    codPackSeleccionado = -1;
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "El turno que intentas eliminar tiene sesiones cargadas o ha sido modificado!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -408,7 +407,7 @@ public class ControladorDiaDeSpa implements ActionListener, KeyListener, Propert
             LocalDate fechaElegida = fechaElegidaDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
             for (DiaDeSpa aux : turnos) {
-                montoTotal = 0;
+                double montoTotal = 0;
                 LocalDate fechaTurno = aux.getFechayhora().toLocalDate();
                 if (fechaTurno.equals(fechaElegida)) {
                     Object[] fila = new Object[7];
@@ -425,12 +424,11 @@ public class ControladorDiaDeSpa implements ActionListener, KeyListener, Propert
                     fila[5] = montoTotal;
                     fila[6] = aux.isEstado() ? "Activo" : "Inactivo";
                     modelo.addRow(fila);
-
                 }
             }
         } else {
             for (DiaDeSpa aux : turnos) {
-                montoTotal = 0;
+                /* double montoTotal = 0;
                 Object[] fila = new Object[7];
                 fila[0] = aux.getCodPack();
                 fila[1] = aux.getFechayhora();
@@ -444,6 +442,22 @@ public class ControladorDiaDeSpa implements ActionListener, KeyListener, Propert
                 }
                 fila[5] = montoTotal;
                 fila[6] = aux.isEstado() ? "Activo" : "Inactivo";
+                modelo.addRow(fila);*/
+                List<Sesion> listarSesiones = sesionData.listarSesionesPorPack(aux.getCodPack());
+                double montoTotal = 0;
+                for (Sesion s : listarSesiones) {
+                    montoTotal += s.getMonto();
+                }
+
+                Object[] fila = new Object[7];
+                fila[0] = aux.getCodPack();
+                fila[1] = aux.getFechayhora();
+                fila[2] = aux.getPreferencias();
+                fila[3] = aux.getCliente().getCodCli();
+                fila[4] = listarSesiones.size();
+                fila[5] = montoTotal;
+                fila[6] = aux.isEstado() ? "Activo" : "Inactivo";
+
                 modelo.addRow(fila);
             }
         }
