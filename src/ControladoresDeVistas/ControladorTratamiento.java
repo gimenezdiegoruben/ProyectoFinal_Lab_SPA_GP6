@@ -11,29 +11,40 @@ import Vistas.Vista_MenuSpa;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 public class ControladorTratamiento implements ActionListener, KeyListener {
 
     private final VistasTratamiento vista;
     private final TratamientoData data;
     private final Vista_MenuSpa menu;
-
+    private List<Tratamiento> tratamientos;
     private Tratamiento tratamientoSeleccionado;
+    private DefaultTableModel modeloTabla;
 
     public ControladorTratamiento(VistasTratamiento vista, TratamientoData data, Vista_MenuSpa menu) {
         this.vista = vista;
         this.data = data;
         this.menu = menu;
+        this.tratamientos = new ArrayList<>();
+        
+        modeloTabla = (DefaultTableModel) vista.tblProducto.getModel(); // NUEVO
+        cargarTabla();
 
         vista.btnGuardarTrat.addActionListener(this);
         vista.btnEliminar.addActionListener(this);
         vista.btnModificar.addActionListener(this);
         vista.btnSalir.addActionListener(this);
         vista.btndeAltaoBaja.addActionListener(this);
+        vista.btnNuevoTrat.addActionListener(this);
+
+        vista.txtPrecio.addActionListener(this);
         vista.comboEspecialidad.addActionListener(this);
         vista.comboProducto.addActionListener(this);
         vista.txtNombre.addKeyListener(this);
         vista.txtPrecio.addKeyListener(this);
+
+        desactivarCampos();
 
     }
 
@@ -98,7 +109,31 @@ public class ControladorTratamiento implements ActionListener, KeyListener {
         if (e.getSource() == vista.comboProducto) {
 
         }
-        //y otros
+        if (e.getSource() == vista.btnNuevoTrat) {
+            despejarCampos();
+            activarCampos();
+            vista.txtNombre.requestFocus();
+        }
+    }
+
+    private void cargarTabla() {
+        modeloTabla.setRowCount(0);
+
+        List<Tratamiento> lista = data.listarTratamientos();
+        this.tratamientos = lista;      
+        
+        for (Tratamiento t : lista) {
+            modeloTabla.addRow(new Object[]{
+                t.getCodTratam(),
+                t.getNombre(),
+                t.getTipo(),
+                t.getDetalle(),
+                t.getProductos().isEmpty() ? "" : t.getProductos().get(0),
+                t.getDuracion(),
+                t.getCosto(),
+                t.isEstado() ? "Activo" : "Inactivo"
+            });
+        }
     }
 
     private void guardarTratamiento() {
@@ -145,6 +180,7 @@ public class ControladorTratamiento implements ActionListener, KeyListener {
 
         despejarCampos();
         desactivarCampos();
+        cargarTabla();
     }
 
     private void modificarTratamiento() {
@@ -197,6 +233,7 @@ public class ControladorTratamiento implements ActionListener, KeyListener {
 
         despejarCampos();
         desactivarCampos();
+        cargarTabla();
     }
 
     private void eliminarTratamiento() {
@@ -218,6 +255,7 @@ public class ControladorTratamiento implements ActionListener, KeyListener {
             despejarCampos();
             desactivarCampos();
             tratamientoSeleccionado = null;
+            cargarTabla();
         }
     }
 
@@ -232,7 +270,7 @@ public class ControladorTratamiento implements ActionListener, KeyListener {
 
         data.cambiarEstadoTratamiento(tratamientoSeleccionado.getCodTratam(), nuevoEstado);
         tratamientoSeleccionado.setEstado(nuevoEstado);
-        
+
         String msg = nuevoEstado ? "Tratamiento dado de ALTA." : "Tratamiento dado de BAJA.";
         JOptionPane.showMessageDialog(vista, msg);
     }
