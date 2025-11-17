@@ -7,12 +7,14 @@ import Persistencias_Conexion.DiaDeSpaData;
 import Vistas.VistaEmpleados;
 import Persistencias_Conexion.EmpleadoData;
 import Persistencias_Conexion.InstalacionData;
+import Persistencias_Conexion.ProductoData;
 import Persistencias_Conexion.SesionData;
 import Persistencias_Conexion.TratamientoData;
 import Vistas.VistaCliente;
 import Vistas.VistaConsultorio;
 import Vistas.VistaDiaDeSpa;
 import Vistas.VistaInstalacion;
+import Vistas.VistaProductos;
 import Vistas.VistaSesiones;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -273,6 +275,16 @@ public class ControladorApp_MenuSpa implements ActionListener, MenuListener, Com
                 ControladorTratamiento controlador = new ControladorTratamiento(vista, data, menu);
                 controlador.iniciar();
             }
+        }
+        
+        if (e.getSource() == menu.jButtonTienda) {
+            VistaProductos vista = new VistaProductos();
+            ProductoData data = new ProductoData();
+            TratamientoData tratamientoData = new TratamientoData();
+            
+            ControladorProducto ctrl = new ControladorProducto(vista, data, tratamientoData, menu);
+            
+            ctrl.iniciar();
         }
     }
 

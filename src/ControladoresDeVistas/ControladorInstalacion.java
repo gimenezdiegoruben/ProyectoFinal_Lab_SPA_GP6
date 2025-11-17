@@ -84,8 +84,6 @@ public class ControladorInstalacion implements ActionListener, KeyListener, Mous
     }
 
     private void guardarInstalacion() {
-        boolean repetido = false;
-        boolean guardadoExitoso = false;
         if (vista.jtNombre.getText().trim().isEmpty() || vista.jtDetalle.getText().trim().isEmpty() || vista.jtPrecio.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Debe rellenar todos los campos!!", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
@@ -143,7 +141,7 @@ public class ControladorInstalacion implements ActionListener, KeyListener, Mous
             return;
         }
         if (i1 != null) {
-            int confirmacion = JOptionPane.showConfirmDialog(null, "¿Estás seguro de eliminar al Cliente " + i1.getNombre() + "?", "Confirmación de eliminación", JOptionPane.YES_NO_OPTION);
+            int confirmacion = JOptionPane.showConfirmDialog(null, "¿Estás seguro de eliminar la instalación " + i1.getNombre() + "?", "Confirmación de eliminación", JOptionPane.YES_NO_OPTION);
             if (confirmacion == JOptionPane.YES_OPTION) {
                 instalacionData.eliminarInstalacion(codInstalacionSeleccionado);
                 JOptionPane.showMessageDialog(null,"Instalacion " + i1.getNombre() + " eliminada con éxito.", "Válido", JOptionPane.INFORMATION_MESSAGE);

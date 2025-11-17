@@ -20,6 +20,10 @@ public class Producto {
         this.tratamiento = tratamiento;
     }
 
+    public Producto() {
+        
+    }
+
     public int getCodProducto() {
         return codProducto;
     }
