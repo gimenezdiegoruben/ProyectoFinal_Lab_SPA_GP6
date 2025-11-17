@@ -84,6 +84,8 @@ CREATE TABLE `empleado` (
   `puesto` varchar(40) NOT NULL,
   `matricula` varchar(20) DEFAULT NULL,
   `especialidad` varchar(60) DEFAULT NULL,
+  `usuario` VARCHAR(40) NOT NULL UNIQUE,
+  `pass` VARCHAR(100) NOT NULL,
   `estado` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 

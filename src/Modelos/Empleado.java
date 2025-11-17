@@ -16,6 +16,8 @@ public class Empleado {
     private String telefono;
     private String matricula;       //Usaremos 0 o -1 para representar NULL en la BD
     private String especialidad;
+    private String usuario;
+    private String pass;
 
     public Empleado() {
     }
@@ -127,6 +129,22 @@ public class Empleado {
 
     public void setEspecialidad(String especialidad) {
         this.especialidad = especialidad;
+    }
+
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
+
+    public String getPass() {
+        return pass;
+    }
+
+    public void setPass(String pass) {
+        this.pass = pass;
     }
 
     @Override

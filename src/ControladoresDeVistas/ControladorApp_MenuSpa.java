@@ -1,5 +1,6 @@
 package ControladoresDeVistas;
 
+import Modelos.Empleado;
 import Persistencias_Conexion.ClienteData;
 import Persistencias_Conexion.ConsultorioData;
 import Persistencias_Conexion.DiaDeSpaData;
@@ -25,7 +26,6 @@ import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 import Vistas.Vista_MenuSpa;
 import Vistas.VistasTratamiento;
-import javax.swing.JOptionPane;
 
 /*  @author Grupo 6 
     Gimenez Diego Ruben
@@ -36,9 +36,16 @@ import javax.swing.JOptionPane;
 public class ControladorApp_MenuSpa implements ActionListener, MenuListener, ComponentListener {
 
     private final Vista_MenuSpa menu;
+    private final Empleado empleadoLogueado;
 
-    public ControladorApp_MenuSpa(Vista_MenuSpa menu) {
+    public ControladorApp_MenuSpa(Vista_MenuSpa menu, Empleado empleadoLogueado) {
         this.menu = menu;
+        this.empleadoLogueado = empleadoLogueado;
+
+        //para mostrar el nombre ne la vista del empl logeado
+        this.menu.lblUsuarioActual.setText(
+                empleadoLogueado.getNombre() + " " + empleadoLogueado.getApellido()
+        );
 
         // AddMenuListener escucha a jMenuBar en los metodos menuSelected, MenuDeselected y menuCanceled
         this.menu.jMenuVerEmpleados.addActionListener(this);
@@ -101,9 +108,17 @@ public class ControladorApp_MenuSpa implements ActionListener, MenuListener, Com
             menu.dispose();
         }
 
-        if (e.getSource() == menu.jButtonEmpleados) { // Iniciar el jInternalFrame de Pacientes
-            if (vistaAbierta(VistaEmpleados.class)) {
-                JOptionPane.showMessageDialog(menu, "La vista Empleados ya está abierta.");
+        if (e.getSource() == menu.jButtonEmpleados) {
+            javax.swing.JInternalFrame vistaExistente = obtenerVistaAbierta(Vistas.VistaEmpleados.class);
+
+            if (vistaExistente != null) {
+                try {
+                    menu.JDesktopPFondo.moveToFront(vistaExistente);
+                    vistaExistente.setSelected(true);
+
+                } catch (java.beans.PropertyVetoException ex) {
+                    System.err.println("Error al enfocar la vista: " + ex.getMessage());
+                }
                 return;
             } else {
                 VistaEmpleados vista = new VistaEmpleados();
@@ -116,10 +131,18 @@ public class ControladorApp_MenuSpa implements ActionListener, MenuListener, Com
                 vista.toFront();
             }
         }
-        //[aquí los demás botones]
+
         if (e.getSource() == menu.jButtonClientes) {
-            if (vistaAbierta(VistaCliente.class)) {
-                JOptionPane.showMessageDialog(menu, "La vista Clientes ya está abierta.");
+            javax.swing.JInternalFrame vistaExistente = obtenerVistaAbierta(Vistas.VistaCliente.class);
+
+            if (vistaExistente != null) {
+                try {
+                    menu.JDesktopPFondo.moveToFront(vistaExistente);
+                    vistaExistente.setSelected(true);
+
+                } catch (java.beans.PropertyVetoException ex) {
+                    System.err.println("Error al enfocar la vista: " + ex.getMessage());
+                }
                 return;
             } else {
                 VistaCliente vista = new VistaCliente();
@@ -131,8 +154,16 @@ public class ControladorApp_MenuSpa implements ActionListener, MenuListener, Com
         }
 
         if (e.getSource() == menu.jButtonConsultorios) {
-            if (vistaAbierta(VistaConsultorio.class)) {
-                JOptionPane.showMessageDialog(menu, "La vista Consultorios ya está abierta.");
+            javax.swing.JInternalFrame vistaExistente = obtenerVistaAbierta(Vistas.VistaConsultorio.class);
+
+            if (vistaExistente != null) {
+                try {
+                    menu.JDesktopPFondo.moveToFront(vistaExistente);
+                    vistaExistente.setSelected(true);
+
+                } catch (java.beans.PropertyVetoException ex) {
+                    System.err.println("Error al enfocar la vista: " + ex.getMessage());
+                }
                 return;
             } else {
                 VistaConsultorio vista = new VistaConsultorio();
@@ -144,8 +175,16 @@ public class ControladorApp_MenuSpa implements ActionListener, MenuListener, Com
         }
 
         if (e.getSource() == menu.jButtonTurnos_DiaDeSPA) {
-            if (vistaAbierta(VistaDiaDeSpa.class)) {
-                JOptionPane.showMessageDialog(menu, "La vista Dia de SPA (Turnos) ya está abierta.");
+            javax.swing.JInternalFrame vistaExistente = obtenerVistaAbierta(Vistas.VistaDiaDeSpa.class);
+
+            if (vistaExistente != null) {
+                try {
+                    menu.JDesktopPFondo.moveToFront(vistaExistente);
+                    vistaExistente.setSelected(true);
+
+                } catch (java.beans.PropertyVetoException ex) {
+                    System.err.println("Error al enfocar la vista: " + ex.getMessage());
+                }
                 return;
             } else {
                 VistaDiaDeSpa vista = new VistaDiaDeSpa();
@@ -159,8 +198,17 @@ public class ControladorApp_MenuSpa implements ActionListener, MenuListener, Com
         }
 
         if (e.getSource() == menu.jButtonSesiones) {
-            if (vistaAbierta(VistaSesiones.class)) {
-                JOptionPane.showMessageDialog(menu, "La vista Sesiones ya está abierta.");
+
+            javax.swing.JInternalFrame vistaExistente = obtenerVistaAbierta(Vistas.VistaSesiones.class);
+
+            if (vistaExistente != null) {
+                try {
+                    menu.JDesktopPFondo.moveToFront(vistaExistente);
+                    vistaExistente.setSelected(true);//foco a la vista
+
+                } catch (java.beans.PropertyVetoException ex) {
+                    System.err.println("Error al enfocar la vista: " + ex.getMessage());
+                }
                 return;
             } else {
                 VistaSesiones vista = new VistaSesiones();
@@ -183,8 +231,16 @@ public class ControladorApp_MenuSpa implements ActionListener, MenuListener, Com
         }
 
         if (e.getSource() == menu.jButtonInstalaciones) {
-            if (vistaAbierta(VistaInstalacion.class)) {
-                JOptionPane.showMessageDialog(menu, "La vista Instalción ya está abierta.");
+            javax.swing.JInternalFrame vistaExistente = obtenerVistaAbierta(Vistas.VistaInstalacion.class);
+
+            if (vistaExistente != null) {
+                try {
+                    menu.JDesktopPFondo.moveToFront(vistaExistente);
+                    vistaExistente.setSelected(true);
+
+                } catch (java.beans.PropertyVetoException ex) {
+                    System.err.println("Error al enfocar la vista: " + ex.getMessage());
+                }
                 return;
             } else {
 
@@ -192,14 +248,22 @@ public class ControladorApp_MenuSpa implements ActionListener, MenuListener, Com
                 InstalacionData data = new InstalacionData();
                 SesionData sesionData = new SesionData();
 
-                ControladorInstalacion ctrl = new ControladorInstalacion(vista, data,sesionData ,menu);
-                
+                ControladorInstalacion ctrl = new ControladorInstalacion(vista, data, sesionData, menu);
+
                 ctrl.iniciar();
             }
         }
         if (e.getSource() == menu.jButtonTratamientos) {
-            if (vistaAbierta(VistasTratamiento.class)) {
-                JOptionPane.showMessageDialog(menu, "La vista Tratamientos ya está abierta.");
+            javax.swing.JInternalFrame vistaExistente = obtenerVistaAbierta(Vistas.VistasTratamiento.class);
+
+            if (vistaExistente != null) {
+                try {
+                    menu.JDesktopPFondo.moveToFront(vistaExistente);
+                    vistaExistente.setSelected(true);
+
+                } catch (java.beans.PropertyVetoException ex) {
+                    System.err.println("Error al enfocar la vista: " + ex.getMessage());
+                }
                 return;
             } else {
 
@@ -212,13 +276,13 @@ public class ControladorApp_MenuSpa implements ActionListener, MenuListener, Com
         }
     }
 
-    private boolean vistaAbierta(Class tipo) {
+    private javax.swing.JInternalFrame obtenerVistaAbierta(Class tipo) {
         for (java.awt.Component comp : menu.JDesktopPFondo.getComponents()) {
             if (tipo.isInstance(comp)) {
-                return true;
+                return (javax.swing.JInternalFrame) comp;
             }
         }
-        return false;
+        return null;
     }
 
     public void ponerFondo() {

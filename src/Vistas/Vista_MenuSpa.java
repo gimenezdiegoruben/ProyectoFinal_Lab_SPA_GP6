@@ -27,6 +27,7 @@ public class Vista_MenuSpa extends javax.swing.JFrame {
 
         JPanelFondo = new javax.swing.JPanel();
         JDesktopPFondo = new javax.swing.JDesktopPane();
+        lblUsuarioActual = new javax.swing.JLabel();
         JPanelBotones = new javax.swing.JPanel();
         jButtonSalir = new javax.swing.JButton();
         jButtonBusquedas = new javax.swing.JButton();
@@ -60,15 +61,25 @@ public class Vista_MenuSpa extends javax.swing.JFrame {
 
         JDesktopPFondo.setBackground(new java.awt.Color(153, 102, 255));
 
+        lblUsuarioActual.setText("usuario:");
+
+        JDesktopPFondo.setLayer(lblUsuarioActual, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
         javax.swing.GroupLayout JDesktopPFondoLayout = new javax.swing.GroupLayout(JDesktopPFondo);
         JDesktopPFondo.setLayout(JDesktopPFondoLayout);
         JDesktopPFondoLayout.setHorizontalGroup(
             JDesktopPFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1201, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, JDesktopPFondoLayout.createSequentialGroup()
+                .addContainerGap(1082, Short.MAX_VALUE)
+                .addComponent(lblUsuarioActual)
+                .addGap(82, 82, 82))
         );
         JDesktopPFondoLayout.setVerticalGroup(
             JDesktopPFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 676, Short.MAX_VALUE)
+            .addGroup(JDesktopPFondoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblUsuarioActual)
+                .addContainerGap(654, Short.MAX_VALUE))
         );
 
         JPanelBotones.setBackground(new java.awt.Color(204, 204, 204));
@@ -289,6 +300,7 @@ public class Vista_MenuSpa extends javax.swing.JFrame {
     public javax.swing.JMenu jMenuTienda;
     public javax.swing.JMenuItem jMenuVerEmpleados;
     public javax.swing.JMenu jmSalir;
+    public javax.swing.JLabel lblUsuarioActual;
     // End of variables declaration//GEN-END:variables
 
     private void colocarIconos(){
