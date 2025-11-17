@@ -170,12 +170,12 @@ public class ControladorDiaDeSpa implements ActionListener, KeyListener, Propert
         if (e.getSource() == vista.jbtGuardar) {
             boolean repetido = false;
             boolean guardado = false;
-            if (vista.jtxDNI.getText().trim().isEmpty() || vista.jdcFecha.getDate() == null || vista.jTextAreaPreferencias.getText().trim().isEmpty()) {
+            if (vista.jtxDNI.getText().trim().isEmpty() || vista.jdcFecha.getDate() == null || vista.jTextAreaPreferencias.getText().trim().isEmpty() ) {
                 JOptionPane.showMessageDialog(null, "Debe llenar todos los campos!!", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             } else {
                 if (buscar) {
-                    List<Sesion> sesiones = sesionData.listarSesionesPorPack(codPackSeleccionado);
+                    List <Sesion> sesiones = sesionData.listarSesionesPorPack(codPackSeleccionado);
                     if (!sesiones.isEmpty()) {
                         JOptionPane.showMessageDialog(null, "No se puede modificar un turno que tenga sesiones cargadas, primero elimine las sesiones vinculadas a este turno", "Error", JOptionPane.ERROR_MESSAGE);
                         return;
@@ -267,7 +267,7 @@ public class ControladorDiaDeSpa implements ActionListener, KeyListener, Propert
         }
 
         if (e.getSource() == vista.jbtEliminar) {
-            List<Sesion> sesiones = sesionData.listarSesionesPorPack(codPackSeleccionado);
+            List <Sesion> sesiones = sesionData.listarSesionesPorPack(codPackSeleccionado);
             if (!sesiones.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "No se puede eliminar un turno que tenga sesiones cargadas", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -428,7 +428,7 @@ public class ControladorDiaDeSpa implements ActionListener, KeyListener, Propert
             }
         } else {
             for (DiaDeSpa aux : turnos) {
-                /* double montoTotal = 0;
+                double montoTotal = 0;
                 Object[] fila = new Object[7];
                 fila[0] = aux.getCodPack();
                 fila[1] = aux.getFechayhora();
@@ -442,22 +442,6 @@ public class ControladorDiaDeSpa implements ActionListener, KeyListener, Propert
                 }
                 fila[5] = montoTotal;
                 fila[6] = aux.isEstado() ? "Activo" : "Inactivo";
-                modelo.addRow(fila);*/
-                List<Sesion> listarSesiones = sesionData.listarSesionesPorPack(aux.getCodPack());
-                double montoTotal = 0;
-                for (Sesion s : listarSesiones) {
-                    montoTotal += s.getMonto();
-                }
-
-                Object[] fila = new Object[7];
-                fila[0] = aux.getCodPack();
-                fila[1] = aux.getFechayhora();
-                fila[2] = aux.getPreferencias();
-                fila[3] = aux.getCliente().getCodCli();
-                fila[4] = listarSesiones.size();
-                fila[5] = montoTotal;
-                fila[6] = aux.isEstado() ? "Activo" : "Inactivo";
-
                 modelo.addRow(fila);
             }
         }
