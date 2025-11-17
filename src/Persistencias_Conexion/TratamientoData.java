@@ -68,7 +68,7 @@ public class TratamientoData {
 
     public Tratamiento buscarTratamientoPorCodigo(int codTratam) {
         Tratamiento tratamiento = null;
-        String sql = "SELECT nombre, tipo, detalle, productos, duracion, costo, estado FROM tratamiento WHERE codTratam = ?";
+        String sql = "SELECT * FROM tratamiento WHERE codTratam = ?";
 
         Connection con = Conexion.getConexion();
         PreparedStatement ps = null;
@@ -85,10 +85,10 @@ public class TratamientoData {
                 tratamiento.setNombre(rs.getString("nombre"));
                 tratamiento.setTipo(rs.getString("tipo"));
                 tratamiento.setDetalle(rs.getString("detalle"));
-                
+
                 String productosTexto = rs.getString("productos");
                 tratamiento.setProductosDesdeTexto(productosTexto);
-                
+
                 tratamiento.setDuracion(rs.getInt("duracion"));
                 tratamiento.setCosto(rs.getDouble("costo"));
                 tratamiento.setEstado(rs.getBoolean("estado"));
@@ -108,8 +108,7 @@ public class TratamientoData {
     }
 
     public void modificarTratamiento(Tratamiento tratamiento) {
-        String sql = "UPDATE tratamiento SET nombre = ?, tipo = ?, detalle = ?, productos = ?, duracion = ?, costo = ?, estado = ? "
-                + "WHERE codTratam = ?";
+        String sql = "UPDATE tratamiento SET nombre=?, tipo=?, detalle=?, productos=?, duracion=?, costo=?, estado=? WHERE codTratam=?";
 
         PreparedStatement ps = null;
         con = Conexion.getConexion();
@@ -181,7 +180,7 @@ public class TratamientoData {
     public List<Tratamiento> listarTratamientos() {
         List<Tratamiento> tratamientos = new ArrayList<>();
         // Solo lista los tratamientos activos (estado = 1)
-        String sql = "SELECT codTratam, nombre, tipo, detalle, productos, duracion, costo, estado FROM tratamiento WHERE estado = 1";
+        String sql = "SELECT * FROM tratamiento WHERE estado = 1";
 
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -198,10 +197,10 @@ public class TratamientoData {
                 tratamiento.setNombre(rs.getString("nombre"));
                 tratamiento.setTipo(rs.getString("tipo"));
                 tratamiento.setDetalle(rs.getString("detalle"));
-                
+
                 String productosTexto = rs.getString("productos");
                 tratamiento.setProductosDesdeTexto(productosTexto);
-                
+
                 tratamiento.setDuracion(rs.getInt("duracion"));
                 tratamiento.setCosto(rs.getDouble("costo"));
                 tratamiento.setEstado(rs.getBoolean("estado"));
@@ -223,8 +222,7 @@ public class TratamientoData {
     }
 
     public List<Tratamiento> listarTratamientosInactivos() {
-        String sql = "SELECT codtratam,nombre,tipo,detalle,productos,duracion,costo,estado"
-                + "FROM tratamieto WHERE estado = 0";
+        String sql = "SELECT * FROM tratamiento WHERE estado = 0";
 
         ArrayList<Tratamiento> lista = new ArrayList<>();
         con = Conexion.getConexion();
@@ -234,16 +232,16 @@ public class TratamientoData {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Tratamiento t = new Tratamiento();
-                t.setCodTratam(rs.getInt("codtratam"));
+                t.setCodTratam(rs.getInt("codTratam"));
                 t.setNombre(rs.getString("nombre"));
                 t.setTipo(rs.getString("tipo"));
-                
+
                 String productosTexto = rs.getString("productos");
                 t.setProductosDesdeTexto(productosTexto);
-                
+
                 t.setDuracion(rs.getInt("duracion"));
                 t.setCosto(rs.getDouble("costo"));
-                t.setEstado(false);
+                t.setEstado(rs.getBoolean("estado"));
 
                 lista.add(t);
             }
@@ -255,8 +253,7 @@ public class TratamientoData {
     }
 
     public List<Tratamiento> listarTratameintosActivos() {
-        String sql = "SELECT codtratam,nombre,tipo,detalle,productos,duracion,costo,estado"
-                + "FROM tratamieto WHERE estado = 1";
+        String sql = "SELECT * FROM tratamieto WHERE estado = 1";
 
         ArrayList<Tratamiento> lista = new ArrayList<>();
         con = Conexion.getConexion();
@@ -270,10 +267,10 @@ public class TratamientoData {
                 t.setCodTratam(rs.getInt(("codTratam")));
                 t.setNombre(rs.getString("nombre"));
                 t.setTipo(rs.getString("tipo"));
-                
+
                 String productosTexto = rs.getString("productos");
                 t.setProductosDesdeTexto(productosTexto);
-                
+
                 t.setDuracion(rs.getInt("duracion"));
                 t.setCosto(rs.getDouble("costo"));
                 t.setEstado(true);
@@ -288,7 +285,7 @@ public class TratamientoData {
     }
 
     public void cambiarEstadoTratamiento(int codTratam, boolean nuevo) {
-        String sql = "UPDATE tratamiento set estado = ? WHERE codtratam=?";
+        String sql = "UPDATE tratamiento set estado = ? WHERE codTratam=?";
 
         try {
             PreparedStatement ps = con.prepareStatement(sql);
