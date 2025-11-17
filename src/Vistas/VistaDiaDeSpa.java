@@ -1,13 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Vistas;
 
-/**
- *
- * @author urban
+/*  @author Grupo 6 
+    Gimenez Diego Ruben
+    Carlos German Mecias Giacomelli
+    Tomas Migliozzi Badani
+    Urbani Jose
  */
 public class VistaDiaDeSpa extends javax.swing.JInternalFrame {
 

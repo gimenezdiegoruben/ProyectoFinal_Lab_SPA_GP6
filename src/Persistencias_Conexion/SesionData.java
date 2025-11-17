@@ -136,6 +136,33 @@ public class SesionData {
 
         return lista;
     }
+    
+        public List<Sesion> listarSesionesPorCodInstal(int codInstal) {
+
+        List<Sesion> lista = new ArrayList<>();
+        String sql = "SELECT * FROM sesion WHERE codInstal = ?";
+
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, codInstal);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Sesion sesion = construirSesionDesdeResultSet(rs);
+                lista.add(sesion);
+            }
+
+            rs.close();
+            ps.close();
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error en listarSesionesPorPack: " + ex.getMessage());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al construir la Sesión: " + e.getMessage());
+        }
+
+        return lista;
+    }
 
     //Listamos masajistas por la matricula
     public List<Empleado> listarMasajistasLibres(LocalDateTime desde, LocalDateTime hasta) {

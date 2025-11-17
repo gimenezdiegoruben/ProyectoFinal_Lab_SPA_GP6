@@ -1,9 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
-
 package Persistencias_Conexion;
 
 /*  @author Grupo 6 
@@ -81,7 +75,32 @@ public class InstalacionData {
         return instal;
     }
     
-    public List<Instalacion> listarTodasInstalacionesActivas() {
+    public List<Instalacion> listarTodasInstalaciones() {
+        List<Instalacion> instalaciones = new ArrayList<>();
+        String sql = "SELECT codInstal, nombre, detalleUso, precio30min, estado FROM instalacion";
+        
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                Instalacion instal = new Instalacion();
+                instal.setCodInstal(rs.getInt("codInstal"));
+                instal.setNombre(rs.getString("nombre"));
+                instal.setDetalleUso(rs.getString("detalleUso"));
+                instal.setPrecio(rs.getDouble("precio30min"));
+                instal.setEstado(rs.getBoolean("estado"));
+                
+                instalaciones.add(instal);
+            }
+            ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al listar Instalaciones: " + ex.getMessage());
+        }
+        return instalaciones;
+    }
+    
+        public List<Instalacion> listarTodasInstalacionesActivas() {
         List<Instalacion> instalaciones = new ArrayList<>();
         String sql = "SELECT codInstal, nombre, detalleUso, precio30min, estado FROM instalacion WHERE estado = 1";
         

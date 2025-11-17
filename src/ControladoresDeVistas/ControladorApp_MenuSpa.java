@@ -190,13 +190,11 @@ public class ControladorApp_MenuSpa implements ActionListener, MenuListener, Com
 
                 VistaInstalacion vista = new VistaInstalacion();
                 InstalacionData data = new InstalacionData();
+                SesionData sesionData = new SesionData();
 
-                ControladorInstalacion ctrl = new ControladorInstalacion(vista, data, menu);
-
-                menu.JDesktopPFondo.add(vista);
-                ctrl.iniciar(); //
-                vista.setVisible(true);
-                vista.toFront();
+                ControladorInstalacion ctrl = new ControladorInstalacion(vista, data,sesionData ,menu);
+                
+                ctrl.iniciar();
             }
         }
         if (e.getSource() == menu.jButtonTratamientos) {

@@ -1,152 +1,274 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package ControladoresDeVistas;
 
 import Modelos.Instalacion;
+import Modelos.Sesion;
 import Persistencias_Conexion.InstalacionData;
+import Persistencias_Conexion.SesionData;
 import Vistas.VistaInstalacion;
 import Vistas.Vista_MenuSpa;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.List;
 import javax.swing.JOptionPane;
-/**
- *
- * @author Ger
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
+/*  @author Grupo 6 
+    Gimenez Diego Ruben
+    Carlos German Mecias Giacomelli
+    Tomas Migliozzi Badani
+    Urbani Jose
  */
-public class ControladorInstalacion implements ActionListener{
+public class ControladorInstalacion implements ActionListener, KeyListener, MouseListener {
+
     private VistaInstalacion vista;
     private InstalacionData instalacionData;
-    private ControladorApp_MenuSpa menu;
-    
-    public ControladorInstalacion(VistaInstalacion vista, InstalacionData data, Vista_MenuSpa menu){
-        this.vista=vista;
-        this.instalacionData= new InstalacionData();
-        this.menu= this.menu;
+    private SesionData sesionData;
+    private Vista_MenuSpa menu;
+    private static DefaultTableModel modelo;
+    private boolean buscar;
+    private int codInstalacionSeleccionado;
+
+    public ControladorInstalacion(VistaInstalacion vista, InstalacionData data, SesionData sesionData, Vista_MenuSpa menu) {
+        this.vista = vista;
+        this.instalacionData = data;
+        this.sesionData = sesionData;
+        this.menu = menu;
         iniciarListenerBotones();
-    }
-    public void iniciar() {
-        vista.setTitle("Gestión de Instalaciones");
-    }
-    
-    private void iniciarListenerBotones(){
-    vista.jbtnGuardar.addActionListener(this);
-    vista.jbtnBuscar.addActionListener(this);
-    vista.jbtnModificar.addActionListener(this);
-    vista.jbtnEliminar.addActionListener(this);
-    vista.jbtnLimpiar.addActionListener(this);
-    }
-    
-    @Override
-    public void actionPerformed(ActionEvent e){
-        if(e.getSource() == vista.jbtnGuardar){
-            guardarInstalacion();
-        }else if(e.getSource()== vista.jbtnBuscar){
-            buscarInstalacion();
-        }else if(e.getSource()== vista.jbtnModificar){
-            modificarInstalacion();
-        }else if(e.getSource()==vista.jbtnEliminar){
-            eliminarInstalacion();
-        }else if(e.getSource()==vista.jbtnLimpiar){
-            vista.limpiarCampos();
-        }
-        //Recargamos tabla despues 
-        if (e.getSource() == vista.jbtnGuardar || e.getSource() == vista.jbtnModificar || e.getSource() == vista.jbtnEliminar) {
-             vista.cargarTablaInstalaciones();
-        }
-    }
-    
-    private Instalacion obtenerDatosForm(boolean incluirId){
-        Instalacion instalacion= new Instalacion();
-        
-        try{
-            if(incluirId && !vista.jtfCodInstalacion.getText().trim().isEmpty()){
-                instalacion.setCodInstal(Integer.parseInt(vista.jtfCodInstalacion.getText()));
-            } else if(incluirId){
-                throw new NumberFormatException("El codigo de instalacion es necesario para realizar esta accion");
-            }
-            instalacion.setNombre(vista.jtfNombreInstalacion.getText());
-            instalacion.setDetalleUso(vista.jtaDetalleUso.getText());
-            instalacion.setPrecio(Double.parseDouble(vista.jtfPrecio30m.getText()));
-            instalacion.setEstado(vista.jchbEstadoInstalacion.isSelected());
-        }catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(vista, "Error de formato: El ID o el Precio deben ser números. " + e.getMessage(), "Error de Datos", JOptionPane.ERROR_MESSAGE);
-            return null; 
-        } catch (IllegalArgumentException e) {
-            JOptionPane.showMessageDialog(vista, e.getMessage(), "Validación", JOptionPane.WARNING_MESSAGE);
-            return null;
-        }
-        return instalacion;
+        vista.jtPrecio.addKeyListener(this);
     }
 
-    
-    
-    
-    //GUARDAR INSTALACION
-    
-    private void guardarInstalacion(){
-    Instalacion nuevaInstalacion = obtenerDatosForm(false);
-    
-    if(nuevaInstalacion!=null){
-        try {
-            instalacionData.crearInstalacion(nuevaInstalacion);
-            vista.limpiarCampos();
-        } catch (Exception e) {
-        }
-    }
+    public void iniciar() {
+        menu.JDesktopPFondo.add(vista);
+        vista.setVisible(true);
+        menu.JDesktopPFondo.moveToFront(vista);
+        vista.requestFocus();
         
+        desactivarCampos();
+        vista.jbtGuardar.setEnabled(false);
+        vista.jbtEliminar.setEnabled(false);
+        cargarTabla();
     }
-    
-    
-    //BUSCAR INSTALACION
-    private void buscarInstalacion(){
-        try {
-             int codInstal= Integer.parseInt(vista.jtfCodInstalacion.getText().trim());
-    
-             Instalacion encontrada = instalacionData.buscarInstalacionPorCod(codInstal);
-             if(encontrada!=null){
-                vista.cargarFormDesdeInstalacion(encontrada);
-             }else{
-                JOptionPane.showMessageDialog(vista, "Instalación con ID " + codInstal + " no encontrada.");
-                vista.limpiarCampos();
-             }
-        } catch (NumberFormatException e) {
-             JOptionPane.showMessageDialog(vista, "Ingrese un código de instalación válido para buscar.", "Error de Búsqueda", JOptionPane.WARNING_MESSAGE);
+
+    private void iniciarListenerBotones() {
+        vista.jbtGuardar.addActionListener(this);
+        vista.jbtNuevo.addActionListener(this);
+        vista.jbtSalir.addActionListener(this);
+        vista.jbtEliminar.addActionListener(this);
+        this.vista.jtbInstalaciones.addMouseListener(this);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == vista.jbtNuevo) {
+            nuevaInstalacion();
+        } else if (e.getSource() == vista.jbtGuardar) {
+            guardarInstalacion();
+        } else if (e.getSource() == vista.jbtEliminar) {
+            eliminarInstalacion();
+        } else if (e.getSource() == vista.jbtSalir) {
+            vista.dispose();
         }
     }
-    
-    //MODIFICAR INSTALACION
-    private void modificarInstalacion(){
-    Instalacion instalacionModif = obtenerDatosForm(true);
-    
-    if(instalacionModif != null && instalacionModif.getCodInstal()>0){
-        try {
-            instalacionData.modificarInstalacion(instalacionModif);
-            vista.limpiarCampos();
-        } catch (Exception e) {
-        }
-    }else if(instalacionModif!=null){
-        JOptionPane.showMessageDialog(vista,"Debe ingresar el codigo de la instalacion a modificar","Fallo de datos",JOptionPane.WARNING_MESSAGE);
+
+    private void nuevaInstalacion() {
+        buscar = false;
+        activarCampos();
+        limpiarCampos();
+        vista.jbtGuardar.setEnabled(true);
+        vista.jbtEliminar.setEnabled(true);
     }
-    }
-    
-    
-    //ELIMINAR INSTALACION
-    private void eliminarInstalacion(){
-        try {
-            int codInstal= Integer.parseInt(vista.jtfCodInstalacion.getText().trim());
-            
-            int confirmacion= JOptionPane.showConfirmDialog(vista,"Estas seguro de eliminar la instalacion con ID "+codInstal+" ?","Confirmar eliminacion", JOptionPane.YES_NO_OPTION);
-            
-            if(confirmacion == JOptionPane.YES_OPTION){
-                instalacionData.eliminarInstalacion(codInstal);
-                vista.limpiarCampos();
+
+    private void guardarInstalacion() {
+        boolean repetido = false;
+        boolean guardadoExitoso = false;
+        if (vista.jtNombre.getText().trim().isEmpty() || vista.jtDetalle.getText().trim().isEmpty() || vista.jtPrecio.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Debe rellenar todos los campos!!", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            try {
+                if (buscar) {
+                    Instalacion i1 = new Instalacion(vista.jtNombre.getText().trim(), vista.jtDetalle.getText().trim(), Double.parseDouble(vista.jtPrecio.getText().trim()), vista.jchbEstado.isSelected());
+                    Instalacion i2 = instalacionData.buscarInstalacionPorCod(codInstalacionSeleccionado);
+                    if (i1.getNombre().equals(i2.getNombre()) && i1.getDetalleUso().equals(i2.getDetalleUso()) && i1.getPrecio() == i2.getPrecio() && i1.isEstado() == i2.isEstado()) {
+                        JOptionPane.showMessageDialog(null, "Haz algún cambio antes de guardar!", "Error", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        List<Instalacion> instalaciones = instalacionData.listarTodasInstalaciones();
+                        for (Instalacion aux : instalaciones) {
+                            if (aux.getNombre().equals(i1.getNombre()) && aux.getDetalleUso().equals(i1.getDetalleUso()) && aux.getPrecio() == i1.getPrecio() && aux.isEstado() == i1.isEstado()) {
+                                JOptionPane.showMessageDialog(null, "La instalacion que intentas guardar ya está cargada en la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
+                                return;
+                            }
+                        }
+                        i1.setCodInstal(i2.getCodInstal());
+                        instalacionData.modificarInstalacion(i1);
+                        JOptionPane.showMessageDialog(null, "Instalacion " + i1.getNombre() + " modificada con éxito");
+                        limpiarCampos();
+                        buscar = false;
+                        vista.jbtEliminar.setEnabled(false);
+                        vista.jbtGuardar.setEnabled(false);
+                        actualizarTabla();
+                    }
+                } else {
+                    Instalacion i1 = new Instalacion(vista.jtNombre.getText().trim(), vista.jtDetalle.getText().trim(), Double.parseDouble(vista.jtPrecio.getText().trim()), vista.jchbEstado.isSelected());
+                    List<Instalacion> instalaciones = instalacionData.listarTodasInstalaciones();
+                    for (Instalacion aux : instalaciones) {
+                        if (aux.getNombre().equals(i1.getNombre()) && aux.getDetalleUso().equals(i1.getDetalleUso()) && aux.getPrecio() == i1.getPrecio() && aux.isEstado() == i1.isEstado()) {
+                            JOptionPane.showMessageDialog(null, "La instalacion que intentas guardar ya está cargada en la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
+                            return;
+                        }
+                    }
+                    instalacionData.crearInstalacion(i1);
+                    JOptionPane.showMessageDialog(null, "Instalación cargada con éxito", "Válido", JOptionPane.INFORMATION_MESSAGE);
+                    limpiarCampos();
+                    vista.jbtEliminar.setEnabled(false);
+                    vista.jbtGuardar.setEnabled(false);
+                    actualizarTabla();
+                }
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(null, "Debe ingresar un número válido en el campo 'Precio'", "Error", JOptionPane.ERROR_MESSAGE);
             }
-        } catch (Exception e) {
+        }
+
+    }
+
+    private void eliminarInstalacion() {
+        Instalacion i1 = instalacionData.buscarInstalacionPorCod(codInstalacionSeleccionado);
+        List <Sesion> sesiones = sesionData.listarSesionesPorCodInstal(codInstalacionSeleccionado);
+        if (!sesiones.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "No se puede eliminar la instalación, ya que tiene sesiones vinculadas", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if (i1 != null) {
+            int confirmacion = JOptionPane.showConfirmDialog(null, "¿Estás seguro de eliminar al Cliente " + i1.getNombre() + "?", "Confirmación de eliminación", JOptionPane.YES_NO_OPTION);
+            if (confirmacion == JOptionPane.YES_OPTION) {
+                instalacionData.eliminarInstalacion(codInstalacionSeleccionado);
+                JOptionPane.showMessageDialog(null,"Instalacion " + i1.getNombre() + " eliminada con éxito.", "Válido", JOptionPane.INFORMATION_MESSAGE);
+                limpiarCampos();
+                vista.jbtEliminar.setEnabled(false);
+                vista.jbtGuardar.setEnabled(false);
+                actualizarTabla();
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Ha ocurrido algo inesperado", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        if (e.getSource() == vista.jtPrecio) {
+            char caracter = e.getKeyChar();
+            if ((caracter < '0' || caracter > '9' && caracter != '\b')) {
+                e.consume();
+            }
+            if (vista.jtPrecio.getText().length() >= 8 && caracter != '\b') {
+                e.consume();
+            }
+        }
+    }
+
+    @Override
+    public void keyPressed(KeyEvent ke) {
+    }
+
+    @Override
+    public void keyReleased(KeyEvent ke) {
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent me) {
+    }
+
+    @Override
+    public void mousePressed(MouseEvent me) {
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent me) {
+        if (me.getSource() == vista.jtbInstalaciones) {
+            int fila = vista.jtbInstalaciones.getSelectedRow();
+            if (fila != 1) {
+                Instalacion i1 = instalacionData.buscarInstalacionPorCod(Integer.parseInt(vista.jtbInstalaciones.getValueAt(fila, 0).toString()));
+                vista.jtNombre.setText(i1.getNombre());
+                vista.jtDetalle.setText(i1.getDetalleUso());
+                vista.jtPrecio.setText(String.valueOf(i1.getPrecio()));
+                vista.jchbEstado.setSelected(i1.isEstado());
+                
+                vista.jbtEliminar.setEnabled(true);
+                vista.jbtGuardar.setEnabled(true);
+                activarCampos();
+                buscar = true;
+                codInstalacionSeleccionado = i1.getCodInstal();
+            }
+        }
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent me) {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent me) {
+
+    }
+
+    public void cargarTabla() {
+        modelo = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
+        modelo.addColumn("Nº Instalación");
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Detalle de uso");
+        modelo.addColumn("Precio(30min)");
+        modelo.addColumn("Estado");
+
+        vista.jtbInstalaciones.setModel(modelo);
+        vista.jtbInstalaciones.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        actualizarTabla();
+
+    }
+
+    public void limpiarCampos() {
+        vista.jtNombre.setText("");
+        vista.jtDetalle.setText("");
+        vista.jtPrecio.setText("");
+        vista.jchbEstado.setSelected(false);
+    }
+
+    public void activarCampos() {
+        vista.jtNombre.setEnabled(true);
+        vista.jtDetalle.setEnabled(true);
+        vista.jtPrecio.setEnabled(true);
+        vista.jchbEstado.setEnabled(true);
+    }
+
+    public void desactivarCampos() {
+        vista.jtNombre.setEnabled(false);
+        vista.jtDetalle.setEnabled(false);
+        vista.jtPrecio.setEnabled(false);
+        vista.jchbEstado.setEnabled(false);
+    }
     
-    
-    
+        
+    public void actualizarTabla() {
+        modelo.setRowCount(0);
+        List<Instalacion> instalaciones = instalacionData.listarTodasInstalaciones();
+        for (Instalacion aux : instalaciones) {
+            Object fila[] = new Object[5];
+            fila[0] = aux.getCodInstal();
+            fila[1] = aux.getNombre();
+            fila[2] = aux.getDetalleUso();
+            fila[3] = aux.getPrecio();
+            fila[4] = aux.isEstado() ? "Activo" : "Inactivo";
+            modelo.addRow(fila);
+        }
+    }
 }
