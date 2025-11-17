@@ -14,6 +14,7 @@ public class SPA_EntreDedos {
     public static void main(String[] args) {
 
         VistaLogin login = new VistaLogin();
+        login.setLocationRelativeTo(null);
         ControladorLogin control = new ControladorLogin(login);
         control.iniciar();
     }

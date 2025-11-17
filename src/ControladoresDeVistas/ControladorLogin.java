@@ -17,12 +17,18 @@ public class ControladorLogin {
 
         this.vista.jButtonLogin.addActionListener(e -> login());
         this.vista.btnSalir.addActionListener(e -> System.exit(0));
+        this.vista.jButtonlimpiar.addActionListener(e->limpiarCamposLogin());
     }
 
     public void iniciar() {
         vista.setVisible(true);
     }
-
+    
+    public void limpiarCamposLogin(){
+        vista.txtUsuario.setText("");
+        vista.jPasswordFieldPass.setText("");
+        vista.txtUsuario.requestFocus();
+    }
     private void login() {
         String usuario = vista.txtUsuario.getText().trim();
         String pass = new String(vista.jPasswordFieldPass.getPassword()).trim();
@@ -31,7 +37,8 @@ public class ControladorLogin {
             JOptionPane.showMessageDialog(vista, "Complete todos los campos.");
             return;
         }
-
+        
+      
         Empleado empleado = data.login(usuario, pass);
 
         if (empleado == null) {

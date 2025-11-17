@@ -28,6 +28,7 @@ import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 import Vistas.Vista_MenuSpa;
 import Vistas.VistasTratamiento;
+import javax.swing.JOptionPane;
 
 /*  @author Grupo 6 
     Gimenez Diego Ruben
@@ -329,7 +330,12 @@ public class ControladorApp_MenuSpa implements ActionListener, MenuListener, Com
     @Override
     public void menuSelected(MenuEvent e) {
         if (e.getSource() == menu.jmSalir) { //sale cuando el menu salir es seleccionado
-            menu.dispose();
+            
+            int confirmacion= JOptionPane.showConfirmDialog(menu, "Esta seguro que desea salir del programa?","Confirmar salida",JOptionPane.YES_NO_OPTION);
+            
+            if(confirmacion==JOptionPane.YES_OPTION){
+              menu.dispose();
+            }
         }
     }
 
