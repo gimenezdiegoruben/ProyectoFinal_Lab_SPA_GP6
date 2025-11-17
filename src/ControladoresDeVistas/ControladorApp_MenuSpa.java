@@ -1,5 +1,6 @@
 package ControladoresDeVistas;
 
+import ControladoresDeVistas.ControladorHistorialCliente;
 import Modelos.Empleado;
 import Persistencias_Conexion.ClienteData;
 import Persistencias_Conexion.ConsultorioData;
@@ -13,6 +14,7 @@ import Persistencias_Conexion.TratamientoData;
 import Vistas.VistaCliente;
 import Vistas.VistaConsultorio;
 import Vistas.VistaDiaDeSpa;
+import Vistas.VistaHistorialClientes;
 import Vistas.VistaInstalacion;
 import Vistas.VistaProductos;
 import Vistas.VistaSesiones;
@@ -44,7 +46,6 @@ public class ControladorApp_MenuSpa implements ActionListener, MenuListener, Com
     public ControladorApp_MenuSpa(Vista_MenuSpa menu, Empleado empleadoLogueado) {
         this.menu = menu;
         this.empleadoLogueado = empleadoLogueado;
-
         //para mostrar el nombre ne la vista del empl logeado
         this.menu.lblUsuarioActual.setText(
                 empleadoLogueado.getNombre() + " " + empleadoLogueado.getApellido()
@@ -139,6 +140,12 @@ public class ControladorApp_MenuSpa implements ActionListener, MenuListener, Com
                 vista.toFront();
             }
         }
+        
+        if (e.getSource() == menu.getMenuHistorialClientes()) {
+            abrirHistorialClientes();
+        }
+        
+       
 
         if (e.getSource() == menu.jButtonClientes) {
             javax.swing.JInternalFrame vistaExistente = obtenerVistaAbierta(Vistas.VistaCliente.class);
@@ -302,7 +309,13 @@ public class ControladorApp_MenuSpa implements ActionListener, MenuListener, Com
         }
         return null;
     }
-
+    
+     public void abrirHistorialClientes(){
+            VistaHistorialClientes historialClientes= new VistaHistorialClientes();
+            ControladorHistorialCliente controladorHistorial= new ControladorHistorialCliente(historialClientes);
+            controladorHistorial.iniciar();
+        }
+     
     public void ponerFondo() {
         ClassLoader directorio = getClass().getClassLoader();
         URL rutaImagenFondo = directorio.getResource("Images/fondo.jpg");

@@ -3,6 +3,7 @@ package Vistas;
 import java.awt.Image;
 import java.net.URL;
 import javax.swing.ImageIcon;
+import javax.swing.JMenuItem;
 
 public class Vista_MenuSpa extends javax.swing.JFrame {
 
@@ -201,6 +202,11 @@ public class Vista_MenuSpa extends javax.swing.JFrame {
         jMenuBusquedas.add(jMenuHistorialSes_Turnos);
 
         jMenuHistorialClientes.setText("Historial de Clientes");
+        jMenuHistorialClientes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuHistorialClientesActionPerformed(evt);
+            }
+        });
         jMenuBusquedas.add(jMenuHistorialClientes);
 
         jMenuHistorialTratamientos.setText("Historial de Tratamientos");
@@ -264,6 +270,14 @@ public class Vista_MenuSpa extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButtonSalirActionPerformed
 
+    private void jMenuHistorialClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuHistorialClientesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuHistorialClientesActionPerformed
+
+    public JMenuItem getMenuHistorialClientes() {
+    return jMenuHistorialClientes; 
+    }
+    
     /**
      * @param args the command line arguments
      */
