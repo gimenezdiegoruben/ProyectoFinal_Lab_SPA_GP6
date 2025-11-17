@@ -131,8 +131,7 @@ public class ControladorCliente implements ActionListener, FocusListener, KeyLis
                             } else {
                                 c1.setCodCli(c2.getCodCli());
                                 data.modificarCliente(c1);
-                                JOptionPane.showMessageDialog(null, "El cliente " + c2.getNombre() + " / DNI: " + c2.getDni() + " Teléfono: " + c2.getTelefono() + " Edad: " + c2.getEdad() + " Afecciones: " + c2.getAfecciones() + " Estado: " + (c2.isEstado() ? "Activo" : "Inactivo")
-                                        + " ha sido modificado a: " + c1.getNombre() + " / DNI: " + c1.getDni() + " Teléfono: " + c1.getTelefono() + " Edad: " + c1.getEdad() + " Afecciones: " + c1.getAfecciones() + " Estado: " + (c1.isEstado() ? "Activo" : "Inactivo"));
+                                JOptionPane.showMessageDialog(null, "El cliente " + c1.getNombre() + "ha sido modificado con exito");
                                 limpiarCampos();
                                 buscar = false;
                                 vista.jbtEliminar.setEnabled(false);

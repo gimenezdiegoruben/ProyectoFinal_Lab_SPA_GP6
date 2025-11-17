@@ -108,7 +108,12 @@ public class ControladorApp_MenuSpa implements ActionListener, MenuListener, Com
         // ----------------------------------------------------------
         //[aquí los actionperformed de los botones]
         if (e.getSource() == menu.jButtonSalir) {
-            menu.dispose();
+            
+            int confirmacion= JOptionPane.showConfirmDialog(menu, "Esta seguro que desea salir del programa?","Confirmar salida",JOptionPane.YES_NO_OPTION);
+            
+            if(confirmacion==JOptionPane.YES_OPTION){
+              menu.dispose();
+            }
         }
 
         if (e.getSource() == menu.jButtonEmpleados) {
