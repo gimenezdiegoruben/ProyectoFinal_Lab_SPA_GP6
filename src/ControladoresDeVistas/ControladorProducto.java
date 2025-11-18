@@ -134,15 +134,20 @@ public class ControladorProducto implements ActionListener, KeyListener, MouseLi
         } else {
             try {
                 if (buscar) {
-                    Tratamiento t1 = tratamientoData.buscarTratamientoPorCodigo(codTratamientoSeleccionado);
+                    int codTratamientoNuevo = Integer.parseInt(vista.jtNroTratamiento.getText().trim());
+                    Tratamiento t1 = tratamientoData.buscarTratamientoPorCodigo(codTratamientoNuevo);
+                    if (t1 == null){
+                        JOptionPane.showMessageDialog(null, "El número de tratamiento no existe", "Error", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
                     Producto p1 = new Producto(vista.jtDescripcion.getText().trim(), Double.parseDouble(vista.jtPrecio.getText().trim()), Integer.parseInt(vista.jtStock.getText().trim()), t1);
                     Producto p2 = data.buscarProductoPorCod(codProductoSeleccionado);
-                    if (p1.getDescripcion().equals(p2.getDescripcion()) && p1.getPrecio() == p2.getPrecio() && p1.getStock() == p2.getStock() && p1.getTratamiento().getCodTratam() == p2.getTratamiento().getCodTratam()) {
+                    if (p1.getDescripcion().equals(p2.getDescripcion()) && p1.getPrecio() == p2.getPrecio() && p1.getStock() == p2.getStock() && Integer.parseInt(vista.jtNroTratamiento.getText().trim()) == p2.getTratamiento().getCodTratam()) {
                         JOptionPane.showMessageDialog(null, "Haz algún cambio antes de guardar!", "Error", JOptionPane.ERROR_MESSAGE);
                     } else {
                         List<Producto> productos = data.listarProductos();
                         for (Producto aux : productos) {
-                            if (aux.getDescripcion().equals(p1.getDescripcion()) && aux.getPrecio() == p1.getPrecio() && aux.getStock() == p1.getStock() && aux.getTratamiento().getCodTratam() == p1.getTratamiento().getCodTratam()) {
+                            if (aux.getDescripcion().equals(p1.getDescripcion()) && aux.getPrecio() == p1.getPrecio() && aux.getStock() == p1.getStock() && aux.getTratamiento().getCodTratam() == Integer.parseInt(vista.jtNroTratamiento.getText().trim())){
                                 JOptionPane.showMessageDialog(null, "El producto que intentas guardar ya está cargada en la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
                                 return;
                             }

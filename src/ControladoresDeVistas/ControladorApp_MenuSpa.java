@@ -302,8 +302,9 @@ public class ControladorApp_MenuSpa implements ActionListener, MenuListener, Com
 
                 VistasTratamiento vista = new VistasTratamiento();
                 TratamientoData data = new TratamientoData();
+                ProductoData productoData = new ProductoData();
 
-                ControladorTratamiento controlador = new ControladorTratamiento(vista, data, menu);
+                ControladorTratamiento controlador = new ControladorTratamiento(vista, data, productoData, menu);
                 controlador.iniciar();
             }
         }

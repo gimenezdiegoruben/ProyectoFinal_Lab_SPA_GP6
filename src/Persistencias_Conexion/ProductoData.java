@@ -207,4 +207,47 @@ public class ProductoData {
         return productos;
     }
 
+    public List<Producto> listarProductosPorCodTratam(int codTratam) {
+        String sql = "SELECT codProducto, descripcion, precio, stock, codTratam FROM producto WHERE codTratam = ?";
+        List<Producto> productos = new ArrayList<>();
+
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, codTratam);  // <-- CORRECCIÓN
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Producto p1 = new Producto();
+                p1.setCodProducto(rs.getInt("codProducto"));
+                p1.setDescripcion(rs.getString("descripcion"));
+                p1.setPrecio(rs.getDouble("precio"));
+                p1.setStock(rs.getInt("stock"));
+
+                Tratamiento t1 = new Tratamiento();
+                t1.setCodTratam(rs.getInt("codTratam"));
+                p1.setTratamiento(t1);
+
+                productos.add(p1);
+            }
+
+        } catch (SQLException ex) {
+            System.out.println("Error al acceder a la tabla productos: " + ex.getMessage());
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println("Error al cerrar recursos: " + ex.getMessage());
+            }
+        }
+
+        return productos;
+    }
 }

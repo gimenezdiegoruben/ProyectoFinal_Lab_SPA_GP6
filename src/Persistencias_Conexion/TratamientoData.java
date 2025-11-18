@@ -25,7 +25,7 @@ public class TratamientoData {
     }
 
     public void guardarTratamiento(Tratamiento tratamiento) {
-        String sql = "INSERT INTO tratamiento (nombre,tipo, detalle, productos, duracion, costo, estado) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO tratamiento (nombre,tipo, detalle, duracion, costo, estado) VALUES (?, ?, ?, ?, ?, ?)";
 
         PreparedStatement ps = null;
         con = Conexion.getConexion();
@@ -36,10 +36,9 @@ public class TratamientoData {
             ps.setString(1, tratamiento.getNombre());
             ps.setString(2, tratamiento.getTipo());
             ps.setString(3, tratamiento.getDetalle());
-            ps.setString(4, tratamiento.getProductosComoTexto());//guardamos la lista como texto
-            ps.setInt(5, tratamiento.getDuracion());
-            ps.setDouble(6, tratamiento.getCosto());
-            ps.setBoolean(7, tratamiento.isEstado());
+            ps.setInt(4, tratamiento.getDuracion());
+            ps.setDouble(5, tratamiento.getCosto());
+            ps.setBoolean(6, tratamiento.isEstado());
 
             int filasAfectadas = ps.executeUpdate();
 
@@ -85,10 +84,6 @@ public class TratamientoData {
                 tratamiento.setNombre(rs.getString("nombre"));
                 tratamiento.setTipo(rs.getString("tipo"));
                 tratamiento.setDetalle(rs.getString("detalle"));
-
-                String productosTexto = rs.getString("productos");
-                tratamiento.setProductosDesdeTexto(productosTexto);
-
                 tratamiento.setDuracion(rs.getInt("duracion"));
                 tratamiento.setCosto(rs.getDouble("costo"));
                 tratamiento.setEstado(rs.getBoolean("estado"));
@@ -108,7 +103,7 @@ public class TratamientoData {
     }
 
     public void modificarTratamiento(Tratamiento tratamiento) {
-        String sql = "UPDATE tratamiento SET nombre=?, tipo=?, detalle=?, productos=?, duracion=?, costo=?, estado=? WHERE codTratam=?";
+        String sql = "UPDATE tratamiento SET nombre=?, tipo=?, detalle=?, duracion=?, costo=?, estado=? WHERE codTratam=?";
 
         PreparedStatement ps = null;
         con = Conexion.getConexion();
@@ -118,11 +113,10 @@ public class TratamientoData {
             ps.setString(1, tratamiento.getNombre());
             ps.setString(2, tratamiento.getTipo());
             ps.setString(3, tratamiento.getDetalle());
-            ps.setString(4, tratamiento.getProductosComoTexto());
-            ps.setInt(5, (int) tratamiento.getDuracion());
-            ps.setDouble(6, tratamiento.getCosto());
-            ps.setBoolean(7, tratamiento.isEstado());
-            ps.setInt(8, tratamiento.getCodTratam());
+            ps.setInt(4, (int) tratamiento.getDuracion());
+            ps.setDouble(5, tratamiento.getCosto());
+            ps.setBoolean(6, tratamiento.isEstado());
+            ps.setInt(7, tratamiento.getCodTratam());
 
             int filasAfectadas = ps.executeUpdate();
 
@@ -197,10 +191,6 @@ public class TratamientoData {
                 tratamiento.setNombre(rs.getString("nombre"));
                 tratamiento.setTipo(rs.getString("tipo"));
                 tratamiento.setDetalle(rs.getString("detalle"));
-
-                String productosTexto = rs.getString("productos");
-                tratamiento.setProductosDesdeTexto(productosTexto);
-
                 tratamiento.setDuracion(rs.getInt("duracion"));
                 tratamiento.setCosto(rs.getDouble("costo"));
                 tratamiento.setEstado(rs.getBoolean("estado"));
@@ -235,10 +225,6 @@ public class TratamientoData {
                 t.setCodTratam(rs.getInt("codTratam"));
                 t.setNombre(rs.getString("nombre"));
                 t.setTipo(rs.getString("tipo"));
-
-                String productosTexto = rs.getString("productos");
-                t.setProductosDesdeTexto(productosTexto);
-
                 t.setDuracion(rs.getInt("duracion"));
                 t.setCosto(rs.getDouble("costo"));
                 t.setEstado(rs.getBoolean("estado"));
@@ -267,10 +253,6 @@ public class TratamientoData {
                 t.setCodTratam(rs.getInt(("codTratam")));
                 t.setNombre(rs.getString("nombre"));
                 t.setTipo(rs.getString("tipo"));
-
-                String productosTexto = rs.getString("productos");
-                t.setProductosDesdeTexto(productosTexto);
-
                 t.setDuracion(rs.getInt("duracion"));
                 t.setCosto(rs.getDouble("costo"));
                 t.setEstado(true);

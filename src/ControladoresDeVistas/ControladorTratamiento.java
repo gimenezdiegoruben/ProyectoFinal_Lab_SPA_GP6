@@ -1,6 +1,8 @@
 package ControladoresDeVistas;
 
+import Modelos.Producto;
 import Modelos.Tratamiento;
+import Persistencias_Conexion.ProductoData;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -13,27 +15,29 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;  
+import java.awt.event.MouseEvent;
 import javax.swing.ButtonGroup;
 
 public class ControladorTratamiento implements ActionListener, KeyListener {
 
     private final VistasTratamiento vista;
     private final TratamientoData data;
+    private final ProductoData productoData;
     private final Vista_MenuSpa menu;
     private List<Tratamiento> tratamientos;
     private Tratamiento tratamientoSeleccionado;
     private DefaultTableModel modeloTabla;
     private ButtonGroup grupoFiltro;
 
-    public ControladorTratamiento(VistasTratamiento vista, TratamientoData data, Vista_MenuSpa menu) {
+    public ControladorTratamiento(VistasTratamiento vista, TratamientoData data, ProductoData productoData, Vista_MenuSpa menu) {
         this.vista = vista;
         this.data = data;
+        this.productoData = productoData;
         this.menu = menu;
         this.tratamientos = new ArrayList<>();
-        
-         modeloTabla = new DefaultTableModel(
-                new Object[]{"Código", "Nombre", "Tipo", "Detalle","Productos", "Duración", "Costo", "Estado"}, 0) {
+
+        modeloTabla = new DefaultTableModel(
+                new Object[]{"Código", "Nombre", "Tipo", "Detalle", "Productos", "Duración", "Costo", "Estado"}, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;//todas las celdas no editables
@@ -51,11 +55,11 @@ public class ControladorTratamiento implements ActionListener, KeyListener {
         vista.rbtnTodos.addActionListener(this);
         vista.rbtnActivo.addActionListener(this);
         vista.rbtnInactivo.addActionListener(this);
-        
+
         //Filtro inicial: TODOS (o el que quieras)
-        vista.rbtnTodos.setSelected(true); 
-        
-        cargarTabla(); 
+        vista.rbtnTodos.setSelected(true);
+
+        cargarTabla();
 
         vista.btnGuardarTrat.addActionListener(this);
         vista.btnEliminar.addActionListener(this);
@@ -64,7 +68,6 @@ public class ControladorTratamiento implements ActionListener, KeyListener {
 
         vista.txtPrecio.addActionListener(this);
         vista.comboEspecialidad.addActionListener(this);
-        vista.comboProducto.addActionListener(this);
         vista.txtNombre.addKeyListener(this);
         vista.txtPrecio.addKeyListener(this);
 
@@ -76,7 +79,7 @@ public class ControladorTratamiento implements ActionListener, KeyListener {
                 }
             }
         });
-        
+
         desactivarCampos();
     }
 
@@ -94,9 +97,8 @@ public class ControladorTratamiento implements ActionListener, KeyListener {
         vista.txtDetalle.setEnabled(false);
         vista.txtPrecio.setEnabled(false);
         vista.comboEspecialidad.setEnabled(false);
-        vista.comboProducto.setEnabled(false);
         vista.txtDuracion.setEnabled(false);
-        vista.jCheckBoxEstado.setEnabled(false);  
+        vista.jCheckBoxEstado.setEnabled(false);
     }
 
     public void activarCampos() {
@@ -104,9 +106,8 @@ public class ControladorTratamiento implements ActionListener, KeyListener {
         vista.txtDetalle.setEnabled(true);
         vista.txtPrecio.setEnabled(true);
         vista.comboEspecialidad.setEnabled(true);
-        vista.comboProducto.setEnabled(true);
         vista.txtDuracion.setEnabled(true);
-        vista.jCheckBoxEstado.setEnabled(true);    
+        vista.jCheckBoxEstado.setEnabled(true);
     }
 
     public void despejarCampos() {
@@ -114,9 +115,8 @@ public class ControladorTratamiento implements ActionListener, KeyListener {
         vista.txtDetalle.setText("");
         vista.txtPrecio.setText("");
         vista.txtDuracion.setText("");
-        vista.comboProducto.setSelectedIndex(-1);
         vista.comboEspecialidad.setSelectedIndex(-1);
-        vista.jCheckBoxEstado.setSelected(true); 
+        vista.jCheckBoxEstado.setSelected(true);
         tratamientoSeleccionado = null;
 
     }
@@ -126,19 +126,16 @@ public class ControladorTratamiento implements ActionListener, KeyListener {
         if (e.getSource() == vista.btnGuardarTrat) {
             guardarTratamiento();
         }
-       
+
         if (e.getSource() == vista.btnEliminar) {
             eliminarTratamiento();
         }
-        
+
         if (e.getSource() == vista.btnSalir) {
             vista.dispose();
         }
-       
-        if (e.getSource() == vista.comboEspecialidad) {
 
-        }
-        if (e.getSource() == vista.comboProducto) {
+        if (e.getSource() == vista.comboEspecialidad) {
 
         }
         if (e.getSource() == vista.btnNuevoTrat) {
@@ -146,24 +143,24 @@ public class ControladorTratamiento implements ActionListener, KeyListener {
             activarCampos();
             vista.txtNombre.requestFocus();
         }
-        
+
         if (e.getSource() == vista.rbtnActivo
                 || e.getSource() == vista.rbtnInactivo
                 || e.getSource() == vista.rbtnTodos) {
             actualizarTablaSegunFiltro();
         }
     }
-    
+
     private void actualizarTablaSegunFiltro() {
         if (vista.rbtnActivo.isSelected()) {
             cargarTablaActivos();
         } else if (vista.rbtnInactivo.isSelected()) {
             cargarTablaInactivos();
-        } else { 
+        } else {
             cargarTablaTodos();//rbtnTodos
         }
     }
-    
+
     //Este es el que llaman guardar/eliminar, etc.
     private void cargarTabla() {
         actualizarTablaSegunFiltro();
@@ -192,25 +189,26 @@ public class ControladorTratamiento implements ActionListener, KeyListener {
         this.tratamientos = lista;
 
         for (Tratamiento t : lista) {
+            List<Producto> productos = productoData.listarProductosPorCodTratam(t.getCodTratam());
+            int cantidad = productos.size();
             modeloTabla.addRow(new Object[]{
                 t.getCodTratam(),
                 t.getNombre(),
                 t.getTipo(),
                 t.getDetalle(),
-                t.getProductos().isEmpty() ? "" : t.getProductos().get(0),
+                cantidad,
                 t.getDuracion(),
                 t.getCosto(),
                 t.isEstado() ? "Activo" : "Inactivo"
             });
         }
     }
-        
+
     private void cargarTratamientoDesdeFilaSeleccionada() {
         int fila = vista.tblProducto.getSelectedRow();
         if (fila == -1) {
             return; //nada seleccionado
         }
-
 
         Object valorId = modeloTabla.getValueAt(fila, 0);//1er column codTrat
         if (valorId == null) {
@@ -248,14 +246,6 @@ public class ControladorTratamiento implements ActionListener, KeyListener {
             vista.comboEspecialidad.setSelectedIndex(-1);
         }
 
-        //Combo ´producto carga primer producto de la lista si existe
-        if (t.getProductos() != null && !t.getProductos().isEmpty()) {
-            String prod = t.getProductos().get(0);
-            vista.comboProducto.setSelectedItem(prod);
-        } else {
-            vista.comboProducto.setSelectedIndex(-1);
-        }
-        
         vista.jCheckBoxEstado.setSelected(t.isEstado());
 
         activarCampos();
@@ -266,7 +256,6 @@ public class ControladorTratamiento implements ActionListener, KeyListener {
         String nombre = vista.txtNombre.getText().trim();
         String tipo = (String) vista.comboEspecialidad.getSelectedItem();
         String detalle = vista.txtDetalle.getText().trim();
-        String producto = (String) vista.comboProducto.getSelectedItem();
         String duraciontxt = vista.txtDuracion.getText().trim();
         String precioTxt = vista.txtPrecio.getText().trim();
         boolean estadoForm = vista.jCheckBoxEstado.isSelected();
@@ -296,11 +285,7 @@ public class ControladorTratamiento implements ActionListener, KeyListener {
             t.setDuracion(duracion);
             t.setCosto(costo);
             t.setEstado(estadoForm);
-
             List<String> listaProductos = new ArrayList<>();
-            if (producto != null && !producto.trim().isEmpty()) {
-                listaProductos.add(producto);
-            }
             t.setProductos(listaProductos);
 
             data.guardarTratamiento(t);//insert en bd
@@ -311,20 +296,24 @@ public class ControladorTratamiento implements ActionListener, KeyListener {
             //Si hay un tratamiento seleccionado, primero verificamos si hay cambios
             boolean cambio = false;
 
-            if (!nombre.equals(tratamientoSeleccionado.getNombre())) cambio = true;
-            if (!tipo.equals(tratamientoSeleccionado.getTipo())) cambio = true;
-            if (!detalle.equals(tratamientoSeleccionado.getDetalle())) cambio = true;
-            if (duracion != tratamientoSeleccionado.getDuracion()) cambio = true;
-            if (Double.compare(costo, tratamientoSeleccionado.getCosto()) != 0) cambio = true;
-            if (estadoForm != tratamientoSeleccionado.isEstado()) cambio = true;
-            
-            String productoOriginal = "";
-            if (tratamientoSeleccionado.getProductos() != null
-                    && !tratamientoSeleccionado.getProductos().isEmpty()) {
-                productoOriginal = tratamientoSeleccionado.getProductos().get(0);
+            if (!nombre.equals(tratamientoSeleccionado.getNombre())) {
+                cambio = true;
             }
-            String productoNuevo = (producto == null) ? "" : producto;
-            if (!productoNuevo.equals(productoOriginal)) cambio = true;
+            if (!tipo.equals(tratamientoSeleccionado.getTipo())) {
+                cambio = true;
+            }
+            if (!detalle.equals(tratamientoSeleccionado.getDetalle())) {
+                cambio = true;
+            }
+            if (duracion != tratamientoSeleccionado.getDuracion()) {
+                cambio = true;
+            }
+            if (Double.compare(costo, tratamientoSeleccionado.getCosto()) != 0) {
+                cambio = true;
+            }
+            if (estadoForm != tratamientoSeleccionado.isEstado()) {
+                cambio = true;
+            }
 
             if (!cambio) {
                 JOptionPane.showMessageDialog(vista,
@@ -352,11 +341,7 @@ public class ControladorTratamiento implements ActionListener, KeyListener {
             tratamientoSeleccionado.setDuracion(duracion);
             tratamientoSeleccionado.setCosto(costo);
             tratamientoSeleccionado.setEstado(estadoForm);
-
             List<String> listaProductos = new ArrayList<>();
-            if (producto != null && !producto.trim().isEmpty()) {
-                listaProductos.add(producto);
-            }
             tratamientoSeleccionado.setProductos(listaProductos);
 
             data.modificarTratamiento(tratamientoSeleccionado);//(UPDATE)
@@ -406,7 +391,7 @@ public class ControladorTratamiento implements ActionListener, KeyListener {
 
         String msg = nuevoEstado ? "Tratamiento dado de ALTA." : "Tratamiento dado de BAJA.";
         JOptionPane.showMessageDialog(vista, msg);
-        
+
         cargarTabla();
     }
 
