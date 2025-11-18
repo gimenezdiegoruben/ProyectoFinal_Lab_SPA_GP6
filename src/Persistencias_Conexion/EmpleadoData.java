@@ -138,8 +138,7 @@ public class EmpleadoData {
                 + "fechaNacimiento, matricula, especialidad, estado "
                 + "FROM empleado";
 
-        try (PreparedStatement ps = con.prepareStatement(sql);
-                ResultSet rs = ps.executeQuery()) {
+        try (PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 Empleado empleado = new Empleado();
@@ -358,5 +357,50 @@ public class EmpleadoData {
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al cambiar estado: " + ex.getMessage());
         }
+    }
+
+    public Empleado validarLogin(String usuario, String pass) {
+
+        Empleado empleado = null;
+
+        try {
+
+            String sqlUser = "SELECT * FROM empleado WHERE usuario = ?";//Buscar por usuario
+            PreparedStatement psUser = con.prepareStatement(sqlUser);
+            psUser.setString(1, usuario);
+            ResultSet rsUser = psUser.executeQuery();
+
+            if (!rsUser.next()) {
+                return new Empleado(-1); //usuario no existeFlag para usuario inexistente
+            }
+
+            //Ahora verificar contraseña
+            if (!rsUser.getString("pass").equals(pass)) {
+                return new Empleado(-2); //Flag para contraseña incorrecta
+            }
+
+            //Verificar estado
+            if (rsUser.getInt("estado") == 0) {
+                return new Empleado(0); //Flag para usuario deshabilitado
+            }
+
+            //Usuario válido cargar datos completos
+            empleado = new Empleado();
+            empleado.setIdEmpleado(rsUser.getInt("idEmpleado"));
+            empleado.setDni(rsUser.getInt("dni"));
+            empleado.setNombre(rsUser.getString("nombre"));
+            empleado.setApellido(rsUser.getString("apellido"));
+            empleado.setPuesto(rsUser.getString("puesto"));
+            empleado.setMatricula(rsUser.getString("matricula"));
+            empleado.setEspecialidad(rsUser.getString("especialidad"));
+            empleado.setEstado(rsUser.getBoolean("estado"));
+
+            psUser.close();
+
+        } catch (SQLException ex) {
+            System.out.println("Error en validarLogin: " + ex.getMessage());
+        }
+
+        return empleado;
     }
 }

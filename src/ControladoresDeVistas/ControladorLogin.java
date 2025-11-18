@@ -4,31 +4,33 @@ import Vistas.VistaLogin;
 import Vistas.Vista_MenuSpa;
 import Persistencias_Conexion.Usuario_EmpleadoData;
 import Modelos.Empleado;
+import Persistencias_Conexion.EmpleadoData;
 import javax.swing.JOptionPane;
 
 public class ControladorLogin {
 
     private VistaLogin vista;
-    private Usuario_EmpleadoData data;
+    private EmpleadoData data;
 
     public ControladorLogin(VistaLogin vista) {
         this.vista = vista;
-        this.data = new Usuario_EmpleadoData();
+        this.data = new EmpleadoData();
 
         this.vista.jButtonLogin.addActionListener(e -> login());
         this.vista.btnSalir.addActionListener(e -> System.exit(0));
-        this.vista.jButtonlimpiar.addActionListener(e->limpiarCamposLogin());
+        this.vista.jButtonlimpiar.addActionListener(e -> limpiarCamposLogin());
     }
 
     public void iniciar() {
         vista.setVisible(true);
     }
-    
-    public void limpiarCamposLogin(){
+
+    public void limpiarCamposLogin() {
         vista.txtUsuario.setText("");
         vista.jPasswordFieldPass.setText("");
         vista.txtUsuario.requestFocus();
     }
+
     private void login() {
         String usuario = vista.txtUsuario.getText().trim();
         String pass = new String(vista.jPasswordFieldPass.getPassword()).trim();
@@ -37,14 +39,34 @@ public class ControladorLogin {
             JOptionPane.showMessageDialog(vista, "Complete todos los campos.");
             return;
         }
-        
-      
-        Empleado empleado = data.login(usuario, pass);
+
+        Empleado empleado = data.validarLogin(usuario, pass);
 
         if (empleado == null) {
             JOptionPane.showMessageDialog(vista,
-                    "Usuario o contraseña incorrectos.",
-                    "Error", JOptionPane.ERROR_MESSAGE);
+                    "Error al intentar acceder a la BD. Consulte al administrador.",
+                    "Acceso denegado", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (empleado.getIdEmpleado() == -1) {
+            JOptionPane.showMessageDialog(vista,
+                    "El usuario ingresado no existe.",
+                    "Usuario no encontrado", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        if (empleado.getIdEmpleado() == -2) {
+            JOptionPane.showMessageDialog(vista,
+                    "La contraseña es incorrecta.",
+                    "Error de autenticación", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        if (empleado.getIdEmpleado() == 0) {
+            JOptionPane.showMessageDialog(vista,
+                    "El usuario está deshabilitado y no puede iniciar sesión.",
+                    "Acceso denegado", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
