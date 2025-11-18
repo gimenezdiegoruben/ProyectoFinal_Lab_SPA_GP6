@@ -14,6 +14,7 @@ import Persistencias_Conexion.TratamientoData;
 import Vistas.VistaCliente;
 import Vistas.VistaConsultorio;
 import Vistas.VistaDiaDeSpa;
+import Vistas.VistaHistorial;
 import Vistas.VistaHistorialClientes;
 import Vistas.VistaInstalacion;
 import Vistas.VistaProductos;
@@ -166,6 +167,21 @@ public class ControladorApp_MenuSpa implements ActionListener, MenuListener, Com
 
                 ctrl.iniciar();
             }
+        }
+        
+        if (e.getSource() == menu.jButtonBusquedas) {
+            VistaHistorial vista = new VistaHistorial();
+            ClienteData clienteData = new ClienteData();
+            ConsultorioData consultorioData = new ConsultorioData();
+            DiaDeSpaData diaDeSpaData = new DiaDeSpaData();
+            EmpleadoData empleadoData = new EmpleadoData();
+            InstalacionData instalacionData = new InstalacionData();
+            ProductoData productoData = new ProductoData();
+            SesionData sesionData = new SesionData();
+            TratamientoData tratamientoData = new TratamientoData();
+            ControladorHistorial ctrl = new ControladorHistorial(vista, clienteData, consultorioData, diaDeSpaData, empleadoData, instalacionData, productoData, sesionData, tratamientoData, menu);
+            
+            ctrl.iniciar();
         }
 
         if (e.getSource() == menu.jButtonConsultorios) {

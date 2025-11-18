@@ -21,8 +21,8 @@ public class EmpleadoData {
     }
 
     /**
-     * Da de alta un nuevo empleado en la base de datos. 
-     * Mapea 0 o valores negativos de matricula a NULL en la BD.
+     * Da de alta un nuevo empleado en la base de datos. Mapea 0 o valores
+     * negativos de matricula a NULL en la BD.
      */
     public void altaEmpleado(Empleado empleado) {
         String sql = "INSERT INTO empleado (dni, nombre, apellido, telefono, fechaNacimiento, puesto, matricula, especialidad, estado) "
@@ -132,6 +132,42 @@ public class EmpleadoData {
         return empleados;
     }
 
+    public List<Empleado> listarTodosLosEmpleados() {
+        List<Empleado> empleados = new ArrayList<>();
+        String sql = "SELECT idEmpleado, dni, puesto, apellido, nombre, telefono, "
+                + "fechaNacimiento, matricula, especialidad, estado "
+                + "FROM empleado";
+
+        try (PreparedStatement ps = con.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Empleado empleado = new Empleado();
+                empleado.setIdEmpleado(rs.getInt("idEmpleado"));
+                empleado.setDni(rs.getInt("dni"));
+                empleado.setPuesto(rs.getString("puesto"));
+                empleado.setApellido(rs.getString("apellido"));
+                empleado.setNombre(rs.getString("nombre"));
+                empleado.setTelefono(rs.getString("telefono"));
+
+                Date date = rs.getDate("fechaNacimiento");
+                LocalDate fechaNacimiento = (date != null) ? date.toLocalDate() : null;
+                empleado.setFechaNacimiento(fechaNacimiento);
+
+                empleado.setMatricula(rs.getString("matricula"));
+                empleado.setEspecialidad(rs.getString("especialidad"));
+                empleado.setEstado(rs.getBoolean("estado"));
+
+                empleados.add(empleado);
+            }
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al listar empleados: " + ex.getMessage());
+        }
+
+        return empleados;
+    }
+
     public void modificarEmpleado(Empleado empleado) {
         String sql = "UPDATE empleado SET dni=?, nombre=?, apellido=?, telefono=?, fechaNacimiento=?, puesto=?, matricula=?, especialidad=?, estado=? "
                 + "WHERE idEmpleado = ?";
@@ -205,57 +241,57 @@ public class EmpleadoData {
         }
         return empleado;
     }
-    
+
     public Empleado buscarEmpleadoPorId(int idEmpleado) {
-    Empleado empleado = null;
-    String sql = "SELECT idEmpleado, dni, nombre, apellido, telefono, fechaNacimiento, puesto, matricula, especialidad, estado FROM empleado WHERE idEmpleado = ?";
+        Empleado empleado = null;
+        String sql = "SELECT idEmpleado, dni, nombre, apellido, telefono, fechaNacimiento, puesto, matricula, especialidad, estado FROM empleado WHERE idEmpleado = ?";
 
-    try {
-        PreparedStatement ps = con.prepareStatement(sql);
-        ps.setInt(1, idEmpleado);
-        ResultSet rs = ps.executeQuery();
-
-        if (rs.next()) {
-            int id = rs.getInt("idEmpleado");
-            int dni = rs.getInt("dni");
-            String nombre = rs.getString("nombre");
-            String apellido = rs.getString("apellido");
-            String telefono = rs.getString("telefono");
-            Date fechaNacimientoSql = rs.getDate("fechaNacimiento");
-            LocalDate fechaNacimiento = fechaNacimientoSql.toLocalDate();
-            String puesto = rs.getString("puesto");
-            String matricula = rs.getString("matricula");
-            String especialidad = rs.getString("especialidad");
-            boolean estado = rs.getBoolean("estado");
-
-            empleado = new Empleado(id, dni, puesto, apellido, nombre, telefono, fechaNacimiento, matricula, especialidad, estado);
-        }
-        ps.close();
-
-    } catch (SQLException ex) {
-        JOptionPane.showMessageDialog(null, "Error al buscar empleado por ID: " + ex.getMessage());
-    }
-    return empleado;
-}
-    
-    public Empleado buscarEmpleadoPorMatricula(String matricula) {
-        Empleado emp = null; 
         try {
-            String sql = "SELECT * FROM empleado WHERE matricula=?"; 
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, idEmpleado);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                int id = rs.getInt("idEmpleado");
+                int dni = rs.getInt("dni");
+                String nombre = rs.getString("nombre");
+                String apellido = rs.getString("apellido");
+                String telefono = rs.getString("telefono");
+                Date fechaNacimientoSql = rs.getDate("fechaNacimiento");
+                LocalDate fechaNacimiento = fechaNacimientoSql.toLocalDate();
+                String puesto = rs.getString("puesto");
+                String matricula = rs.getString("matricula");
+                String especialidad = rs.getString("especialidad");
+                boolean estado = rs.getBoolean("estado");
+
+                empleado = new Empleado(id, dni, puesto, apellido, nombre, telefono, fechaNacimiento, matricula, especialidad, estado);
+            }
+            ps.close();
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al buscar empleado por ID: " + ex.getMessage());
+        }
+        return empleado;
+    }
+
+    public Empleado buscarEmpleadoPorMatricula(String matricula) {
+        Empleado emp = null;
+        try {
+            String sql = "SELECT * FROM empleado WHERE matricula=?";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, matricula);
             ResultSet rs = ps.executeQuery();
-            
+
             if (rs.next()) {
                 emp = new Empleado();
 
-                emp.setIdEmpleado(rs.getInt("idEmpleado")); 
+                emp.setIdEmpleado(rs.getInt("idEmpleado"));
                 emp.setMatricula(matricula);
                 emp.setApellido(rs.getString("apellido"));
                 emp.setNombre(rs.getString("nombre"));
                 emp.setTelefono(rs.getString("telefono"));
                 emp.setEspecialidad(rs.getString("especialidad"));
-                
+
                 emp.setEstado(rs.getBoolean("estado"));
 
             } else {
@@ -303,7 +339,8 @@ public class EmpleadoData {
             JOptionPane.showMessageDialog(null, "Error al borrar empleado: " + ex.getMessage());
         }
     }
-public void cambiarEstadoEmpleado(int id, boolean nuevoEstado) {
+
+    public void cambiarEstadoEmpleado(int id, boolean nuevoEstado) {
         String sql = "UPDATE empleado SET estado = ? WHERE idEmpleado = ?";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
