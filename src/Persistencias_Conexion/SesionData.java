@@ -570,6 +570,7 @@ public class SesionData {
             WHERE s.estado = ?
             ORDER BY s.codSesion DESC
             """;
+        
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setBoolean(1, estadoBuscado);

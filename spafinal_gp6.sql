@@ -135,10 +135,21 @@ CREATE TABLE `tratamiento` (
   `nombre` varchar(60) NOT NULL,
   `tipo` varchar(200) NOT NULL,
   `detalle` varchar(60) NOT NULL,
-  `productos` varchar(50) NOT NULL,
   `duracion` int(11) NOT NULL,
   `costo` double NOT NULL,
   `estado` tinyint(1) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Estructura de tabla para la tabla `producto`
+--
+
+CREATE TABLE `producto` (
+  `codProducto` int(11) NOT NULL,
+  `descripcion` varchar(100) NOT NULL,
+  `precio` double NOT NULL,
+  `stock` int(11) NOT NULL,
+  `codTratam` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -196,6 +207,13 @@ ALTER TABLE `sesion`
 --
 ALTER TABLE `tratamiento`
   ADD PRIMARY KEY (`codTratam`);
+  
+--
+-- Indices de la tabla `producto`
+--
+ALTER TABLE `producto`
+  ADD PRIMARY KEY (`codProducto`),
+  ADD KEY `fk_codTratam_producto` (`codTratam`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -236,7 +254,12 @@ ALTER TABLE `sesion`
 --
 ALTER TABLE `tratamiento`
   MODIFY `codTratam` int(11) NOT NULL AUTO_INCREMENT;
-
+  
+--
+-- AUTO_INCREMENT de la tabla `producto`
+--
+ALTER TABLE `producto`
+  MODIFY `codProducto` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- Restricciones para tablas volcadas
 --
@@ -257,6 +280,18 @@ ALTER TABLE `sesion`
   ADD CONSTRAINT `fk_idRegistrador` FOREIGN KEY (`idRegistrador`) REFERENCES `empleado` (`idEmpleado`),
   ADD CONSTRAINT `fk_matriculaMasajista` FOREIGN KEY (`matriculaMasajista`) REFERENCES `empleado` (`matricula`),
   ADD CONSTRAINT `fk_nroConsultorio` FOREIGN KEY (`nroConsultorio`) REFERENCES `consultorio` (`nroConsultorio`);
+
+--
+-- Filtros para la tabla `producto`
+--
+ALTER TABLE `producto`
+  ADD CONSTRAINT `fk_codTratam_producto` FOREIGN KEY (`codTratam`) REFERENCES `tratamiento` (`codTratam`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

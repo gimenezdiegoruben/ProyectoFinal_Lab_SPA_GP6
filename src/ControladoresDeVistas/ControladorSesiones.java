@@ -290,7 +290,7 @@ public class ControladorSesiones implements ActionListener {
         modelo.addColumn("Estado");
 
         vista.tbSesiones.setModel(modelo);
-        vista.tbSesiones.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+
     }
 
     private void actualizarTratamientoSeleccionado() {

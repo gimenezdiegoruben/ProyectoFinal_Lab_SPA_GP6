@@ -108,7 +108,6 @@ public class ControladorEmpleados implements ActionListener, KeyListener {
         modeloTabla.addColumn("Estado");
 
         vista.tbEmpleados.setModel(modeloTabla);
-        vista.tbEmpleados.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         //Ocultar columna ID 
         vista.tbEmpleados.getColumnModel().getColumn(0).setPreferredWidth(22);
         vista.tbEmpleados.getColumnModel().getColumn(0).setPreferredWidth(22);
