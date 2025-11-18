@@ -91,6 +91,11 @@ public class ControladorInstalacion implements ActionListener, KeyListener, Mous
         } else {
             try {
                 if (buscar) {
+                    List<Sesion> sesiones = sesionData.listarSesionesPorCodInstal(codInstalacionSeleccionado);
+                    if (!sesiones.isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "No se puede eliminar la instalación, ya que tiene sesiones vinculadas", "Error", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
                     Instalacion i1 = new Instalacion(vista.jtNombre.getText().trim(), vista.jtDetalle.getText().trim(), Double.parseDouble(vista.jtPrecio.getText().trim()), vista.jchbEstado.isSelected());
                     Instalacion i2 = instalacionData.buscarInstalacionPorCod(codInstalacionSeleccionado);
                     if (i1.getNombre().equals(i2.getNombre()) && i1.getDetalleUso().equals(i2.getDetalleUso()) && i1.getPrecio() == i2.getPrecio() && i1.isEstado() == i2.isEstado()) {
