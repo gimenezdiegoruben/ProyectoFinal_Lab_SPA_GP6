@@ -228,23 +228,30 @@ public class ControladorSesiones implements ActionListener {
     }
 
     private void cargarSesionesEnTabla() {
+
         DefaultTableModel modelo = (DefaultTableModel) vista.tbSesiones.getModel();
         modelo.setRowCount(0);
 
-        List<Sesion> sesiones = sesionData.listarSesiones();// lista completa
-
-        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        List<Sesion> sesiones = sesionData.listarSesiones();
+        DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("HH:mm");
 
         for (Sesion s : sesiones) {
 
-            String fechaHora = "";
-            if (s.getFechaHoraInicio() != null) {
-                fechaHora = s.getFechaHoraInicio().format(formato);
-            }
+            String fechaHora = s.getFechaHoraInicio() != null
+                    ? s.getFechaHoraInicio().format(formatoFecha)
+                    : "";
+
+            String horaIni = s.getFechaHoraInicio() != null
+                    ? s.getFechaHoraInicio().format(formatoHora)
+                    : "";
+
+            String horaFin = s.getFechaHoraFinal() != null
+                    ? s.getFechaHoraFinal().format(formatoHora)
+                    : "";
 
             String masajista = "";
             if (s.getMasajista() != null) {
-                //si no cargaste nombre/apellido al menos muestra la matrícula
                 if (s.getMasajista().getNombre() != null) {
                     masajista = s.getMasajista().getNombre() + " " + s.getMasajista().getApellido();
                 } else {
@@ -252,22 +259,33 @@ public class ControladorSesiones implements ActionListener {
                 }
             }
 
-            String tratamiento = "";
-            if (s.getTratamiento() != null) {
-                tratamiento = s.getTratamiento().getNombre();//tratamiento = "Tratamiento " + s.getTratamiento().getCodTratam(); 
-            }
+            String tratamiento = s.getTratamiento() != null ? s.getTratamiento().getNombre() : "";
+            String tipo = s.getTratamiento() != null ? s.getTratamiento().getTipo() : "";
+            String especialidad = s.getMasajista() != null ? s.getMasajista().getEspecialidad() : "";
 
-            Object[] fila = new Object[]{
-                s.getCodSesion(),// 0 ID
-                s.isActiva(), // 1 Estado
-                fechaHora, // 2 Fecha/Hora
-                masajista, // 3 Masajista
-                tratamiento, // 4 Tratamiento
-                String.format("%.2f", s.getMonto()), // 5 Monto NUEVO
-                s.getNotas() != null ? s.getNotas() : "" // 6 Notas NUEVO
-            };
+            String instalacion = (s.getInstalacion() != null)
+                    ? s.getInstalacion().getNombre()
+                    : "Ninguna";
 
-            modelo.addRow(fila);
+            String consultorio = (s.getConsultorio() != null)
+                    ? "Consultorio " + s.getConsultorio().getNroConsultorio()
+                    : "";
+
+            modelo.addRow(new Object[]{
+                s.getCodSesion(), // ID
+                s.isActiva(), // Estado
+                fechaHora, // Fecha/Hora
+                masajista, // Profesional
+                tratamiento, // Tratamiento
+                horaIni, // Hora inicio
+                horaFin, // Hora fin
+                tipo, // Tipo
+                especialidad, // Especialidad
+                instalacion, // Instalación
+                consultorio, // Consultorio
+                String.format("%.2f", s.getMonto()), // Monto
+                s.getNotas() != null ? s.getNotas() : "" // Notas
+            });
         }
     }
 
@@ -709,27 +727,29 @@ public class ControladorSesiones implements ActionListener {
     }
 
     public void configurarTabla() {
-        // Define las columnas que se mostrarán
-        String[] nombresColumnas = {"ID", "Estado", "Fecha/Hora", "Masajista", "Tratamiento", "Monto", "Notas"};
 
-        DefaultTableModel modeloEditable = new DefaultTableModel(new Object[][]{}, nombresColumnas) {//Datos iniciales vacíos
-            // Sobreescribe el método para controlar la editabilidad de las celdas
+        String[] columnas = {
+            "ID", "Estado", "Fecha/Hora", "Masajista", "Tratamiento",
+            "Hora Inicio", "Hora Fin", "Tipo", "Especialidad",
+            "Instalación", "Consultorio", "Monto", "Notas"
+        };
+
+        DefaultTableModel modeloEditable = new DefaultTableModel(new Object[][]{}, columnas) {
+
             @Override
             public boolean isCellEditable(int row, int column) {
-                // Hacemos editable solo la columna de Comentarios (Columna 6)
-                // y el Estado (Columna 1) para cambios rápidos.
-                return column == 1 || column == 6;
+                return column == 1 || column == 12; //Solo Estado y Notas editables
             }
 
             @Override
             public Class<?> getColumnClass(int columnIndex) {
-                //La columna "Estado" (índice 5) se ve como check box, es booleana,evitamos que el casteo a Boolean no rompa
                 if (columnIndex == 1) {
                     return Boolean.class;
                 }
                 return String.class;
             }
         };
+
         vista.tbSesiones.setModel(modeloEditable);
         vista.tbSesiones.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
     }
@@ -816,22 +836,17 @@ public class ControladorSesiones implements ActionListener {
 
         List<Sesion> sesiones = sesionData.listarSesionesPorPack(codPack);
 
-        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("HH:mm");
 
         for (Sesion s : sesiones) {
 
-            if (s.getCodPack() != codPack) {
-                continue; // filtramos por pack
-            }
-
-            String fechaHora = "";
-            if (s.getFechaHoraInicio() != null) {
-                fechaHora = s.getFechaHoraInicio().format(formato);
-            }
+            String fechaHora = s.getFechaHoraInicio().format(formatoFecha);
+            String horaIni = s.getFechaHoraInicio().format(formatoHora);
+            String horaFin = s.getFechaHoraFinal().format(formatoHora);
 
             String masajista = "";
             if (s.getMasajista() != null) {
-                // si no cargaste nombre,apellido, al menos mostras la matrícula
                 if (s.getMasajista().getNombre() != null) {
                     masajista = s.getMasajista().getNombre() + " " + s.getMasajista().getApellido();
                 } else {
@@ -839,21 +854,30 @@ public class ControladorSesiones implements ActionListener {
                 }
             }
 
-            String tratamiento = "";
-            if (s.getTratamiento() != null) {
-                tratamiento = s.getTratamiento().getNombre(); //o getCodTratam();
-            }
+            String tratamiento = s.getTratamiento() != null ? s.getTratamiento().getNombre() : "";
+            String tipo = s.getTratamiento() != null ? s.getTratamiento().getTipo() : "";
+            String especialidad = s.getMasajista() != null ? s.getMasajista().getEspecialidad() : "";
+            String instalacion = (s.getInstalacion() != null) ? s.getInstalacion().getNombre() : "Ninguna";
 
-            Object[] fila = new Object[]{
-                s.getCodSesion(), // 0 - ID
-                s.isActiva(), // 1 - Estado
-                fechaHora, // 2 - Fecha/Hora
-                masajista, // 3 - Masajista
-                tratamiento, // 4 - Tratamiento
-                String.format("%.2f", s.getMonto()), // 5 Monto
-                s.getNotas() != null ? s.getNotas() : "" // 6 Notas
-            };
-            modelo.addRow(fila);
+            String consultorio = (s.getConsultorio() != null)
+                    ? "Consultorio " + s.getConsultorio().getNroConsultorio()
+                    : "";
+
+            modelo.addRow(new Object[]{
+                s.getCodSesion(),
+                s.isActiva(),
+                fechaHora,
+                masajista,
+                tratamiento,
+                horaIni,
+                horaFin,
+                tipo,
+                especialidad,
+                instalacion,
+                consultorio,
+                String.format("%.2f", s.getMonto()),
+                s.getNotas() != null ? s.getNotas() : ""
+            });
         }
     }
 
