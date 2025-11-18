@@ -147,7 +147,8 @@ public class ControladorDiaDeSpa implements ActionListener, KeyListener, Propert
                     if (confirmacion == JOptionPane.YES_OPTION) {
                         VistaCliente vista = new VistaCliente();
                         ClienteData data = new ClienteData();
-                        ControladorCliente ctrl = new ControladorCliente(vista, data, menu);
+                        DiaDeSpaData diaDeSpaData2 = new DiaDeSpaData();
+                        ControladorCliente ctrl = new ControladorCliente(vista, data, diaDeSpaData2, menu);
 
                         ctrl.iniciar();
                     }

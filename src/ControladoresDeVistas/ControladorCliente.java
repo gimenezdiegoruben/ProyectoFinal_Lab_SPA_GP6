@@ -1,7 +1,9 @@
 package ControladoresDeVistas;
 
 import Modelos.Cliente;
+import Modelos.DiaDeSpa;
 import Persistencias_Conexion.ClienteData;
+import Persistencias_Conexion.DiaDeSpaData;
 import Vistas.VistaCliente;
 import Vistas.Vista_MenuSpa;
 import java.awt.event.ActionListener;
@@ -14,6 +16,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
@@ -31,6 +34,7 @@ public class ControladorCliente implements ActionListener, FocusListener, KeyLis
 
     private final VistaCliente vista;
     private final ClienteData data;
+    private final DiaDeSpaData diaDeSpaData;
     private final Vista_MenuSpa menu;
 
     private boolean buscar = false;
@@ -38,9 +42,10 @@ public class ControladorCliente implements ActionListener, FocusListener, KeyLis
     private int codCliOriginal;
     private ButtonGroup grupoLista;
 
-    public ControladorCliente(VistaCliente vista, ClienteData data, Vista_MenuSpa menu) {
+    public ControladorCliente(VistaCliente vista, ClienteData data, DiaDeSpaData diaDeSpaData, Vista_MenuSpa menu) {
         this.vista = vista;
         this.data = data;
+        this.diaDeSpaData = diaDeSpaData;
         this.menu = menu;
         // Eventos
         vista.jbtSalir.addActionListener(this);
@@ -88,6 +93,11 @@ public class ControladorCliente implements ActionListener, FocusListener, KeyLis
 
         if (e.getSource() == vista.jbtEliminar) {
             try {
+                List<DiaDeSpa> turnos = diaDeSpaData.listarDiaDeSpaPorCliente(codCliOriginal);
+                if (!turnos.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "No se puede eliminar un cliente que haya sacado turnos", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
                 int dni = Integer.parseInt(vista.jtxDNI.getText().trim());
                 Cliente c1 = data.buscarPorId(codCliOriginal);
                 if (c1 != null) {
@@ -97,6 +107,7 @@ public class ControladorCliente implements ActionListener, FocusListener, KeyLis
                         JOptionPane.showMessageDialog(null, "Cliente " + c1.getNombre() + " eliminado con éxito", "Válido", JOptionPane.INFORMATION_MESSAGE);
                         limpiarCampos();
                         vista.jbtEliminar.setEnabled(false);
+                        vista.jbtGuardar.setEnabled(false);
                     }
                 }
             } catch (NumberFormatException ex) {
@@ -114,6 +125,11 @@ public class ControladorCliente implements ActionListener, FocusListener, KeyLis
             } else {
                 try {
                     if (buscar) {
+                        List<DiaDeSpa> turnos = diaDeSpaData.listarDiaDeSpaPorCliente(codCliOriginal);
+                        if (!turnos.isEmpty()) {
+                            JOptionPane.showMessageDialog(null, "No se puede modificar un cliente que haya sacado turnos", "Error", JOptionPane.ERROR_MESSAGE);
+                            return;
+                        }
                         Date fechaNacimiento = vista.jdcFechaNac.getCalendar().getTime();
                         LocalDate nacimiento = fechaNacimiento.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
                         LocalDate hoy = LocalDate.now();
@@ -135,6 +151,8 @@ public class ControladorCliente implements ActionListener, FocusListener, KeyLis
                                 limpiarCampos();
                                 buscar = false;
                                 vista.jbtEliminar.setEnabled(false);
+                                vista.jbtGuardar.setEnabled(false);
+                                cargarLista();
                             }
                         }
                     } else {
@@ -163,6 +181,7 @@ public class ControladorCliente implements ActionListener, FocusListener, KeyLis
                                 JOptionPane.showMessageDialog(null, "Cliente " + c1.getNombre() + "añadido exitosamente.", "Válido", JOptionPane.INFORMATION_MESSAGE);
                                 limpiarCampos();
                                 vista.jbtEliminar.setEnabled(false);
+                                vista.jbtGuardar.setEnabled(false);
                                 guardadoExitoso = true;
                             }
                         }
@@ -170,10 +189,12 @@ public class ControladorCliente implements ActionListener, FocusListener, KeyLis
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(null, "Debe ingresar un número en el campo DNI y Teléfono!", "Error", JOptionPane.ERROR_MESSAGE);
                 }
-                
+
                 if (guardadoExitoso) {
                     desactivarCampos();
                     vista.jtxDNI.setEnabled(true);
+                    vista.jbtGuardar.setEnabled(false);
+                    vista.jbtEliminar.setEnabled(false);
                     cargarLista();
                 }
             }
@@ -185,14 +206,16 @@ public class ControladorCliente implements ActionListener, FocusListener, KeyLis
             activarCampos();
             limpiarCampos();
             vista.jbtGuardar.setEnabled(true);
+            vista.jbtEliminar.setEnabled(false);
             vista.jlClientes.setModel(new DefaultListModel<>());
+            cargarLista();
         }
 
         if (e.getSource() == vista.rbtnActivo || e.getSource() == vista.rbtnInactivo || e.getSource() == vista.rbtnTodos) {
             if (vista.rbtnActivo.isSelected()) {
-                cargarListaActivos();
+                cargarLista();
             } else if (vista.rbtnInactivo.isSelected()) {
-                cargarListaInactivos();
+                cargarLista();
             } else if (vista.rbtnTodos.isSelected()) {
                 cargarLista();
             }
@@ -317,30 +340,18 @@ public class ControladorCliente implements ActionListener, FocusListener, KeyLis
 
     public void cargarLista() {
         DefaultListModel<String> modelo = new DefaultListModel<>();
-        List<Cliente> clientes = data.listarClientes();
-
-        for (Cliente aux : clientes) {
-            modelo.addElement(aux.getNombre() + " / " + aux.getDni());
+        List<Cliente> clientes = new ArrayList<>();
+        
+        if (vista.rbtnActivo.isSelected()) {
+            clientes = data.listarClientesActivos();
         }
-
-        vista.jlClientes.setModel(modelo);
-    }
-
-    public void cargarListaActivos() {
-        DefaultListModel<String> modelo = new DefaultListModel<>();
-        List<Cliente> clientes = data.listarClientesActivos();
-
-        for (Cliente aux : clientes) {
-            modelo.addElement(aux.getNombre() + " / " + aux.getDni());
+        if (vista.rbtnInactivo.isSelected()) {
+            clientes = data.listarClientesInactivos();
         }
-
-        vista.jlClientes.setModel(modelo);
-    }
-
-    public void cargarListaInactivos() {
-        DefaultListModel<String> modelo = new DefaultListModel<>();
-        List<Cliente> clientes = data.listarClientesInactivos();
-
+        if (vista.rbtnTodos.isSelected()) {
+            clientes = data.listarClientes();
+        }
+        
         for (Cliente aux : clientes) {
             modelo.addElement(aux.getNombre() + " / " + aux.getDni());
         }

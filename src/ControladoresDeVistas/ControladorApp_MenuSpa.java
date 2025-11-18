@@ -163,7 +163,8 @@ public class ControladorApp_MenuSpa implements ActionListener, MenuListener, Com
             } else {
                 VistaCliente vista = new VistaCliente();
                 ClienteData data = new ClienteData();
-                ControladorCliente ctrl = new ControladorCliente(vista, data, menu);
+                DiaDeSpaData diaDeSpaData = new DiaDeSpaData();
+                ControladorCliente ctrl = new ControladorCliente(vista, data, diaDeSpaData, menu);
 
                 ctrl.iniciar();
             }
