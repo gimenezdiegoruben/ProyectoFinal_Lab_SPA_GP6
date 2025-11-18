@@ -1,7 +1,9 @@
 package ControladoresDeVistas;
 
 import Modelos.Consultorio;
+import Modelos.Sesion;
 import Persistencias_Conexion.ConsultorioData;
+import Persistencias_Conexion.SesionData;
 import Vistas.VistaConsultorio;
 import Vistas.Vista_MenuSpa;
 import java.awt.event.ActionEvent;
@@ -10,9 +12,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
@@ -27,15 +27,17 @@ public class ControladorConsultorio implements ActionListener, FocusListener, Ke
 
     private final VistaConsultorio vista;
     private final ConsultorioData data;
+    private final SesionData sesionData;
     private final Vista_MenuSpa menu;
 
     private boolean buscar = false;
     private boolean seleccion = false;
     private int consultorioSeleccionado;
 
-    public ControladorConsultorio(VistaConsultorio vista, ConsultorioData data, Vista_MenuSpa menu) {
+    public ControladorConsultorio(VistaConsultorio vista, ConsultorioData data, SesionData sesionData, Vista_MenuSpa menu) {
         this.vista = vista;
         this.data = data;
+        this.sesionData = sesionData;
         this.menu = menu;
 
         vista.jbtSalir.addActionListener(this);
@@ -68,6 +70,12 @@ public class ControladorConsultorio implements ActionListener, FocusListener, Ke
         }
 
         if (e.getSource() == vista.jbtEliminar) {
+            List<Sesion> sesiones = sesionData.listarSesionesPorConsultorio(consultorioSeleccionado);
+            if (!sesiones.isEmpty()) {
+                System.out.println(consultorioSeleccionado);
+                JOptionPane.showMessageDialog(null, "No se puede eliminar un consultorio que tenga sesiones vinculadas", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             Consultorio c1 = data.buscarConsultorio(consultorioSeleccionado);
             if (c1.getNroConsultorio() == consultorioSeleccionado && c1.getEquipamiento().trim().equalsIgnoreCase(vista.jtxaEquipamiento.getText()) && c1.getApto().trim().equalsIgnoreCase(vista.jcbApto.getSelectedItem().toString())) {
                 int confirmacion = JOptionPane.showConfirmDialog(null, "¿Estás seguro de eliminar el Consultorio nro " + c1.getNroConsultorio() + "?", "Confirmación de eliminación", JOptionPane.YES_NO_OPTION);
@@ -76,11 +84,12 @@ public class ControladorConsultorio implements ActionListener, FocusListener, Ke
                     JOptionPane.showMessageDialog(null, "Consultorio nro " + c1.getNroConsultorio() + " eliminado con éxito", "Válido", JOptionPane.INFORMATION_MESSAGE);
                     limpiarCampos();
                     vista.jbtEliminar.setEnabled(false);
+                    vista.jbtGuardar.setEnabled(false);
+                    desactivarCampos();
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "El consultorio que intentas eliminar no existe o ha sido modificado sin ser guardado", "Error", JOptionPane.ERROR_MESSAGE);
             }
-            desactivarCampos();
             cargarLista();
         }
 
@@ -91,6 +100,12 @@ public class ControladorConsultorio implements ActionListener, FocusListener, Ke
             } else {
                 try {
                     if (buscar) {
+                        List<Sesion> sesiones = sesionData.listarSesionesPorConsultorio(consultorioSeleccionado);
+                        if (!sesiones.isEmpty()) {
+                            System.out.println(consultorioSeleccionado);
+                            JOptionPane.showMessageDialog(null, "No se puede modificar un consultorio que tenga sesiones vinculadas", "Error", JOptionPane.ERROR_MESSAGE);
+                            return;
+                        }
                         Consultorio c1 = new Consultorio(Integer.parseInt(vista.jtxNroConsultorio.getText().trim()), 0, vista.jtxaEquipamiento.getText().trim(), vista.jcbApto.getSelectedItem().toString());
                         Consultorio c2 = data.buscarConsultorio(consultorioSeleccionado);
                         c1.setNroConsultorio(c2.getNroConsultorio());
@@ -99,6 +114,8 @@ public class ControladorConsultorio implements ActionListener, FocusListener, Ke
                         limpiarCampos();
                         buscar = false;
                         vista.jbtEliminar.setEnabled(false);
+                        vista.jbtGuardar.setEnabled(false);
+                        cargarLista();
                     } else {
                         Consultorio c1 = new Consultorio(Integer.parseInt(vista.jtxNroConsultorio.getText().trim()), 0, vista.jtxaEquipamiento.getText().trim(), vista.jcbApto.getSelectedItem().toString());
                         List<Consultorio> consultorios = data.listarConsultorios();
@@ -114,6 +131,7 @@ public class ControladorConsultorio implements ActionListener, FocusListener, Ke
                             JOptionPane.showMessageDialog(null, "Consultorio añadido con éxito.", "Válido", JOptionPane.INFORMATION_MESSAGE);
                             limpiarCampos();
                             vista.jbtEliminar.setEnabled(false);
+                            vista.jbtGuardar.setEnabled(false);
                             desactivarCampos();
                             cargarLista();
                         }

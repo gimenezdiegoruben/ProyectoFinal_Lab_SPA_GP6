@@ -200,7 +200,8 @@ public class ControladorApp_MenuSpa implements ActionListener, MenuListener, Com
             } else {
                 VistaConsultorio vista = new VistaConsultorio();
                 ConsultorioData data = new ConsultorioData();
-                ControladorConsultorio ctrl = new ControladorConsultorio(vista, data, menu);
+                SesionData sesionData = new SesionData();
+                ControladorConsultorio ctrl = new ControladorConsultorio(vista, data, sesionData, menu);
 
                 ctrl.iniciar();
             }
