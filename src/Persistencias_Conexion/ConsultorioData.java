@@ -27,6 +27,7 @@ public class ConsultorioData {
 
         String sql = "INSERT INTO consultorio (nroConsultorio, usos, equipamiento, apto) VALUES (?, ?, ?, ?)";
         PreparedStatement ps = null;
+        ResultSet rs = null;
         con = Conexion.getConexion();
 
         try {
@@ -39,7 +40,7 @@ public class ConsultorioData {
 
             int filasAfectadas = ps.executeUpdate();
             if (filasAfectadas > 0) {
-                ResultSet rs = ps.getGeneratedKeys();
+                rs = ps.getGeneratedKeys();
                 if (rs.next()) {
                     consultorio.setNroConsultorio(rs.getInt(1));
                     System.out.println("Consultorio " + consultorio.getNroConsultorio() + " añadido con éxito.");
@@ -49,11 +50,14 @@ public class ConsultorioData {
             System.out.println("Error al acceder a la base de datos " + ex.getMessage());
         } finally {
             try {
+                if (rs != null) {
+                    rs.close();
+                }
                 if (ps != null) {
                     ps.close();
                 }
             } catch (SQLException ex) {
-                System.err.println("Error al cerrar el PreparedStatement: " + ex.getMessage());
+                System.out.println("Error al cerrar recursos: " + ex.getMessage());
             }
         }
     }
@@ -96,6 +100,7 @@ public class ConsultorioData {
 
         String sql = "SELECT * FROM consultorio WHERE nroConsultorio = ?";
         PreparedStatement ps = null;
+        ResultSet rs = null;
         con = Conexion.getConexion();
         Consultorio consultorio = null;
 
@@ -103,7 +108,7 @@ public class ConsultorioData {
 
             ps = con.prepareStatement(sql);
             ps.setInt(1, nroConsultorio);
-            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
 
             if (rs.next()) {
                 consultorio = new Consultorio();
@@ -118,11 +123,14 @@ public class ConsultorioData {
             System.out.println("Error al acceder a la base de datos " + ex.getMessage());
         } finally {
             try {
+                if (rs != null) {
+                    rs.close();
+                }
                 if (ps != null) {
                     ps.close();
                 }
             } catch (SQLException ex) {
-                System.err.println("Error al cerrar el PreparedStatement: " + ex.getMessage());
+                System.out.println("Error al cerrar recursos: " + ex.getMessage());
             }
         }
 
@@ -133,13 +141,14 @@ public class ConsultorioData {
 
         String sql = "SELECT * FROM consultorio";
         PreparedStatement ps = null;
+        ResultSet rs = null;
         con = Conexion.getConexion();
         List<Consultorio> consultorios = new ArrayList<>();
 
         try {
 
             ps = con.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
             while (rs.next()) {
                 Consultorio consultorio = new Consultorio();
                 consultorio.setNroConsultorio(rs.getInt("nroConsultorio"));
@@ -152,11 +161,14 @@ public class ConsultorioData {
             System.out.println("Error al acceder a la base de datos " + ex.getMessage());
         } finally {
             try {
+                if (rs != null) {
+                    rs.close();
+                }
                 if (ps != null) {
                     ps.close();
                 }
             } catch (SQLException ex) {
-                System.err.println("Error al cerrar el PreparedStatement: " + ex.getMessage());
+                System.out.println("Error al cerrar recursos: " + ex.getMessage());
             }
         }
 

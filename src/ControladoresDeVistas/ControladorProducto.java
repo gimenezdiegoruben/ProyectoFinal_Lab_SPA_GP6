@@ -60,6 +60,8 @@ public class ControladorProducto implements ActionListener, KeyListener, MouseLi
         desactivarCampos();
         vista.jbtGuardar.setEnabled(false);
         vista.jbtEliminar.setEnabled(false);
+        cargarTabla();
+        actualizarTabla();
     }
 
     public void desactivarCampos() {
@@ -107,13 +109,22 @@ public class ControladorProducto implements ActionListener, KeyListener, MouseLi
     }
 
     public void verificarProducto() {
-        int codTratam = Integer.parseInt(vista.jtNroTratamiento.getText().trim());
-        Tratamiento t1 = tratamientoData.buscarTratamientoPorCodigo(codTratam);
-        if (t1 == null) {
-            JOptionPane.showMessageDialog(null, "El número de tratamiento que has ingresado no existe", "Error", JOptionPane.ERROR_MESSAGE);
-            verificado = false;
-        } else {
-            verificado = true;
+        try {
+            if (vista.jtNroTratamiento.getText().trim().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Ingrese un número de tratamiento antes de verificar!", "Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                int codTratam = Integer.parseInt(vista.jtNroTratamiento.getText().trim());
+                Tratamiento t1 = tratamientoData.buscarTratamientoPorCodigo(codTratam);
+                JOptionPane.showMessageDialog(null, "Número de tratamiento verificado con éxito, complete los demás campos.", "Válido", JOptionPane.INFORMATION_MESSAGE);
+                if (t1 == null) {
+                    JOptionPane.showMessageDialog(null, "El número de tratamiento que has ingresado no existe", "Error", JOptionPane.ERROR_MESSAGE);
+                    verificado = false;
+                } else {
+                    verificado = true;
+                }
+            }
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(null, "Se ingreso un número inválido en Nro Tratamiento!", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -136,15 +147,15 @@ public class ControladorProducto implements ActionListener, KeyListener, MouseLi
                                 return;
                             }
                         }
+                        p1.setCodProducto(p2.getCodProducto());
+                        data.modificarProducto(p1);
+                        JOptionPane.showMessageDialog(null, "Producto modificado con éxito");
+                        limpiarCampos();
+                        buscar = false;
+                        vista.jbtGuardar.setEnabled(false);
+                        vista.jbtEliminar.setEnabled(false);
+                        actualizarTabla();
                     }
-                    p1.setCodProducto(p2.getCodProducto());
-                    data.modificarProducto(p1);
-                    JOptionPane.showMessageDialog(null, "Producto modificado con éxito");
-                    limpiarCampos();
-                    buscar = false;
-                    vista.jbtGuardar.setEnabled(false);
-                    vista.jbtEliminar.setEnabled(false);
-                    actualizarTabla();
                 } else {
                     if (!verificado) {
                         JOptionPane.showMessageDialog(null, "Ingrese un número en N° Tratamiento y verifique antes de guardar un producto!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -206,15 +217,15 @@ public class ControladorProducto implements ActionListener, KeyListener, MouseLi
 
         vista.jtbProductos.setModel(modelo);
         vista.jtbProductos.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        
+
         actualizarTabla();
 
     }
 
     public void actualizarTabla() {
         modelo.setRowCount(0);
-        List<Producto> instalaciones = data.listarProductos();
-        for (Producto aux : instalaciones) {
+        List<Producto> productos = data.listarProductos();
+        for (Producto aux : productos) {
             Object fila[] = new Object[5];
             fila[0] = aux.getCodProducto();
             fila[1] = aux.getDescripcion();
@@ -260,7 +271,7 @@ public class ControladorProducto implements ActionListener, KeyListener, MouseLi
                 vista.jtDescripcion.setText(p1.getDescripcion());
                 vista.jtPrecio.setText(String.valueOf(p1.getPrecio()));
                 vista.jtStock.setText(String.valueOf(p1.getStock()));
-                
+
                 vista.jbtEliminar.setEnabled(true);
                 vista.jbtGuardar.setEnabled(true);
                 activarCampos();

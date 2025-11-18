@@ -170,12 +170,12 @@ public class ControladorDiaDeSpa implements ActionListener, KeyListener, Propert
         if (e.getSource() == vista.jbtGuardar) {
             boolean repetido = false;
             boolean guardado = false;
-            if (vista.jtxDNI.getText().trim().isEmpty() || vista.jdcFecha.getDate() == null || vista.jTextAreaPreferencias.getText().trim().isEmpty() ) {
+            if (vista.jtxDNI.getText().trim().isEmpty() || vista.jdcFecha.getDate() == null || vista.jTextAreaPreferencias.getText().trim().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Debe llenar todos los campos!!", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             } else {
                 if (buscar) {
-                    List <Sesion> sesiones = sesionData.listarSesionesPorPack(codPackSeleccionado);
+                    List<Sesion> sesiones = sesionData.listarSesionesPorPack(codPackSeleccionado);
                     if (!sesiones.isEmpty()) {
                         JOptionPane.showMessageDialog(null, "No se puede modificar un turno que tenga sesiones cargadas, primero elimine las sesiones vinculadas a este turno", "Error", JOptionPane.ERROR_MESSAGE);
                         return;
@@ -267,7 +267,7 @@ public class ControladorDiaDeSpa implements ActionListener, KeyListener, Propert
         }
 
         if (e.getSource() == vista.jbtEliminar) {
-            List <Sesion> sesiones = sesionData.listarSesionesPorPack(codPackSeleccionado);
+            List<Sesion> sesiones = sesionData.listarSesionesPorPack(codPackSeleccionado);
             if (!sesiones.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "No se puede eliminar un turno que tenga sesiones cargadas", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -495,7 +495,7 @@ public class ControladorDiaDeSpa implements ActionListener, KeyListener, Propert
                 Date fecha = Date.from(fechaLD.atStartOfDay(ZoneId.systemDefault()).toInstant());
                 vista.jdcFecha.setDate(fecha);
                 LocalTime hora = fechayhora.toLocalTime();
-                String horaStr = hora.format(DateTimeFormatter.ofPattern("H:mm"));
+                String horaStr = hora.format(DateTimeFormatter.ofPattern("HH:mm"));
                 for (int i = 0; i < vista.jcboxHora.getItemCount(); i++) {
                     if (vista.jcboxHora.getItemAt(i).equals(horaStr)) {
                         vista.jcboxHora.setSelectedIndex(i);

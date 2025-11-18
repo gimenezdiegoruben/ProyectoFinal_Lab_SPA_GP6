@@ -47,7 +47,7 @@ public class ControladorInstalacion implements ActionListener, KeyListener, Mous
         vista.setVisible(true);
         menu.JDesktopPFondo.moveToFront(vista);
         vista.requestFocus();
-        
+
         desactivarCampos();
         vista.jbtGuardar.setEnabled(false);
         vista.jbtEliminar.setEnabled(false);
@@ -80,7 +80,9 @@ public class ControladorInstalacion implements ActionListener, KeyListener, Mous
         activarCampos();
         limpiarCampos();
         vista.jbtGuardar.setEnabled(true);
-        vista.jbtEliminar.setEnabled(true);
+        vista.jbtEliminar.setEnabled(false);
+        vista.jtbInstalaciones.clearSelection();
+        codInstalacionSeleccionado = -1;
     }
 
     private void guardarInstalacion() {
@@ -109,6 +111,8 @@ public class ControladorInstalacion implements ActionListener, KeyListener, Mous
                         vista.jbtEliminar.setEnabled(false);
                         vista.jbtGuardar.setEnabled(false);
                         actualizarTabla();
+                        vista.jtbInstalaciones.clearSelection();
+                        codInstalacionSeleccionado = -1;
                     }
                 } else {
                     Instalacion i1 = new Instalacion(vista.jtNombre.getText().trim(), vista.jtDetalle.getText().trim(), Double.parseDouble(vista.jtPrecio.getText().trim()), vista.jchbEstado.isSelected());
@@ -125,6 +129,8 @@ public class ControladorInstalacion implements ActionListener, KeyListener, Mous
                     vista.jbtEliminar.setEnabled(false);
                     vista.jbtGuardar.setEnabled(false);
                     actualizarTabla();
+                    vista.jtbInstalaciones.clearSelection();
+                    codInstalacionSeleccionado = -1;
                 }
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(null, "Debe ingresar un número válido en el campo 'Precio'", "Error", JOptionPane.ERROR_MESSAGE);
@@ -135,7 +141,7 @@ public class ControladorInstalacion implements ActionListener, KeyListener, Mous
 
     private void eliminarInstalacion() {
         Instalacion i1 = instalacionData.buscarInstalacionPorCod(codInstalacionSeleccionado);
-        List <Sesion> sesiones = sesionData.listarSesionesPorCodInstal(codInstalacionSeleccionado);
+        List<Sesion> sesiones = sesionData.listarSesionesPorCodInstal(codInstalacionSeleccionado);
         if (!sesiones.isEmpty()) {
             JOptionPane.showMessageDialog(null, "No se puede eliminar la instalación, ya que tiene sesiones vinculadas", "Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -144,17 +150,18 @@ public class ControladorInstalacion implements ActionListener, KeyListener, Mous
             int confirmacion = JOptionPane.showConfirmDialog(null, "¿Estás seguro de eliminar la instalación " + i1.getNombre() + "?", "Confirmación de eliminación", JOptionPane.YES_NO_OPTION);
             if (confirmacion == JOptionPane.YES_OPTION) {
                 instalacionData.eliminarInstalacion(codInstalacionSeleccionado);
-                JOptionPane.showMessageDialog(null,"Instalacion " + i1.getNombre() + " eliminada con éxito.", "Válido", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Instalacion " + i1.getNombre() + " eliminada con éxito.", "Válido", JOptionPane.INFORMATION_MESSAGE);
                 limpiarCampos();
                 vista.jbtEliminar.setEnabled(false);
                 vista.jbtGuardar.setEnabled(false);
                 actualizarTabla();
+                vista.jtbInstalaciones.clearSelection();
+                codInstalacionSeleccionado = -1;
             }
         } else {
             JOptionPane.showMessageDialog(null, "Ha ocurrido algo inesperado", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -189,13 +196,13 @@ public class ControladorInstalacion implements ActionListener, KeyListener, Mous
     public void mouseReleased(MouseEvent me) {
         if (me.getSource() == vista.jtbInstalaciones) {
             int fila = vista.jtbInstalaciones.getSelectedRow();
-            if (fila != 1) {
+            if (fila != -1) {
                 Instalacion i1 = instalacionData.buscarInstalacionPorCod(Integer.parseInt(vista.jtbInstalaciones.getValueAt(fila, 0).toString()));
                 vista.jtNombre.setText(i1.getNombre());
                 vista.jtDetalle.setText(i1.getDetalleUso());
                 vista.jtPrecio.setText(String.valueOf(i1.getPrecio()));
                 vista.jchbEstado.setSelected(i1.isEstado());
-                
+
                 vista.jbtEliminar.setEnabled(true);
                 vista.jbtGuardar.setEnabled(true);
                 activarCampos();
@@ -254,8 +261,7 @@ public class ControladorInstalacion implements ActionListener, KeyListener, Mous
         vista.jtPrecio.setEnabled(false);
         vista.jchbEstado.setEnabled(false);
     }
-    
-        
+
     public void actualizarTabla() {
         modelo.setRowCount(0);
         List<Instalacion> instalaciones = instalacionData.listarTodasInstalaciones();

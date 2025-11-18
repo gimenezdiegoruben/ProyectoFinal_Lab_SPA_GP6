@@ -30,6 +30,7 @@ public class DiaDeSpaData {
         String sql = "INSERT INTO dia_de_spa (fechayhoraCompra, preferencias, codCli, monto, estado) VALUES (?, ?, ?, ?, ?)";
         PreparedStatement ps = null;
         con = Conexion.getConexion();
+        ResultSet rs = null;
         
         try { 
             ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -40,7 +41,7 @@ public class DiaDeSpaData {
             ps.setBoolean(5, diaDeSpa.isEstado());
             int filasAfectadas = ps.executeUpdate();
             if (filasAfectadas > 0) {
-                ResultSet rs = ps.getGeneratedKeys();
+                rs = ps.getGeneratedKeys();
                 if (rs.next()) {
                     diaDeSpa.setCodPack(rs.getInt(1));
                     System.out.println("Pack " + diaDeSpa.getCodPack() + " añadido con éxito.");
@@ -50,11 +51,14 @@ public class DiaDeSpaData {
             System.out.println("Error al acceder a la base de datos " + ex.getMessage());
         } finally {
             try {
+                if (rs != null) {
+                    rs.close();
+                }
                 if (ps != null) {
                     ps.close();
                 }
             } catch (SQLException ex) {
-                System.err.println("Error al cerrar el PreparedStatement: " + ex.getMessage());
+                System.out.println("Error al cerrar recursos: " + ex.getMessage());
             }
         }
     }
@@ -125,6 +129,7 @@ public class DiaDeSpaData {
     public DiaDeSpa buscarDiaDeSpa(int codPack) {
         String sql = "SELECT * FROM dia_de_spa WHERE codPack = ?";
         PreparedStatement ps = null;
+        ResultSet rs = null;
         con = Conexion.getConexion();
         DiaDeSpa diaDeSpa = null;
 
@@ -132,7 +137,7 @@ public class DiaDeSpaData {
 
             ps = con.prepareStatement(sql);
             ps.setInt(1, codPack);
-            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
 
             if (rs.next()) {
                 diaDeSpa = new DiaDeSpa();
@@ -152,14 +157,16 @@ public class DiaDeSpaData {
             System.out.println("Error al acceder a la base de datos " + ex.getMessage());
         } finally {
             try {
+                if (rs != null) {
+                    rs.close();
+                }
                 if (ps != null) {
                     ps.close();
                 }
             } catch (SQLException ex) {
-                System.err.println("Error al cerrar el PreparedStatement: " + ex.getMessage());
+                System.out.println("Error al cerrar recursos: " + ex.getMessage());
             }
         }
-
         return diaDeSpa;
     }
     
@@ -167,13 +174,14 @@ public class DiaDeSpaData {
 
         String sql = "SELECT * FROM dia_de_spa";
         PreparedStatement ps = null;
+        ResultSet rs = null;
         con = Conexion.getConexion();
         List<DiaDeSpa> paquetes = new ArrayList<>();
 
         try {
 
             ps = con.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
             while (rs.next()) {
                 DiaDeSpa diaDeSpa = new DiaDeSpa();
                 diaDeSpa.setCodPack(rs.getInt("codPack"));
@@ -190,11 +198,14 @@ public class DiaDeSpaData {
             System.out.println("Error al acceder a la base de datos " + ex.getMessage());
         } finally {
             try {
+                if (rs != null) {
+                    rs.close();
+                }
                 if (ps != null) {
                     ps.close();
                 }
             } catch (SQLException ex) {
-                System.err.println("Error al cerrar el PreparedStatement: " + ex.getMessage());
+                System.out.println("Error al cerrar recursos: " + ex.getMessage());
             }
         }
 
@@ -204,13 +215,14 @@ public class DiaDeSpaData {
 
         String sql = "SELECT * FROM dia_de_spa WHERE estado = 1";
         PreparedStatement ps = null;
+        ResultSet rs = null;
         con = Conexion.getConexion();
         List<DiaDeSpa> paquetes = new ArrayList<>();
 
         try {
 
             ps = con.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
             while (rs.next()) {
                 DiaDeSpa diaDeSpa = new DiaDeSpa();
                 diaDeSpa.setCodPack(rs.getInt("codPack"));
@@ -227,11 +239,14 @@ public class DiaDeSpaData {
             System.out.println("Error al acceder a la base de datos " + ex.getMessage());
         } finally {
             try {
+                if (rs != null) {
+                    rs.close();
+                }
                 if (ps != null) {
                     ps.close();
                 }
             } catch (SQLException ex) {
-                System.err.println("Error al cerrar el PreparedStatement: " + ex.getMessage());
+                System.out.println("Error al cerrar recursos: " + ex.getMessage());
             }
         }
 
@@ -242,13 +257,14 @@ public class DiaDeSpaData {
 
         String sql = "SELECT * FROM dia_de_spa WHERE estado = 0";
         PreparedStatement ps = null;
+        ResultSet rs = null;
         con = Conexion.getConexion();
         List<DiaDeSpa> paquetes = new ArrayList<>();
 
         try {
 
             ps = con.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
             while (rs.next()) {
                 DiaDeSpa diaDeSpa = new DiaDeSpa();
                 diaDeSpa.setCodPack(rs.getInt("codPack"));
@@ -265,11 +281,14 @@ public class DiaDeSpaData {
             System.out.println("Error al acceder a la base de datos " + ex.getMessage());
         } finally {
             try {
+                if (rs != null) {
+                    rs.close();
+                }
                 if (ps != null) {
                     ps.close();
                 }
             } catch (SQLException ex) {
-                System.err.println("Error al cerrar el PreparedStatement: " + ex.getMessage());
+                System.out.println("Error al cerrar recursos: " + ex.getMessage());
             }
         }
 
