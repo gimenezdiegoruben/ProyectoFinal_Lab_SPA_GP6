@@ -16,13 +16,19 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import Modelos.Empleado;
 
+import Persistencias_Conexion.EmpleadoData;
+import Persistencias_Conexion.ConsultorioData;
+import Persistencias_Conexion.TratamientoData;
+import Persistencias_Conexion.InstalacionData;
+
 public class SesionData {
 
     private Connection con = null;
-    private EmpleadoData empData;
-    private ConsultorioData consData;
-    private TratamientoData tratData;
-    private InstalacionData instalData;
+
+    private EmpleadoData empData = new EmpleadoData();
+    private ConsultorioData consData = new ConsultorioData();
+    private TratamientoData tratData = new TratamientoData();
+    private InstalacionData instalData = new InstalacionData();
 
     public SesionData() {
         con = Conexion.getConexion();
@@ -49,7 +55,7 @@ public class SesionData {
             ps.setInt(4, sesion.getConsultorio().getNroConsultorio());
             ps.setString(5, sesion.getMasajista().getMatricula());
             ps.setInt(6, sesion.getRegistrador().getIdEmpleado());//id del registrador (la recep)
-            
+
             //Si la instalación es opcional “Ninguna”, no rompe nada
             //Si aún no estmos vinculando la sesión a un codPack real y sigue en 0, no romperá la clave foranea y guarda null
             if (sesion.getInstalacion() != null) {
@@ -57,13 +63,13 @@ public class SesionData {
             } else {
                 ps.setNull(7, java.sql.Types.INTEGER);
             }
-            
+
             if (sesion.getCodPack() > 0) {
                 ps.setInt(8, sesion.getCodPack());
             } else {
                 ps.setNull(8, java.sql.Types.INTEGER);
-            }            
-            
+            }
+
             ps.setDouble(9, sesion.getMonto());
             ps.setString(10, sesion.getNotas());
             ps.setBoolean(11, sesion.getEstado());
@@ -87,18 +93,32 @@ public class SesionData {
         actualizarSesion(sesion);
     }
 
-    public List<Sesion> listarSesiones() {   // NUEVO
+    public List<Sesion> listarSesiones() {
 
         List<Sesion> lista = new ArrayList<>();
-        String sql = "SELECT * FROM sesion";  // NUEVO
+
+        String sql = """
+                SELECT s.*,
+                    e.nombre AS masNombre, e.apellido AS masApellido, e.especialidad,
+                    r.nombre AS regNombre, r.apellido AS regApellido,
+                    t.nombre AS tratNombre, t.tipo, t.costo, t.duracion,
+                    c.apto,
+                    i.nombre AS instNombre, i.precio30min AS instPrecio
+                FROM sesion s
+                LEFT JOIN empleado e ON e.matricula = s.matriculaMasajista
+                LEFT JOIN empleado r ON r.idEmpleado = s.idRegistrador
+                LEFT JOIN tratamiento t ON t.codTratam = s.codTratam
+                LEFT JOIN consultorio c ON c.nroConsultorio = s.nroConsultorio
+                LEFT JOIN instalacion i ON i.codInstal = s.codInstal
+                ORDER BY s.codSesion DESC
+                """;
 
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                Sesion sesion = construirSesionDesdeResultSet(rs);  // NUEVO: reutiliza helper (incluye monto y notas)
-                lista.add(sesion);
+                lista.add(construirSesionCompleta(rs));
             }
 
             rs.close();
@@ -107,13 +127,29 @@ public class SesionData {
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error en listarSesiones: " + ex.getMessage());
         }
-
         return lista;
     }
+
     public List<Sesion> listarSesionesPorPack(int codPack) {
 
         List<Sesion> lista = new ArrayList<>();
-        String sql = "SELECT * FROM sesion WHERE codPack = ?";
+
+        String sql = """
+                SELECT s.*,
+                    e.nombre AS masNombre, e.apellido AS masApellido, e.especialidad,
+                    r.nombre AS regNombre, r.apellido AS regApellido,
+                    t.nombre AS tratNombre, t.tipo, t.costo, t.duracion,
+                    c.apto,
+                    i.nombre AS instNombre, i.precio30min AS instPrecio
+                FROM sesion s
+                LEFT JOIN empleado e ON e.matricula = s.matriculaMasajista
+                LEFT JOIN empleado r ON r.idEmpleado = s.idRegistrador
+                LEFT JOIN tratamiento t ON t.codTratam = s.codTratam
+                LEFT JOIN consultorio c ON c.nroConsultorio = s.nroConsultorio
+                LEFT JOIN instalacion i ON i.codInstal = s.codInstal
+                WHERE s.codPack = ?
+                ORDER BY s.fechaHoraInicio ASC
+                """;
 
         try {
             PreparedStatement ps = con.prepareStatement(sql);
@@ -121,8 +157,7 @@ public class SesionData {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                Sesion sesion = construirSesionDesdeResultSet(rs);
-                lista.add(sesion);
+                lista.add(construirSesionCompleta(rs));
             }
 
             rs.close();
@@ -136,7 +171,8 @@ public class SesionData {
 
         return lista;
     }
-        public List<Sesion> listarSesionesPorConsultorio(int nroConsultorio){
+
+    public List<Sesion> listarSesionesPorConsultorio(int nroConsultorio) {
         List<Sesion> lista = new ArrayList<>();
         String sql = "SELECT * FROM sesion WHERE nroConsultorio = ?";
 
@@ -161,9 +197,8 @@ public class SesionData {
 
         return lista;
     }
-    
-    
-        public List<Sesion> listarSesionesPorCodInstal(int codInstal) {
+
+    public List<Sesion> listarSesionesPorCodInstal(int codInstal) {
 
         List<Sesion> lista = new ArrayList<>();
         String sql = "SELECT * FROM sesion WHERE codInstal = ?";
@@ -419,36 +454,145 @@ public class SesionData {
         s.setFechaHoraInicio(rs.getTimestamp("fechaHoraInicio").toLocalDateTime());
         s.setFechaHoraFinal(rs.getTimestamp("fechaHoraFinal").toLocalDateTime());
 
-        //Empleado masajista (solo matricula conocida aquí)
         Empleado mas = new Empleado();
         mas.setMatricula(rs.getString("matriculaMasajista"));
         s.setMasajista(mas);
 
-        // Empleado registrador (solo id conocido aquí)
         Empleado reg = new Empleado();
         reg.setIdEmpleado(rs.getInt("idRegistrador"));
         s.setRegistrador(reg);
 
-        // Consultorio
         Consultorio cons = new Consultorio();
         cons.setNroConsultorio(rs.getInt("nroConsultorio"));
         s.setConsultorio(cons);
 
-        // Tratamiento
         Tratamiento trat = new Tratamiento();
         trat.setCodTratam(rs.getInt("codTratam"));
         s.setTratamiento(trat);
 
-        // Instalación
         Instalacion inst = new Instalacion();
         inst.setCodInstal(rs.getInt("codInstal"));
         s.setInstalacion(inst);
 
         s.setCodPack(rs.getInt("codPack"));
-        s.setMonto(rs.getDouble("monto"));//monto
-        s.setNotas(rs.getString("notas"));//notas
+        s.setMonto(rs.getDouble("monto"));
+        s.setNotas(rs.getString("notas"));
         s.setEstado(rs.getBoolean("estado"));
 
         return s;
+    }
+
+    private Sesion construirSesionCompleta(ResultSet rs) throws SQLException {
+
+        Sesion s = new Sesion();
+
+        s.setCodSesion(rs.getInt("codSesion"));
+        s.setFechaHoraInicio(rs.getTimestamp("fechaHoraInicio").toLocalDateTime());
+        s.setFechaHoraFinal(rs.getTimestamp("fechaHoraFinal").toLocalDateTime());
+
+        // Profesional (manejo null)
+        String matriculaMas = rs.getString("matriculaMasajista");
+        if (matriculaMas != null) {
+            Empleado mas = new Empleado();
+            mas.setMatricula(matriculaMas);
+            mas.setNombre(rs.getString("masNombre"));
+            mas.setApellido(rs.getString("masApellido"));
+            mas.setEspecialidad(rs.getString("especialidad"));
+            s.setMasajista(mas);
+        } else {
+            s.setMasajista(null);
+        }
+
+        // Recepcionista
+        Empleado reg = new Empleado();
+        reg.setIdEmpleado(rs.getInt("idRegistrador"));
+        reg.setNombre(rs.getString("regNombre"));
+        reg.setApellido(rs.getString("regApellido"));
+        s.setRegistrador(reg);
+
+        // Consultorio (null-safe)
+        int nroCons = rs.getInt("nroConsultorio");
+        if (!rs.wasNull()) {
+            Consultorio cons = new Consultorio();
+            cons.setNroConsultorio(nroCons);
+            cons.setApto(rs.getString("apto"));
+            s.setConsultorio(cons);
+        } else {
+            s.setConsultorio(null);
+        }
+
+        // Tratamiento
+        Tratamiento t = new Tratamiento();
+        t.setCodTratam(rs.getInt("codTratam"));
+        t.setNombre(rs.getString("tratNombre"));
+        t.setTipo(rs.getString("tipo"));
+        t.setCosto(rs.getDouble("costo"));
+        t.setDuracion(rs.getInt("duracion"));
+        s.setTratamiento(t);
+
+        // Instalación (null-safe)
+        int codInst = rs.getInt("codInstal");
+        if (!rs.wasNull()) {
+            Instalacion i = new Instalacion();
+            i.setCodInstal(codInst);
+            i.setNombre(rs.getString("instNombre"));
+            i.setPrecio(rs.getDouble("instPrecio"));
+            s.setInstalacion(i);
+        } else {
+            s.setInstalacion(null);
+        }
+
+        s.setCodPack(rs.getInt("codPack"));
+        s.setMonto(rs.getDouble("monto"));
+        s.setNotas(rs.getString("notas"));
+        s.setEstado(rs.getBoolean("estado"));
+
+        return s;
+    }
+
+    private List<Sesion> listarSesionesPorEstado(boolean estadoBuscado) {
+
+        List<Sesion> lista = new ArrayList<>();
+
+        String sql = """
+            SELECT s.*,
+                e.nombre AS masNombre, e.apellido AS masApellido, e.especialidad,
+                r.nombre AS regNombre, r.apellido AS regApellido,
+                t.nombre AS tratNombre, t.tipo, t.costo, t.duracion,
+                c.apto,
+                i.nombre AS instNombre, i.precio30min AS instPrecio
+            FROM sesion s
+            LEFT JOIN empleado e ON e.matricula = s.matriculaMasajista
+            LEFT JOIN empleado r ON r.idEmpleado = s.idRegistrador
+            LEFT JOIN tratamiento t ON t.codTratam = s.codTratam
+            LEFT JOIN consultorio c ON c.nroConsultorio = s.nroConsultorio
+            LEFT JOIN instalacion i ON i.codInstal = s.codInstal
+            WHERE s.estado = ?
+            ORDER BY s.codSesion DESC
+            """;
+
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setBoolean(1, estadoBuscado);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                lista.add(construirSesionCompleta(rs));
+            }
+
+            rs.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al listar sesiones: " + ex.getMessage());
+        }
+
+        return lista;
+    }
+
+    public List<Sesion> listarSesionesActivas() {
+        return listarSesionesPorEstado(true);
+    }
+
+    public List<Sesion> listarSesionesInactivas() {
+        return listarSesionesPorEstado(false);
     }
 }

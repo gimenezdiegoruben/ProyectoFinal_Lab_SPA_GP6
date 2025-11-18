@@ -30,10 +30,10 @@ public class VistaSesiones extends javax.swing.JInternalFrame {
         jLabelTitulo = new javax.swing.JLabel();
         jDC_Fecha = new com.toedter.calendar.JDateChooser();
         jLabelFecha = new javax.swing.JLabel();
-        jLabelHora = new javax.swing.JLabel();
+        jLabelHoraIni = new javax.swing.JLabel();
         jLabel_TipoTratamiento = new javax.swing.JLabel();
         jCmb_TipoTratamiento = new javax.swing.JComboBox<>();
-        jCmb_Hora = new javax.swing.JComboBox<>();
+        jCmb_HoraInicio = new javax.swing.JComboBox<>();
         jLabel_Especialidad = new javax.swing.JLabel();
         jCmb_Especialidad = new javax.swing.JComboBox<>();
         jCmb_Tratamiento = new javax.swing.JComboBox<>();
@@ -59,6 +59,12 @@ public class VistaSesiones extends javax.swing.JInternalFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea_Notas = new javax.swing.JTextArea();
         jLabel_Notas = new javax.swing.JLabel();
+        btnActualizar = new javax.swing.JButton();
+        jCmb_HoraFin = new javax.swing.JComboBox<>();
+        jLabelHoraF = new javax.swing.JLabel();
+        jRadioButtonTodasSes = new javax.swing.JRadioButton();
+        jRadioButtonSesInactivas = new javax.swing.JRadioButton();
+        jRadioButtonSesActivas = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -74,9 +80,9 @@ public class VistaSesiones extends javax.swing.JInternalFrame {
         jLabelFecha.setForeground(new java.awt.Color(255, 255, 255));
         jLabelFecha.setText("Fecha");
 
-        jLabelHora.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jLabelHora.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelHora.setText("Hora");
+        jLabelHoraIni.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jLabelHoraIni.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelHoraIni.setText("Inicio");
 
         jLabel_TipoTratamiento.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel_TipoTratamiento.setForeground(new java.awt.Color(255, 255, 255));
@@ -90,8 +96,8 @@ public class VistaSesiones extends javax.swing.JInternalFrame {
             }
         });
 
-        jCmb_Hora.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
-        jCmb_Hora.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00" }));
+        jCmb_HoraInicio.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        jCmb_HoraInicio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00" }));
 
         jLabel_Especialidad.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel_Especialidad.setForeground(new java.awt.Color(255, 255, 255));
@@ -132,15 +138,18 @@ public class VistaSesiones extends javax.swing.JInternalFrame {
         jButton_LimpiarCampos.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jButton_LimpiarCampos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icon_limpiar.png"))); // NOI18N
         jButton_LimpiarCampos.setText("Limpiar");
+        jButton_LimpiarCampos.setMargin(new java.awt.Insets(2, 5, 3, 5));
 
-        jButton_Agregar.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jButton_Agregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icon_inscribir.png"))); // NOI18N
+        jButton_Agregar.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        jButton_Agregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icon_agregar.png"))); // NOI18N
         jButton_Agregar.setText("Agregar");
-        jButton_Agregar.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jButton_Agregar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jButton_Agregar.setMargin(new java.awt.Insets(2, 5, 3, 5));
 
         jButton_Salir.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jButton_Salir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icon_buscar.png"))); // NOI18N
         jButton_Salir.setText("Salir");
+        jButton_Salir.setMargin(new java.awt.Insets(2, 5, 3, 5));
 
         jLabel_NumPack.setBackground(new java.awt.Color(0, 0, 255));
         jLabel_NumPack.setFont(new java.awt.Font("Times New Roman", 1, 13)); // NOI18N
@@ -154,28 +163,56 @@ public class VistaSesiones extends javax.swing.JInternalFrame {
         jButton_BuscarPack.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jButton_BuscarPack.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icon_buscar.png"))); // NOI18N
         jButton_BuscarPack.setText("Buscar");
+        jButton_BuscarPack.setMargin(new java.awt.Insets(2, 5, 3, 5));
 
         jButton_Modificar_Guardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icon_guardar.png"))); // NOI18N
         jButton_Modificar_Guardar.setText("Modificar /Guardar");
+        jButton_Modificar_Guardar.setMargin(new java.awt.Insets(2, 5, 3, 5));
 
         jButton_Anular_Sesión.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icon_eliminar.png"))); // NOI18N
         jButton_Anular_Sesión.setText("Anular Sesion");
+        jButton_Anular_Sesión.setMargin(new java.awt.Insets(2, 5, 3, 5));
 
         tbSesiones.setFont(new java.awt.Font("Times New Roman", 0, 13)); // NOI18N
         tbSesiones.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID", "Estado", "Fecha / Hora", "Masajista", "Tratamiento", "Monto", "Notas"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Boolean.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, true, true, false, false, true, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tbSesiones.setMinimumSize(new java.awt.Dimension(60, 90));
-        tbSesiones.setPreferredSize(null);
+        tbSesiones.setShowGrid(true);
         jScrollPane1.setViewportView(tbSesiones);
+        if (tbSesiones.getColumnModel().getColumnCount() > 0) {
+            tbSesiones.getColumnModel().getColumn(0).setPreferredWidth(10);
+            tbSesiones.getColumnModel().getColumn(1).setPreferredWidth(20);
+            tbSesiones.getColumnModel().getColumn(2).setPreferredWidth(30);
+            tbSesiones.getColumnModel().getColumn(3).setResizable(false);
+            tbSesiones.getColumnModel().getColumn(3).setPreferredWidth(10);
+            tbSesiones.getColumnModel().getColumn(4).setPreferredWidth(30);
+            tbSesiones.getColumnModel().getColumn(5).setPreferredWidth(10);
+            tbSesiones.getColumnModel().getColumn(6).setPreferredWidth(30);
+        }
 
         jTextArea_Notas.setColumns(20);
         jTextArea_Notas.setRows(5);
@@ -185,84 +222,116 @@ public class VistaSesiones extends javax.swing.JInternalFrame {
         jLabel_Notas.setForeground(new java.awt.Color(255, 255, 255));
         jLabel_Notas.setText("Notas / Comentarios");
 
+        btnActualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icon_update.png"))); // NOI18N
+        btnActualizar.setText("Actualizar / Refrescar Datos");
+
+        jCmb_HoraFin.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        jCmb_HoraFin.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00" }));
+
+        jLabelHoraF.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jLabelHoraF.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelHoraF.setText("Fin");
+
+        jRadioButtonTodasSes.setText("Todas");
+
+        jRadioButtonSesInactivas.setText("Inactivas");
+
+        jRadioButtonSesActivas.setText("Activas");
+
         javax.swing.GroupLayout jPanelSesionesLayout = new javax.swing.GroupLayout(jPanelSesiones);
         jPanelSesiones.setLayout(jPanelSesionesLayout);
         jPanelSesionesLayout.setHorizontalGroup(
             jPanelSesionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelSesionesLayout.createSequentialGroup()
-                .addGap(6, 6, 6)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelSesionesLayout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addComponent(jLabelTitulo)
                 .addGroup(jPanelSesionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelSesionesLayout.createSequentialGroup()
+                        .addGap(76, 76, 76)
+                        .addComponent(jRadioButtonTodasSes)
+                        .addGap(36, 36, 36)
+                        .addComponent(jRadioButtonSesActivas)
+                        .addGap(18, 18, 18)
+                        .addComponent(jRadioButtonSesInactivas)
+                        .addGap(133, 133, 133)
+                        .addComponent(btnActualizar))
+                    .addGroup(jPanelSesionesLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton_Modificar_Guardar)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton_LimpiarCampos)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton_Anular_Sesión)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
+                        .addComponent(jButton_Salir, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(62, Short.MAX_VALUE))))
+            .addGroup(jPanelSesionesLayout.createSequentialGroup()
+                .addGroup(jPanelSesionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelSesionesLayout.createSequentialGroup()
+                        .addGap(10, 10, 10)
                         .addGroup(jPanelSesionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanelSesionesLayout.createSequentialGroup()
-                                .addGap(7, 7, 7)
+                                .addGroup(jPanelSesionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanelSesionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jLabel_Tratamiento)
+                                        .addComponent(jLabel_MontoSes)
+                                        .addComponent(jLabel_Consultorio)
+                                        .addComponent(jLabel_Instalacion)
+                                        .addComponent(jLabel_Profesional)
+                                        .addComponent(jLabel_Especialidad)
+                                        .addComponent(jLabel_NumPack)
+                                        .addComponent(jLabelHoraIni)
+                                        .addComponent(jLabel_TipoTratamiento))
+                                    .addComponent(jLabelFecha))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanelSesionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanelSesionesLayout.createSequentialGroup()
-                                        .addGroup(jPanelSesionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(jLabel_Tratamiento)
-                                            .addComponent(jLabel_MontoSes)
-                                            .addComponent(jLabel_Consultorio)
-                                            .addComponent(jLabel_Instalacion)
-                                            .addComponent(jLabel_Profesional)
-                                            .addComponent(jLabel_Especialidad)
-                                            .addComponent(jLabel_TipoTratamiento)
-                                            .addComponent(jLabelHora)
-                                            .addComponent(jLabelFecha)
-                                            .addComponent(jLabel_NumPack))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addGroup(jPanelSesionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addComponent(jCmb_TipoTratamiento, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jCmb_Especialidad, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jCmb_Tratamiento, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jCmb_Profesional, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jCmb_Instalacion, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jCmb_Consultorio, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addGroup(jPanelSesionesLayout.createSequentialGroup()
-                                                .addGroup(jPanelSesionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(jDC_Fecha, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(jTextField_NumPack, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(jCmb_Hora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
-                                                .addComponent(jButton_BuscarPack)
-                                                .addGap(2, 2, 2))))
-                                    .addGroup(jPanelSesionesLayout.createSequentialGroup()
-                                        .addGroup(jPanelSesionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(jPanelSesionesLayout.createSequentialGroup()
-                                                .addGap(96, 96, 96)
-                                                .addComponent(jTextField_MontoSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(jPanelSesionesLayout.createSequentialGroup()
-                                                .addGap(17, 17, 17)
-                                                .addComponent(jLabel_Notas)))
+                                            .addComponent(jDC_Fecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(jTextField_NumPack, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jButton_Agregar)))
-                                .addGap(10, 10, 10))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelSesionesLayout.createSequentialGroup()
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)))
-                        .addGroup(jPanelSesionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jButton_BuscarPack))
+                                    .addGroup(jPanelSesionesLayout.createSequentialGroup()
+                                        .addComponent(jCmb_HoraInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jLabelHoraF)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jCmb_HoraFin, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jCmb_Profesional, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jCmb_Tratamiento, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jCmb_Especialidad, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jCmb_TipoTratamiento, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanelSesionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(jCmb_Consultorio, javax.swing.GroupLayout.Alignment.LEADING, 0, 187, Short.MAX_VALUE)
+                                        .addComponent(jCmb_Instalacion, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                             .addGroup(jPanelSesionesLayout.createSequentialGroup()
-                                .addComponent(jButton_Modificar_Guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton_LimpiarCampos)
-                                .addGap(38, 38, 38)
-                                .addComponent(jButton_Anular_Sesión)
-                                .addGap(52, 52, 52)
-                                .addComponent(jButton_Salir, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 731, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(96, 96, 96)
+                                .addComponent(jTextField_MontoSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(12, 12, 12)
+                                .addComponent(jButton_Agregar))))
                     .addGroup(jPanelSesionesLayout.createSequentialGroup()
-                        .addGap(14, 14, 14)
-                        .addComponent(jLabelTitulo)))
-                .addGap(0, 0, 0))
+                        .addGap(20, 20, 20)
+                        .addGroup(jPanelSesionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel_Notas))))
+                .addGap(5, 5, 5)
+                .addComponent(jScrollPane1)
+                .addContainerGap())
         );
         jPanelSesionesLayout.setVerticalGroup(
             jPanelSesionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelSesionesLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabelTitulo)
+                .addGroup(jPanelSesionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabelTitulo, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelSesionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jRadioButtonSesActivas)
+                        .addComponent(jRadioButtonSesInactivas))
+                    .addComponent(btnActualizar, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jRadioButtonTodasSes, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanelSesionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanelSesionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(jPanelSesionesLayout.createSequentialGroup()
-                        .addGroup(jPanelSesionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanelSesionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(jPanelSesionesLayout.createSequentialGroup()
                                 .addGroup(jPanelSesionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jTextField_NumPack, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -270,29 +339,31 @@ public class VistaSesiones extends javax.swing.JInternalFrame {
                                 .addGap(15, 15, 15)
                                 .addGroup(jPanelSesionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLabelFecha)
-                                    .addComponent(jDC_Fecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanelSesionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabelHora)
-                                    .addComponent(jCmb_Hora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(jButton_BuscarPack, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
+                                    .addComponent(jDC_Fecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jButton_BuscarPack, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(15, 15, 15)
+                        .addGroup(jPanelSesionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabelHoraIni)
+                            .addComponent(jCmb_HoraInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jCmb_HoraFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabelHoraF))
+                        .addGap(15, 15, 15)
                         .addGroup(jPanelSesionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel_TipoTratamiento)
                             .addComponent(jCmb_TipoTratamiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(20, 20, 20)
+                        .addGap(15, 15, 15)
                         .addGroup(jPanelSesionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel_Especialidad)
                             .addComponent(jCmb_Especialidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(20, 20, 20)
+                        .addGap(15, 15, 15)
                         .addGroup(jPanelSesionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jCmb_Tratamiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel_Tratamiento))
-                        .addGap(20, 20, 20)
+                        .addGap(15, 15, 15)
                         .addGroup(jPanelSesionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jCmb_Profesional, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel_Profesional))
-                        .addGap(18, 18, 18)
+                        .addGap(15, 15, 15)
                         .addGroup(jPanelSesionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jCmb_Instalacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel_Instalacion))
@@ -300,32 +371,31 @@ public class VistaSesiones extends javax.swing.JInternalFrame {
                         .addGroup(jPanelSesionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jCmb_Consultorio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel_Consultorio))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanelSesionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton_Agregar)
-                            .addGroup(jPanelSesionesLayout.createSequentialGroup()
-                                .addGroup(jPanelSesionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField_MontoSesion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel_MontoSes))
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel_Notas))))
-                    .addComponent(jScrollPane1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(15, 15, 15)
+                        .addGroup(jPanelSesionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanelSesionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel_MontoSes)
+                                .addComponent(jTextField_MontoSesion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jButton_Agregar))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel_Notas)
+                        .addGap(4, 4, 4))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 434, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(8, 8, 8)
                 .addGroup(jPanelSesionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelSesionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton_Modificar_Guardar)
                         .addComponent(jButton_LimpiarCampos)
                         .addComponent(jButton_Anular_Sesión)
-                        .addComponent(jButton_Salir))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(31, Short.MAX_VALUE))
+                        .addComponent(jButton_Salir)
+                        .addComponent(jButton_Modificar_Guardar))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanelSesiones, javax.swing.GroupLayout.DEFAULT_SIZE, 1134, Short.MAX_VALUE)
+            .addComponent(jPanelSesiones, javax.swing.GroupLayout.DEFAULT_SIZE, 1132, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -378,6 +448,7 @@ public class VistaSesiones extends javax.swing.JInternalFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public javax.swing.JButton btnActualizar;
     public javax.swing.JButton jButton_Agregar;
     public javax.swing.JButton jButton_Anular_Sesión;
     public javax.swing.JButton jButton_BuscarPack;
@@ -386,14 +457,16 @@ public class VistaSesiones extends javax.swing.JInternalFrame {
     public javax.swing.JButton jButton_Salir;
     public javax.swing.JComboBox<String> jCmb_Consultorio;
     public javax.swing.JComboBox<String> jCmb_Especialidad;
-    public javax.swing.JComboBox<String> jCmb_Hora;
+    public javax.swing.JComboBox<String> jCmb_HoraFin;
+    public javax.swing.JComboBox<String> jCmb_HoraInicio;
     public javax.swing.JComboBox<String> jCmb_Instalacion;
     public javax.swing.JComboBox<String> jCmb_Profesional;
     public javax.swing.JComboBox<String> jCmb_TipoTratamiento;
     public javax.swing.JComboBox<String> jCmb_Tratamiento;
     public com.toedter.calendar.JDateChooser jDC_Fecha;
     private javax.swing.JLabel jLabelFecha;
-    private javax.swing.JLabel jLabelHora;
+    private javax.swing.JLabel jLabelHoraF;
+    private javax.swing.JLabel jLabelHoraIni;
     private javax.swing.JLabel jLabelTitulo;
     private javax.swing.JLabel jLabel_Consultorio;
     private javax.swing.JLabel jLabel_Especialidad;
@@ -405,6 +478,9 @@ public class VistaSesiones extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel_TipoTratamiento;
     private javax.swing.JLabel jLabel_Tratamiento;
     public javax.swing.JPanel jPanelSesiones;
+    public javax.swing.JRadioButton jRadioButtonSesActivas;
+    public javax.swing.JRadioButton jRadioButtonSesInactivas;
+    public javax.swing.JRadioButton jRadioButtonTodasSes;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     public javax.swing.JTextArea jTextArea_Notas;

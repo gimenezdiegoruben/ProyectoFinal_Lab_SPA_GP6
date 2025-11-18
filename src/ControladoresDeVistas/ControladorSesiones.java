@@ -30,6 +30,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+
 /*  @author Grupo 6 
     Gimenez Diego Ruben
     Carlos German Mecias Giacomelli
@@ -76,6 +77,7 @@ public class ControladorSesiones implements ActionListener {
         this.vista.jButton_Modificar_Guardar.addActionListener(this);
         this.vista.jButton_Anular_Sesión.addActionListener(this);
         this.vista.jButton_BuscarPack.addActionListener(this);
+        vista.btnActualizar.addActionListener(this);
 
         this.vista.jCmb_TipoTratamiento.addActionListener(this);
         this.vista.jCmb_Especialidad.addActionListener(this);
@@ -83,6 +85,10 @@ public class ControladorSesiones implements ActionListener {
         this.vista.jCmb_Profesional.addActionListener(this);
         this.vista.jCmb_Instalacion.addActionListener(this);
         this.vista.jCmb_Consultorio.addActionListener(this);
+
+        this.vista.jRadioButtonTodasSes.addActionListener(this);
+        this.vista.jRadioButtonSesActivas.addActionListener(this);
+        this.vista.jRadioButtonSesInactivas.addActionListener(this);
     }
 
     public void iniciar() {
@@ -95,6 +101,13 @@ public class ControladorSesiones implements ActionListener {
         configurarTabla();
         cargarSesionesEnTabla();
         limpiarCampos();
+
+        javax.swing.ButtonGroup grupoEstado = new javax.swing.ButtonGroup();
+        grupoEstado.add(vista.jRadioButtonTodasSes);
+        grupoEstado.add(vista.jRadioButtonSesActivas);
+        grupoEstado.add(vista.jRadioButtonSesInactivas);
+
+        vista.jRadioButtonTodasSes.setSelected(true);
     }
 
     private void cargarCombos() {
@@ -203,15 +216,15 @@ public class ControladorSesiones implements ActionListener {
         LocalTime ahora = LocalTime.now();
         String horaSeleccionada = "08:00";
 
-        for (int i = 0; i < this.vista.jCmb_Hora.getItemCount(); i++) {
-            String hora = this.vista.jCmb_Hora.getItemAt(i);
+        for (int i = 0; i < this.vista.jCmb_HoraInicio.getItemCount(); i++) {
+            String hora = this.vista.jCmb_HoraInicio.getItemAt(i);
             LocalTime horaCombo = LocalTime.parse(hora);
             if (horaCombo.isAfter(ahora) || horaCombo.equals(ahora)) {
                 horaSeleccionada = hora;
                 break;
             }
         }
-        this.vista.jCmb_Hora.setSelectedItem(horaSeleccionada);
+        this.vista.jCmb_HoraInicio.setSelectedItem(horaSeleccionada);
     }
 
     private void cargarSesionesEnTabla() {
@@ -382,6 +395,84 @@ public class ControladorSesiones implements ActionListener {
             anularSesionSeleccionada();//Anula la sesión que se seleccionó
         } else if (e.getSource() == this.vista.jButton_BuscarPack) {
             buscarDiaDeSpaPorCodigo();
+        } else if (e.getSource() == vista.btnActualizar) {
+            cargarCombos();
+            configurarFechaHoraPorDefecto();
+            configurarTabla();
+            cargarSesionesEnTabla();
+            limpiarCampos();
+        }
+
+        if (e.getSource() == vista.jRadioButtonTodasSes
+                || e.getSource() == vista.jRadioButtonSesActivas
+                || e.getSource() == vista.jRadioButtonSesInactivas) {
+
+            cargarSesionesFiltradas();
+            return;
+        }
+    }
+
+    private void cargarSesionesFiltradas() {
+
+        DefaultTableModel modelo = (DefaultTableModel) vista.tbSesiones.getModel();
+        modelo.setRowCount(0);
+
+        List<Sesion> lista;
+
+        if (this.diaActual != null) {
+
+            int codPack = this.diaActual.getCodPack();
+            lista = sesionData.listarSesionesPorPack(codPack);
+
+            if (vista.jRadioButtonSesActivas.isSelected()) {
+                lista.removeIf(s -> !s.isActiva());
+            } else if (vista.jRadioButtonSesInactivas.isSelected()) {
+                lista.removeIf(Sesion::isActiva);
+            }
+
+        } else {//sin pack selecc
+
+            if (vista.jRadioButtonSesActivas.isSelected()) {
+                lista = sesionData.listarSesionesActivas();
+            } else if (vista.jRadioButtonSesInactivas.isSelected()) {
+                lista = sesionData.listarSesionesInactivas();
+            } else {
+                lista = sesionData.listarSesiones();
+            }
+        }
+
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+
+        for (Sesion s : lista) {
+
+            String fechaHora = "";
+            if (s.getFechaHoraInicio() != null) {
+                fechaHora = s.getFechaHoraInicio().format(formato);
+            }
+
+            String masajista = "";
+            if (s.getMasajista() != null) {
+                if (s.getMasajista().getNombre() != null) {
+                    masajista = s.getMasajista().getNombre() + " " + s.getMasajista().getApellido();
+                } else {
+                    masajista = s.getMasajista().getMatricula();
+                }
+            }
+
+            String tratamiento = "";
+            if (s.getTratamiento() != null) {
+                tratamiento = s.getTratamiento().getNombre();
+            }
+
+            modelo.addRow(new Object[]{
+                s.getCodSesion(),
+                s.isActiva(),
+                fechaHora,
+                masajista,
+                tratamiento,
+                String.format("%.2f", s.getMonto()),
+                s.getNotas() != null ? s.getNotas() : ""
+            });
         }
     }
 
@@ -404,7 +495,7 @@ public class ControladorSesiones implements ActionListener {
             LocalDate fecha = this.vista.jDC_Fecha.getDate().toInstant()
                     .atZone(java.time.ZoneId.systemDefault()).toLocalDate();
 
-            String horaStr = (String) this.vista.jCmb_Hora.getSelectedItem();
+            String horaStr = (String) this.vista.jCmb_HoraInicio.getSelectedItem();
             LocalTime hora = LocalTime.parse(horaStr);
 
             LocalDateTime fechaHoraInicio = LocalDateTime.of(fecha, hora);
@@ -490,7 +581,7 @@ public class ControladorSesiones implements ActionListener {
             return false;
         }
 
-        if (this.vista.jCmb_Hora.getSelectedItem() == null) {
+        if (this.vista.jCmb_HoraInicio.getSelectedItem() == null) {
             JOptionPane.showMessageDialog(this.vista, "Seleccione una hora válida.", "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
@@ -510,8 +601,9 @@ public class ControladorSesiones implements ActionListener {
             return false;
         }
 
-        if (this.instalacionSeleccionado == null) {
-            JOptionPane.showMessageDialog(this.vista, "Seleccione una instalación válida.", "Error", JOptionPane.ERROR_MESSAGE);
+        if (!"Ninguna".equals(this.vista.jCmb_Instalacion.getSelectedItem())
+                && this.instalacionSeleccionado == null) {
+            JOptionPane.showMessageDialog(this.vista, "Seleccione una instalación válida.");
             return false;
         }
 
@@ -556,17 +648,21 @@ public class ControladorSesiones implements ActionListener {
         }
         //Instalación
         if (this.instalacionSeleccionado != null) {
-            List<Instalacion> instalacionesLibres = this.sesionData.listarInstalacionesLibres(inicio, fin);
-            boolean instalacionDisponible = false;
-            for (Instalacion instalacion : instalacionesLibres) {
-                if (instalacion.getCodInstal() == this.instalacionSeleccionado.getCodInstal()) {
-                    instalacionDisponible = true;
+
+            List<Instalacion> instLibres = this.sesionData.listarInstalacionesLibres(inicio, fin);
+            boolean okInstalacion = false;
+
+            for (Instalacion i : instLibres) {
+                if (i.getCodInstal() == this.instalacionSeleccionado.getCodInstal()) {
+                    okInstalacion = true;
                     break;
                 }
             }
-            return instalacionDisponible;
+
+            return okInstalacion;
         }
-        return true;
+
+        return true;//no cortar si no hay instalación
     }
 
     private Empleado obtenerRegistrador() {
