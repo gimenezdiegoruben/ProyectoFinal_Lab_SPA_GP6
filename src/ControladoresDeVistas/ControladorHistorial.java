@@ -151,7 +151,6 @@ public class ControladorHistorial implements ActionListener, PropertyChangeListe
             modelo.addColumn("Estado");
 
             vista.jtbhistorial.setModel(modelo);
-            vista.jtbhistorial.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
             modelo.setRowCount(0);
 
@@ -192,7 +191,6 @@ public class ControladorHistorial implements ActionListener, PropertyChangeListe
             modelo.addColumn("Apto");
 
             vista.jtbhistorial.setModel(modelo);
-            vista.jtbhistorial.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
             modelo.setRowCount(0);
 
@@ -225,7 +223,6 @@ public class ControladorHistorial implements ActionListener, PropertyChangeListe
             modelo.addColumn("Estado");
 
             vista.jtbhistorial.setModel(modelo);
-            vista.jtbhistorial.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
             modelo.setRowCount(0);
 
@@ -296,7 +293,6 @@ public class ControladorHistorial implements ActionListener, PropertyChangeListe
             modelo.addColumn("Estado");
 
             vista.jtbhistorial.setModel(modelo);
-            vista.jtbhistorial.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
             modelo.setRowCount(0);
 
@@ -397,9 +393,6 @@ public class ControladorHistorial implements ActionListener, PropertyChangeListe
                 modelo.addRow(fila);
             }
         } else if (vista.jcbSeccion.getSelectedItem().toString().equals("Sesiones")) {
-
-            // Inactivo por el momento
-            vista.jdcListarFecha.setDate(null);
             vista.jdcListarFecha.setEnabled(true);
             modelo = new DefaultTableModel() {
                 @Override
@@ -426,22 +419,49 @@ public class ControladorHistorial implements ActionListener, PropertyChangeListe
             List<Sesion> sesiones = new ArrayList<>();
 
             if (vista.rbtnActivo.isSelected()) {
+                sesiones = sesionData.listarSesionesActivas();
+            }
+            if (vista.rbtnInactivo.isSelected()) {
+                sesiones = sesionData.listarSesionesInactivas();
+            }
+            if (vista.rbtnTodos.isSelected()) {
                 sesiones = sesionData.listarSesiones();
             }
-
-            for (Sesion aux : sesiones) {
-                Object fila[] = new Object[10];
-                fila[0] = aux.getCodSesion();
-                fila[1] = aux.getFechaHoraInicio();
-                fila[2] = aux.getTratamiento().getCodTratam();
-                fila[3] = aux.getConsultorio().getNroConsultorio();
-                fila[4] = aux.getMasajista();
-                fila[5] = aux.getRegistrador();
-                fila[6] = aux.getInstalacion().getCodInstal();
-                fila[7] = aux.getCodPack();
-                fila[8] = aux.getMonto();
-                fila[9] = aux.isActiva() ? "Activo" : "Inactivo";
-                modelo.addRow(fila);
+            if (vista.jdcListarFecha.getDate() != null) {
+                Date fechaElegidaDate = vista.jdcListarFecha.getDate();
+                LocalDate fechaElegida = fechaElegidaDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                for (Sesion aux : sesiones) {
+                    LocalDate fechaTurno = aux.getFechaHoraInicio().toLocalDate();
+                    if (fechaTurno.equals(fechaElegida)) {
+                        Object fila[] = new Object[10];
+                        fila[0] = aux.getCodSesion();
+                        fila[1] = aux.getFechaHoraInicio();
+                        fila[2] = aux.getTratamiento().getCodTratam();
+                        fila[3] = aux.getConsultorio().getNroConsultorio();
+                        fila[4] = aux.getMasajista();
+                        fila[5] = aux.getRegistrador();
+                        fila[6] = aux.getInstalacion().getCodInstal();
+                        fila[7] = aux.getCodPack();
+                        fila[8] = aux.getMonto();
+                        fila[9] = aux.isActiva() ? "Activo" : "Inactivo";
+                        modelo.addRow(fila);
+                    }
+                }
+            } else {
+                for (Sesion aux : sesiones) {
+                    Object fila[] = new Object[10];
+                    fila[0] = aux.getCodSesion();
+                    fila[1] = aux.getFechaHoraInicio();
+                    fila[2] = aux.getTratamiento().getCodTratam();
+                    fila[3] = aux.getConsultorio().getNroConsultorio();
+                    fila[4] = aux.getMasajista();
+                    fila[5] = aux.getRegistrador();
+                    fila[6] = aux.getInstalacion().getCodInstal();
+                    fila[7] = aux.getCodPack();
+                    fila[8] = aux.getMonto();
+                    fila[9] = aux.isActiva() ? "Activo" : "Inactivo";
+                    modelo.addRow(fila);
+                }
             }
         } else if (vista.jcbSeccion.getSelectedItem().toString().equals("Tratamientos")) {
             vista.jdcListarFecha.setDate(null);

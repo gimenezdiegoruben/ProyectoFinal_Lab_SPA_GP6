@@ -125,7 +125,6 @@ public class ControladorDiaDeSpa implements ActionListener, KeyListener, Propert
         modelo.addColumn("Estado");
 
         vista.tbSesiones.setModel(modelo);
-        vista.tbSesiones.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
         actualizarTabla();
     }
@@ -333,8 +332,7 @@ public class ControladorDiaDeSpa implements ActionListener, KeyListener, Propert
     }
 
     @Override
-    public void keyPressed(KeyEvent e
-    ) {
+    public void keyPressed(KeyEvent e) {
     }
 
     @Override

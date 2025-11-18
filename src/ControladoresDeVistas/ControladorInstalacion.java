@@ -241,7 +241,6 @@ public class ControladorInstalacion implements ActionListener, KeyListener, Mous
         modelo.addColumn("Estado");
 
         vista.jtbInstalaciones.setModel(modelo);
-        vista.jtbInstalaciones.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         actualizarTabla();
 
     }

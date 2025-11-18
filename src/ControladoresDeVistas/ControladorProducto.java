@@ -221,7 +221,6 @@ public class ControladorProducto implements ActionListener, KeyListener, MouseLi
         modelo.addColumn("Nº Tratamiento");
 
         vista.jtbProductos.setModel(modelo);
-        vista.jtbProductos.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
         actualizarTabla();
 
