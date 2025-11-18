@@ -199,7 +199,6 @@ public class ControladorDiaDeSpa implements ActionListener, KeyListener, Propert
                                     && d1.getPreferencias().equals(d2.getPreferencias())
                                     && d1.getCliente().getCodCli() == d2.getCliente().getCodCli()
                                     && d1.getSesiones().equals(d2.getSesiones())
-                                    && d1.getMonto() == d2.getMonto()
                                     && d1.isEstado() == d2.isEstado()) {
                                 JOptionPane.showMessageDialog(null, "No se puede guardar el turno ya que no se han efectuado cambios", "Aviso", JOptionPane.INFORMATION_MESSAGE);
                             } else {
@@ -239,7 +238,6 @@ public class ControladorDiaDeSpa implements ActionListener, KeyListener, Propert
                                     && aux.getPreferencias().equals(d1.getPreferencias())
                                     && clienteAuxiliar.getCodCli() == d1.getCliente().getCodCli()
                                     && aux.getSesiones().equals(d1.getSesiones())
-                                    && aux.getMonto() == d1.getMonto()
                                     && aux.isEstado() == d1.isEstado()) {
                                 JOptionPane.showMessageDialog(null, "El turno que intentas guardar ya existe", "Turno repetido", JOptionPane.ERROR_MESSAGE);
                                 repetido = true;
@@ -391,8 +389,56 @@ public class ControladorDiaDeSpa implements ActionListener, KeyListener, Propert
             modelo.addRow(fila);
         }
     }
-
     public void cargarTabla() {
+    modelo.setRowCount(0);
+
+    // Obtener todos los turnos según filtro de estado
+    List<DiaDeSpa> turnos;
+    if (vista.rbtnInactivo.isSelected()) {
+        turnos = diaDeSpaData.listarDiaDeSpaInactivos();
+    } else if (vista.rbtnActivo.isSelected()) {
+        turnos = diaDeSpaData.listarDiaDeSpaActivos();
+    } else {
+        turnos = diaDeSpaData.listarDiaDeSpa();
+    }
+
+    LocalDate fechaFiltro = null;
+    if (vista.jdcListarFecha.getDate() != null) {
+        Date fechaElegidaDate = vista.jdcListarFecha.getDate();
+        fechaFiltro = fechaElegidaDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+    }
+
+    for (DiaDeSpa turno : turnos) {
+
+        // Filtrar por fecha si hay fecha seleccionada
+        if (fechaFiltro != null && !turno.getFechayhora().toLocalDate().equals(fechaFiltro)) {
+            continue;
+        }
+
+        // Calcular monto sumando las sesiones vinculadas
+        List<Sesion> sesionesTurno = sesionData.listarSesionesPorPack(turno.getCodPack());
+        double montoTotal = 0;
+        for (Sesion s : sesionesTurno) {
+            montoTotal += s.getMonto();
+        }
+
+        // Cantidad de sesiones
+        int cantidadSesiones = sesionesTurno.size();
+
+        // Armar fila
+        Object[] fila = new Object[7];
+        fila[0] = turno.getCodPack();
+        fila[1] = turno.getFechayhora();
+        fila[2] = turno.getPreferencias();
+        fila[3] = turno.getCliente().getCodCli();
+        fila[4] = cantidadSesiones;
+        fila[5] = montoTotal;
+        fila[6] = turno.isEstado() ? "Activo" : "Inactivo";
+
+        modelo.addRow(fila);
+    }
+}
+    /*public void cargarTabla() {
         modelo.setRowCount(0);
         List<DiaDeSpa> turnos = new ArrayList<>();
 
@@ -446,7 +492,7 @@ public class ControladorDiaDeSpa implements ActionListener, KeyListener, Propert
                 modelo.addRow(fila);
             }
         }
-    }
+    }*/
 
     public void cargarComboBox() {
         vista.jcboxHora.removeAllItems();
