@@ -16,8 +16,8 @@ public class Usuario_EmpleadoData {
 
     private Connection con = null;
 
-    // VARIABLE GLOBAL - Empleado logueado en el sistema
-    public static Empleado empleadoLogueado = null;   // NUEVO
+    //Empleado logueado en el sistema
+    public static Empleado empleadoLogueado = null;
 
     public Usuario_EmpleadoData() {
         con = Conexion.getConexion();
@@ -49,7 +49,7 @@ public class Usuario_EmpleadoData {
 
                 java.sql.Date f = rs.getDate("fechaNacimiento");
                 if (f != null) {
-                    emp.setFechaNacimiento(f.toLocalDate());   // porque modelo Empleado.java usa LocalDate
+                    emp.setFechaNacimiento(f.toLocalDate());   //porque modelo Empleado.java usa LocalDate
                 }
 
                 emp.setPuesto(rs.getString("puesto"));
@@ -59,7 +59,7 @@ public class Usuario_EmpleadoData {
                 emp.setPass(rs.getString("pass"));
                 emp.setEstado(rs.getBoolean("estado"));
 
-                empleadoLogueado = emp; // GUARDAR SESIÓN
+                empleadoLogueado = emp; //guarda Sesion
                 return emp;
             }
 
@@ -68,12 +68,9 @@ public class Usuario_EmpleadoData {
                     "Error al validar usuario: " + ex.getMessage());
         }
 
-        return null; // ✔ login inválido
+        return null;
     }
 
-    /**
-     * Retorna el empleado logueado actualmente.
-     */
     public Empleado getEmpleadoLogueado() {
         return empleadoLogueado;
     }

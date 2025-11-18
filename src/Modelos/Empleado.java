@@ -21,6 +21,10 @@ public class Empleado {
 
     public Empleado() {
     }
+    
+    public Empleado(int flag) {
+    this.idEmpleado = flag; 
+}
 
     //Constructor para ALTAS (sin idEmpleado)
     public Empleado(int dni, String puesto, String apellido, String nombre, String telefono,
