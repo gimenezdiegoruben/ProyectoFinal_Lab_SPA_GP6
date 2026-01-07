@@ -138,11 +138,8 @@ public class ControladorSesiones implements ActionListener {
         boolean tratamientosCargados = false;
 
         for (Tratamiento tratamiento : tratamientos) {
-            if (tipoSeleccionado == null || tipoSeleccionado.equals("Todas")
-                    || tratamiento.getTipo().equalsIgnoreCase(tipoSeleccionado)) {
-                this.vista.jCmb_Tratamiento.addItem(tratamiento.getNombre() + " - $" + tratamiento.getCosto());
-                tratamientosCargados = true;
-            }
+            this.vista.jCmb_Tratamiento.addItem(tratamiento.getNombre() + " - $" + tratamiento.getCosto());
+            tratamientosCargados = true;
         }
 
         if (!tratamientosCargados) {

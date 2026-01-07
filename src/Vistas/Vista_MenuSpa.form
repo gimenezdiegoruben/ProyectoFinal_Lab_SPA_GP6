@@ -90,7 +90,7 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="jMenuEspaciador">
           <Properties>
-            <Property name="text" type="java.lang.String" value="                      "/>
+            <Property name="text" type="java.lang.String" value="                                                                                          "/>
             <Property name="contentAreaFilled" type="boolean" value="false"/>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>

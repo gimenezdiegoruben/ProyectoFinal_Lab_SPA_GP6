@@ -25,30 +25,9 @@ public class VistaDiaDeSpa extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jFormattedTextField1 = new javax.swing.JFormattedTextField();
-        jPanel2 = new javax.swing.JPanel();
-        jlDNI = new javax.swing.JLabel();
-        jtxDNI = new javax.swing.JTextField();
-        jlNombre = new javax.swing.JLabel();
-        jtxNombre = new javax.swing.JTextField();
-        jlTelefono = new javax.swing.JLabel();
-        jtxTelefono = new javax.swing.JTextField();
-        jlFecha = new javax.swing.JLabel();
-        jdcFecha = new com.toedter.calendar.JDateChooser();
-        jlPreferencias = new javax.swing.JLabel();
-        jlHora = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTextAreaPreferencias = new javax.swing.JTextArea();
-        jLabelTituloDiaDeSpa = new javax.swing.JLabel();
-        jcheckbEstado = new javax.swing.JCheckBox();
-        jbtNuevo = new javax.swing.JButton();
-        jbtGuardar = new javax.swing.JButton();
-        jbtEliminar = new javax.swing.JButton();
-        jbtBuscar = new javax.swing.JButton();
-        jcboxHora = new javax.swing.JComboBox<>();
-        jPanel1 = new javax.swing.JPanel();
+        jPanelFondoDiaSpa = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jdcListarFecha = new com.toedter.calendar.JDateChooser();
-        jlSesiones = new javax.swing.JLabel();
         rbtnActivo = new javax.swing.JRadioButton();
         rbtnInactivo = new javax.swing.JRadioButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -56,95 +35,51 @@ public class VistaDiaDeSpa extends javax.swing.JInternalFrame {
         btnAgregarSesiones = new javax.swing.JButton();
         jbtSalir = new javax.swing.JButton();
         rbtnTodos = new javax.swing.JRadioButton();
+        jbtNuevo = new javax.swing.JButton();
+        jbtEliminar = new javax.swing.JButton();
+        jbtBuscar = new javax.swing.JButton();
+        jcheckbEstado = new javax.swing.JCheckBox();
+        jLabelTituloDiaDeSpa = new javax.swing.JLabel();
+        jlDNI = new javax.swing.JLabel();
+        jtxDNI = new javax.swing.JTextField();
+        jlNombre = new javax.swing.JLabel();
+        jtxNombre = new javax.swing.JTextField();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextAreaPreferencias = new javax.swing.JTextArea();
+        jtxTelefono = new javax.swing.JTextField();
+        jlPreferencias = new javax.swing.JLabel();
+        jcboxHora = new javax.swing.JComboBox<>();
+        jlHora = new javax.swing.JLabel();
+        jdcFecha = new com.toedter.calendar.JDateChooser();
+        jlFecha = new javax.swing.JLabel();
+        jlTelefono = new javax.swing.JLabel();
+        jbtGuardar = new javax.swing.JButton();
+        jlNombre1 = new javax.swing.JLabel();
 
         jFormattedTextField1.setText("jFormattedTextField1");
 
         setBackground(new java.awt.Color(255, 255, 255));
 
-        jPanel2.setBackground(new java.awt.Color(153, 0, 153));
-        jPanel2.setOpaque(false);
-
-        jlDNI.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jlDNI.setText("DNI:");
-
-        jlNombre.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jlNombre.setText("Nombre:");
-
-        jlTelefono.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jlTelefono.setText("Teléfono:");
-
-        jlFecha.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jlFecha.setText("Fecha:");
-
-        jlPreferencias.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jlPreferencias.setText("Preferencias:");
-
-        jlHora.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jlHora.setText("Hora:");
-
-        jTextAreaPreferencias.setColumns(20);
-        jTextAreaPreferencias.setRows(5);
-        jScrollPane2.setViewportView(jTextAreaPreferencias);
-
-        jLabelTituloDiaDeSpa.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
-        jLabelTituloDiaDeSpa.setText("Dia de Spa (TURNO)");
-
-        jcheckbEstado.setText("Estado");
-
-        jbtNuevo.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        jbtNuevo.setForeground(new java.awt.Color(0, 204, 102));
-        jbtNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icon_nuevo.png"))); // NOI18N
-        jbtNuevo.setText("Nuevo");
-        jbtNuevo.setMaximumSize(new java.awt.Dimension(125, 57));
-        jbtNuevo.setMinimumSize(new java.awt.Dimension(125, 57));
-        jbtNuevo.setPreferredSize(new java.awt.Dimension(125, 57));
-
-        jbtGuardar.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        jbtGuardar.setForeground(new java.awt.Color(0, 204, 102));
-        jbtGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icon_guardar.png"))); // NOI18N
-        jbtGuardar.setText("Guardar");
-
-        jbtEliminar.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        jbtEliminar.setForeground(new java.awt.Color(255, 0, 51));
-        jbtEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icon_eliminar.png"))); // NOI18N
-        jbtEliminar.setText("Eliminar");
-        jbtEliminar.setMaximumSize(new java.awt.Dimension(125, 57));
-        jbtEliminar.setMinimumSize(new java.awt.Dimension(125, 57));
-        jbtEliminar.setPreferredSize(new java.awt.Dimension(125, 57));
-
-        jbtBuscar.setBackground(new java.awt.Color(204, 204, 255));
-        jbtBuscar.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        jbtBuscar.setForeground(new java.awt.Color(51, 0, 255));
-        jbtBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icon_buscar.png"))); // NOI18N
-        jbtBuscar.setText("Buscar");
-        jbtBuscar.setMargin(new java.awt.Insets(2, 6, 3, 6));
-        jbtBuscar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtBuscarActionPerformed(evt);
-            }
-        });
-
-        jcboxHora.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jPanel1.setBackground(new java.awt.Color(153, 0, 153));
+        jPanelFondoDiaSpa.setBackground(new java.awt.Color(255, 204, 204));
+        jPanelFondoDiaSpa.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel8.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setText("Listar por fecha:");
+        jPanelFondoDiaSpa.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 50, -1, -1));
+        jPanelFondoDiaSpa.add(jdcListarFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 50, 101, -1));
 
-        jlSesiones.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
-        jlSesiones.setForeground(new java.awt.Color(255, 255, 255));
-        jlSesiones.setText("Turnos");
-
-        rbtnActivo.setBackground(new java.awt.Color(153, 0, 153));
+        rbtnActivo.setBackground(new java.awt.Color(255, 204, 204));
         rbtnActivo.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         rbtnActivo.setForeground(new java.awt.Color(51, 255, 51));
         rbtnActivo.setText("Activos");
+        jPanelFondoDiaSpa.add(rbtnActivo, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 50, -1, -1));
 
-        rbtnInactivo.setBackground(new java.awt.Color(153, 0, 153));
+        rbtnInactivo.setBackground(new java.awt.Color(255, 204, 204));
         rbtnInactivo.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         rbtnInactivo.setForeground(new java.awt.Color(255, 0, 0));
         rbtnInactivo.setText("Inactivos");
+        jPanelFondoDiaSpa.add(rbtnInactivo, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 50, -1, -1));
 
         tbSesiones.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -159,10 +94,14 @@ public class VistaDiaDeSpa extends javax.swing.JInternalFrame {
         ));
         jScrollPane1.setViewportView(tbSesiones);
 
+        jPanelFondoDiaSpa.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 81, 610, 380));
+
         btnAgregarSesiones.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         btnAgregarSesiones.setForeground(new java.awt.Color(51, 0, 255));
         btnAgregarSesiones.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icon_inscribir.png"))); // NOI18N
         btnAgregarSesiones.setText("Agregar Sesiones");
+        btnAgregarSesiones.setMargin(new java.awt.Insets(2, 5, 3, 5));
+        jPanelFondoDiaSpa.add(btnAgregarSesiones, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 470, -1, -1));
 
         jbtSalir.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         jbtSalir.setForeground(new java.awt.Color(255, 0, 51));
@@ -171,8 +110,9 @@ public class VistaDiaDeSpa extends javax.swing.JInternalFrame {
         jbtSalir.setMaximumSize(new java.awt.Dimension(125, 57));
         jbtSalir.setMinimumSize(new java.awt.Dimension(125, 57));
         jbtSalir.setPreferredSize(new java.awt.Dimension(125, 57));
+        jPanelFondoDiaSpa.add(jbtSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 470, -1, -1));
 
-        rbtnTodos.setBackground(new java.awt.Color(153, 0, 153));
+        rbtnTodos.setBackground(new java.awt.Color(255, 204, 204));
         rbtnTodos.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         rbtnTodos.setForeground(new java.awt.Color(255, 255, 255));
         rbtnTodos.setSelected(true);
@@ -182,170 +122,108 @@ public class VistaDiaDeSpa extends javax.swing.JInternalFrame {
                 rbtnTodosActionPerformed(evt);
             }
         });
+        jPanelFondoDiaSpa.add(rbtnTodos, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 50, -1, -1));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(55, 55, 55)
-                .addComponent(jLabel8)
-                .addGap(18, 18, 18)
-                .addComponent(jdcListarFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(rbtnTodos)
-                .addGap(18, 18, 18)
-                .addComponent(rbtnActivo)
-                .addGap(18, 18, 18)
-                .addComponent(rbtnInactivo)
-                .addGap(47, 47, 47))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnAgregarSesiones)
-                        .addGap(82, 82, 82)
-                        .addComponent(jbtSalir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(15, 15, 15))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 660, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 10, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jlSesiones)
-                .addGap(289, 289, 289))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(jlSesiones)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jdcListarFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(rbtnInactivo)
-                        .addComponent(rbtnActivo)
-                        .addComponent(rbtnTodos)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAgregarSesiones, javax.swing.GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE)
-                    .addComponent(jbtSalir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
-        );
+        jbtNuevo.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        jbtNuevo.setForeground(new java.awt.Color(0, 204, 102));
+        jbtNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icon_agregar.png"))); // NOI18N
+        jbtNuevo.setText("Nuevo");
+        jbtNuevo.setMargin(new java.awt.Insets(2, 3, 3, 3));
+        jbtNuevo.setMaximumSize(new java.awt.Dimension(125, 57));
+        jbtNuevo.setMinimumSize(new java.awt.Dimension(125, 57));
+        jbtNuevo.setPreferredSize(new java.awt.Dimension(125, 57));
+        jPanelFondoDiaSpa.add(jbtNuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 470, -1, 55));
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jbtGuardar)
-                        .addGap(85, 85, 85)
-                        .addComponent(jbtEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                            .addComponent(jlPreferencias)
-                            .addGap(58, 58, 58)
-                            .addComponent(jbtNuevo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jlFecha)
-                                .addComponent(jlHora))
-                            .addGap(18, 18, 18)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jdcFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jcboxHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jlTelefono)
-                                .addComponent(jlNombre)
-                                .addComponent(jlDNI))
-                            .addGap(18, 18, 18)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addComponent(jtxDNI, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(30, 30, 30)
-                                    .addComponent(jbtBuscar))
-                                .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addComponent(jtxTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(38, 38, 38)
-                                    .addComponent(jcheckbEstado))
-                                .addComponent(jtxNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabelTituloDiaDeSpa)))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabelTituloDiaDeSpa, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(31, 31, 31)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jtxDNI, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jlDNI)
-                            .addComponent(jbtBuscar))
-                        .addGap(4, 4, 4)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jlNombre)
-                            .addComponent(jtxNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(19, 19, 19)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jlTelefono)
-                            .addComponent(jtxTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jcheckbEstado))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jlFecha)
-                            .addComponent(jdcFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(20, 20, 20)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jlHora)
-                                    .addComponent(jcboxHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addComponent(jlPreferencias))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jbtNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jbtGuardar)
-                            .addComponent(jbtEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        jbtEliminar.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        jbtEliminar.setForeground(new java.awt.Color(255, 0, 51));
+        jbtEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icon_eliminar.png"))); // NOI18N
+        jbtEliminar.setText("Eliminar");
+        jbtEliminar.setMargin(new java.awt.Insets(2, 5, 3, 5));
+        jbtEliminar.setMaximumSize(new java.awt.Dimension(125, 57));
+        jbtEliminar.setMinimumSize(new java.awt.Dimension(125, 57));
+        jbtEliminar.setPreferredSize(new java.awt.Dimension(125, 57));
+        jPanelFondoDiaSpa.add(jbtEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 470, 112, -1));
+
+        jbtBuscar.setBackground(new java.awt.Color(204, 204, 255));
+        jbtBuscar.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        jbtBuscar.setForeground(new java.awt.Color(51, 0, 255));
+        jbtBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icon_buscar.png"))); // NOI18N
+        jbtBuscar.setText("Buscar");
+        jbtBuscar.setMargin(new java.awt.Insets(2, 6, 3, 6));
+        jbtBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtBuscarActionPerformed(evt);
+            }
+        });
+        jPanelFondoDiaSpa.add(jbtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(222, 81, 100, 50));
+
+        jcheckbEstado.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jcheckbEstado.setText("(activo/inactivo)");
+        jPanelFondoDiaSpa.add(jcheckbEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 140, -1, -1));
+
+        jLabelTituloDiaDeSpa.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
+        jLabelTituloDiaDeSpa.setForeground(new java.awt.Color(255, 102, 102));
+        jLabelTituloDiaDeSpa.setText("Dia de Spa (TURNO)");
+        jPanelFondoDiaSpa.add(jLabelTituloDiaDeSpa, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, 30));
+
+        jlDNI.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jlDNI.setText("DNI:");
+        jPanelFondoDiaSpa.add(jlDNI, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 90, -1, -1));
+        jPanelFondoDiaSpa.add(jtxDNI, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 90, 90, -1));
+
+        jlNombre.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jlNombre.setText("Estado:");
+        jPanelFondoDiaSpa.add(jlNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, -1, -1));
+        jPanelFondoDiaSpa.add(jtxNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 180, 220, -1));
+
+        jTextAreaPreferencias.setColumns(20);
+        jTextAreaPreferencias.setRows(5);
+        jScrollPane2.setViewportView(jTextAreaPreferencias);
+
+        jPanelFondoDiaSpa.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 380, 307, 81));
+        jPanelFondoDiaSpa.add(jtxTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 230, 113, -1));
+
+        jlPreferencias.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jlPreferencias.setText("Preferencias:");
+        jPanelFondoDiaSpa.add(jlPreferencias, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 350, -1, -1));
+
+        jcboxHora.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jPanelFondoDiaSpa.add(jcboxHora, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 300, -1, -1));
+
+        jlHora.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jlHora.setText("Hora:");
+        jPanelFondoDiaSpa.add(jlHora, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 300, -1, -1));
+        jPanelFondoDiaSpa.add(jdcFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 300, 101, -1));
+
+        jlFecha.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jlFecha.setText("Fecha:");
+        jPanelFondoDiaSpa.add(jlFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 300, -1, -1));
+
+        jlTelefono.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jlTelefono.setText("Teléfono:");
+        jPanelFondoDiaSpa.add(jlTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 230, -1, -1));
+
+        jbtGuardar.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        jbtGuardar.setForeground(new java.awt.Color(0, 204, 102));
+        jbtGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icon_guardar.png"))); // NOI18N
+        jbtGuardar.setText("Guardar");
+        jPanelFondoDiaSpa.add(jbtGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 470, -1, -1));
+
+        jlNombre1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jlNombre1.setText("Nombre:");
+        jPanelFondoDiaSpa.add(jlNombre1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jPanelFondoDiaSpa, javax.swing.GroupLayout.DEFAULT_SIZE, 985, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanelFondoDiaSpa, javax.swing.GroupLayout.PREFERRED_SIZE, 546, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0))
         );
 
         pack();
@@ -365,8 +243,7 @@ public class VistaDiaDeSpa extends javax.swing.JInternalFrame {
     private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabelTituloDiaDeSpa;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
+    public javax.swing.JPanel jPanelFondoDiaSpa;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     public javax.swing.JTextArea jTextAreaPreferencias;
@@ -383,8 +260,8 @@ public class VistaDiaDeSpa extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jlFecha;
     private javax.swing.JLabel jlHora;
     private javax.swing.JLabel jlNombre;
+    private javax.swing.JLabel jlNombre1;
     private javax.swing.JLabel jlPreferencias;
-    private javax.swing.JLabel jlSesiones;
     private javax.swing.JLabel jlTelefono;
     public javax.swing.JTextField jtxDNI;
     public javax.swing.JTextField jtxNombre;

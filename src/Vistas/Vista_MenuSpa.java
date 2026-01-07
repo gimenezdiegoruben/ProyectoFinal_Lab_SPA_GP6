@@ -233,7 +233,7 @@ public class Vista_MenuSpa extends javax.swing.JFrame {
 
         jMenuBar.add(jMenuConfiguracion);
 
-        jMenuEspaciador.setText("                      ");
+        jMenuEspaciador.setText("                                                                                          ");
         jMenuEspaciador.setContentAreaFilled(false);
         jMenuEspaciador.setEnabled(false);
         jMenuBar.add(jMenuEspaciador);

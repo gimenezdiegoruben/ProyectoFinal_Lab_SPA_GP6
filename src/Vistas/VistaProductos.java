@@ -43,40 +43,45 @@ public class VistaProductos extends javax.swing.JInternalFrame {
         jtbProductos = new javax.swing.JTable();
         jtPrecio = new javax.swing.JTextField();
 
-        jPanel1.setBackground(new java.awt.Color(102, 255, 102));
+        jPanel1.setBackground(new java.awt.Color(255, 204, 204));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jlProductos.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jlProductos.setText("Productos");
+        jPanel1.add(jlProductos, new org.netbeans.lib.awtextra.AbsoluteConstraints(632, 44, 70, 30));
 
-        jlProductos1.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jlProductos1.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
+        jlProductos1.setForeground(new java.awt.Color(153, 0, 255));
         jlProductos1.setText("Gestor de Productos");
+        jPanel1.add(jlProductos1, new org.netbeans.lib.awtextra.AbsoluteConstraints(46, 17, 327, 30));
+        jPanel1.add(jtDescripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(155, 241, 218, 85));
 
         jlNroTratamiento.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         jlNroTratamiento.setText("N° Tratamiento:");
+        jPanel1.add(jlNroTratamiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, -1, -1));
 
         jlPrecio.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         jlPrecio.setText("Precio:");
-
-        jtStock.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtStockActionPerformed(evt);
-            }
-        });
+        jPanel1.add(jlPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 130, -1, -1));
+        jPanel1.add(jtStock, new org.netbeans.lib.awtextra.AbsoluteConstraints(155, 190, 95, 27));
 
         jlStock.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         jlStock.setText("Stock:");
+        jPanel1.add(jlStock, new org.netbeans.lib.awtextra.AbsoluteConstraints(92, 193, -1, 18));
 
         jbtSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icon_salir.png"))); // NOI18N
         jbtSalir.setText("Salir");
         jbtSalir.setMaximumSize(new java.awt.Dimension(125, 57));
         jbtSalir.setMinimumSize(new java.awt.Dimension(125, 57));
         jbtSalir.setPreferredSize(new java.awt.Dimension(125, 57));
+        jPanel1.add(jbtSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(807, 338, -1, -1));
 
         jbtEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icon_eliminar.png"))); // NOI18N
         jbtEliminar.setText("Eliminar");
         jbtEliminar.setMaximumSize(new java.awt.Dimension(125, 57));
         jbtEliminar.setMinimumSize(new java.awt.Dimension(125, 57));
         jbtEliminar.setPreferredSize(new java.awt.Dimension(125, 57));
+        jPanel1.add(jbtEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 340, -1, -1));
 
         jbtGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icon_guardar.png"))); // NOI18N
         jbtGuardar.setText("Guardar");
@@ -85,21 +90,20 @@ public class VistaProductos extends javax.swing.JInternalFrame {
                 jbtGuardarActionPerformed(evt);
             }
         });
+        jPanel1.add(jbtGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 340, -1, -1));
 
         jbtNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icon_nuevo.png"))); // NOI18N
         jbtNuevo.setText("Nuevo");
+        jbtNuevo.setMargin(new java.awt.Insets(3, 3, 3, 3));
         jbtNuevo.setMaximumSize(new java.awt.Dimension(125, 57));
         jbtNuevo.setMinimumSize(new java.awt.Dimension(125, 57));
         jbtNuevo.setPreferredSize(new java.awt.Dimension(125, 57));
+        jPanel1.add(jbtNuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 338, 110, -1));
 
         jlDescripcion.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         jlDescripcion.setText("Descripcion:");
-
-        jtNroTratamiento.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtNroTratamientoActionPerformed(evt);
-            }
-        });
+        jPanel1.add(jlDescripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(48, 235, -1, -1));
+        jPanel1.add(jtNroTratamiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 80, 95, 27));
 
         jbtVerificar.setBackground(new java.awt.Color(204, 204, 255));
         jbtVerificar.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
@@ -107,11 +111,7 @@ public class VistaProductos extends javax.swing.JInternalFrame {
         jbtVerificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icon_buscar.png"))); // NOI18N
         jbtVerificar.setText("Verificar");
         jbtVerificar.setMargin(new java.awt.Insets(2, 6, 3, 6));
-        jbtVerificar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtVerificarActionPerformed(evt);
-            }
-        });
+        jPanel1.add(jbtVerificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(268, 80, -1, -1));
 
         jtbProductos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -126,131 +126,30 @@ public class VistaProductos extends javax.swing.JInternalFrame {
         ));
         jScrollPane2.setViewportView(jtbProductos);
 
-        jtPrecio.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtPrecioActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(36, 36, 36)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jlPrecio)
-                                    .addComponent(jlDescripcion)
-                                    .addComponent(jlStock))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jtStock, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jlNroTratamiento)
-                                .addGap(18, 18, 18)
-                                .addComponent(jtNroTratamiento, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jbtVerificar)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(10, 10, 10))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jbtNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(29, 29, 29)
-                        .addComponent(jbtGuardar)
-                        .addGap(18, 18, 18)
-                        .addComponent(jbtEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jbtSalir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(21, 21, 21))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(104, 104, 104)
-                        .addComponent(jlProductos1, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jlProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(145, 145, 145))))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(43, 43, 43)
-                        .addComponent(jlProductos1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jbtVerificar)
-                            .addComponent(jtNroTratamiento, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jlNroTratamiento))
-                        .addGap(13, 13, 13)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jlDescripcion)
-                            .addComponent(jtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jlPrecio)
-                            .addComponent(jtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jlStock, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jtStock, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 86, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jlProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jbtNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jbtGuardar)
-                        .addComponent(jbtEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jbtSalir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
-        );
+        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(391, 80, 542, 248));
+        jPanel1.add(jtPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 130, 95, 27));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 960, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 417, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jtStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtStockActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jtStockActionPerformed
-
     private void jbtGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtGuardarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jbtGuardarActionPerformed
-
-    private void jtNroTratamientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtNroTratamientoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jtNroTratamientoActionPerformed
-
-    private void jbtVerificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtVerificarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jbtVerificarActionPerformed
-
-    private void jtPrecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtPrecioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jtPrecioActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

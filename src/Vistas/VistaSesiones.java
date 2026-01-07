@@ -219,7 +219,7 @@ public class VistaSesiones extends javax.swing.JInternalFrame {
         jScrollPane2.setViewportView(jTextArea_Notas);
 
         jLabel_Notas.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jLabel_Notas.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel_Notas.setForeground(new java.awt.Color(255, 204, 51));
         jLabel_Notas.setText("Notas / Comentarios");
 
         btnActualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icon_update.png"))); // NOI18N
@@ -232,10 +232,16 @@ public class VistaSesiones extends javax.swing.JInternalFrame {
         jLabelHoraF.setForeground(new java.awt.Color(255, 255, 255));
         jLabelHoraF.setText("Fin");
 
+        jRadioButtonTodasSes.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jRadioButtonTodasSes.setForeground(new java.awt.Color(255, 255, 255));
         jRadioButtonTodasSes.setText("Todas");
 
+        jRadioButtonSesInactivas.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jRadioButtonSesInactivas.setForeground(new java.awt.Color(255, 0, 102));
         jRadioButtonSesInactivas.setText("Inactivas");
 
+        jRadioButtonSesActivas.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jRadioButtonSesActivas.setForeground(new java.awt.Color(51, 255, 51));
         jRadioButtonSesActivas.setText("Activas");
 
         javax.swing.GroupLayout jPanelSesionesLayout = new javax.swing.GroupLayout(jPanelSesiones);
@@ -323,8 +329,8 @@ public class VistaSesiones extends javax.swing.JInternalFrame {
             .addGroup(jPanelSesionesLayout.createSequentialGroup()
                 .addGroup(jPanelSesionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabelTitulo, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelSesionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jRadioButtonSesActivas)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelSesionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jRadioButtonSesActivas, javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(jRadioButtonSesInactivas))
                     .addComponent(btnActualizar, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jRadioButtonTodasSes, javax.swing.GroupLayout.Alignment.TRAILING))
